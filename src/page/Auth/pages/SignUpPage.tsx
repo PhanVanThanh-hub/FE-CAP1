@@ -15,9 +15,9 @@ import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import {
   fetchRegister,
   resetFetchRegister,
-  selectLoadingRegister,
-  selectMessRegister,
-  selectStatusRegister,
+  selectLoadingAuth,
+  selectMessAuth,
+  selectStatusAuth,
 } from "../../../redux/auth/authSlice";
 import Swal from "sweetalert2";
 import { STATUS_AXIOS } from "../../../constants/index";
@@ -29,9 +29,9 @@ const SignUpPage = () => {
   const [step, setStep] = useState<number>(0);
   const [selectedRole, setSelectedRole] = useState<number>(-1);
   const [useForm, setUseForm] = useState<RegisterApiItem>();
-  const messResponse = useAppSelector(selectMessRegister);
-  const statusResponse = useAppSelector(selectStatusRegister);
-  const loading = useAppSelector(selectLoadingRegister);
+  const messResponse = useAppSelector(selectMessAuth);
+  const statusResponse = useAppSelector(selectStatusAuth);
+  const loading = useAppSelector(selectLoadingAuth);
 
   const changeStep = () => {
     setStep(step + 1);

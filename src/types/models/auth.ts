@@ -36,3 +36,18 @@ export interface RoleApiItem {
   id?: string;
   name?: string;
 }
+
+export interface FindAccountApiItem {
+  email: string;
+}
+
+export interface OTPApiItem {
+  email: string;
+  otp: string;
+}
+
+export interface ResetPasswordApiItem {
+  email: string;
+  otp: string;
+  password: string;
+}

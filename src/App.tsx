@@ -2,11 +2,10 @@ import React from "react";
 import ToggleColorMode from "./theme/theme";
 import { Route, Switch } from "react-router-dom";
 import SignInForm from "./page/Auth/components/SignInForm";
-import SignUpForm from "./page/Auth/components/SignUpForm";
-import InvestorForm from "./page/Auth/components/InvestorForm";
-import StartupForm from "./page/Auth/components/StartupForm";
-import ForgotPassword from "./page/Auth/components/ForgotPassword";
 import SignUpPage from "./page/Auth/pages/SignUpPage";
+import FindYourAccountPage from "./page/Auth/pages/FindYourAccountPage";
+import EnterOTPPage from "./page/Auth/pages/EnterOTPPage";
+import ResetPasswordPage from "./page/Auth/pages/ResetPasswordPage";
 
 function App() {
   return (
@@ -18,9 +17,14 @@ function App() {
         <Route path="/sign-up" exact>
           <SignUpPage />
         </Route>
-
-        <Route path="/forgot-password" exact>
-          <ForgotPassword />
+        <Route path="/find-account" exact>
+          <FindYourAccountPage />
+        </Route>
+        <Route path="/otp" exact>
+          <EnterOTPPage />
+        </Route>
+        <Route path="/reset-password" exact>
+          <ResetPasswordPage />
         </Route>
       </Switch>
     </ToggleColorMode>
