@@ -140,7 +140,7 @@ const EnterOTPPage = () => {
         >
           <Col sx={{ width: "100%" }}>
             <Text fontSize="body1" sx={{ fontWeight: "bold" }}>
-              Find your account
+              Find your accountdsaodsaokdosakdosk
             </Text>
             <Text>Enter your OTP</Text>
             <Col
