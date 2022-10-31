@@ -51,3 +51,13 @@ export interface ResetPasswordApiItem {
   otp: string;
   password: string;
 }
+
+export interface LoginProps {
+  username: string;
+  password: string;
+}
+
+export interface LoginApiItem {
+  access: string;
+  refresh: string;
+}

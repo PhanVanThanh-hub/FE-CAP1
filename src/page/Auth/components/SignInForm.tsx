@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, Button } from "@mui/material";
 import { Col, Row, Text } from "../../../components/elements";
 import { useForm } from "react-hook-form";
@@ -11,9 +11,22 @@ import {
 import { Icon } from "@iconify/react";
 import signIn from "../../../assets/image/auth/sign-in.png";
 import { useHistory } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import {
+  fetchLogin,
+  selectIsLoading,
+  selectIsLoginStatus,
+  setLoading,
+} from "../../../redux/auth/authSlice";
+import Swal from "sweetalert2";
+import { LoginProps } from "../../../types/models/auth";
 
 const SignInForm = () => {
   const history = useHistory();
+  const dispatch = useAppDispatch();
+  const isLoginStatus = useAppSelector(selectIsLoginStatus);
+  const isLoading = useAppSelector(selectIsLoading);
+
   const initalValues: any = {
     username: "",
     password: "",
@@ -34,9 +47,24 @@ const SignInForm = () => {
     resolver: yupResolver(schema),
   });
 
-  const handleFormSubmit = async (formValue: any) => {
-    console.log("formValue:", formValue);
+  const handleFormSubmit = async (formValue: LoginProps) => {
+    await dispatch(fetchLogin(formValue));
   };
+
+  useEffect(() => {
+    if (isLoading) {
+      if (isLoginStatus) {
+        history.replace("/");
+      } else {
+        Swal.fire({
+          title: "Incorrect!",
+          text: "Incorrect account or password",
+          icon: "error",
+        });
+      }
+    }
+    dispatch(setLoading());
+  }, [dispatch, history, isLoading, isLoginStatus]);
 
   return (
     <Row sx={{ height: "100vh", justifyContent: "center" }}>

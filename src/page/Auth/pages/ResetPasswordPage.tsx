@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import {
   fetchResetPassword,
+  resetFetchForgotPassword,
   selectEmailForgot,
   selectFinishedCallApiAuth,
   selectLoadingAuth,
@@ -89,6 +90,7 @@ const ResetPasswordPage = () => {
           icon: "success",
         }).then((result) => {
           if (result) {
+            dispatch(resetFetchForgotPassword());
             history.push("/sign-in");
           }
         });

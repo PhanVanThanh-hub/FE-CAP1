@@ -43,6 +43,10 @@ const authApi = {
       .then((response: PostSuccessResponse) => ({ response }))
       .catch((error: PostErrorResponse) => ({ error }));
   },
+  login(data: any) {
+    const url = "/api/token/";
+    return axiosClient.post(url, data);
+  },
 };
 
 export default authApi;

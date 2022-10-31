@@ -1,8 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
+import { saveUserCredential } from "../../services/auth";
 import {
   CategoryApiItem,
   FindAccountApiItem,
+  LoginApiItem,
+  LoginProps,
   OTPApiItem,
   ResetPasswordApiItem,
   RoleApiItem,
@@ -25,6 +28,8 @@ export interface AuthState {
   finishedCallApi: boolean;
   email: string;
   otp: string;
+  isLoginStatus: boolean;
+  isLogin: boolean;
 }
 
 const initialState: AuthState = {
@@ -36,6 +41,8 @@ const initialState: AuthState = {
   finishedCallApi: false,
   email: "",
   otp: "",
+  isLoginStatus: false,
+  isLogin: false,
 };
 
 const authSlice = createSlice({
@@ -97,6 +104,28 @@ const authSlice = createSlice({
       state.mess = "";
       state.status = 0;
     },
+    //login
+    fetchLogin(state, action: PayloadAction<LoginProps>) {},
+    fetchDataSuccess(state) {},
+    fetchLoginFailed(state) {
+      state.isLoginStatus = false;
+    },
+    setTokenUser(state, action: PayloadAction<ResponseApi<LoginApiItem>>) {
+      const responsive = action.payload.data;
+      const { access, refresh } = responsive;
+      saveUserCredential({ access: access, refresh: refresh });
+      state.isLogin = true;
+      state.isLoginStatus = true;
+    },
+    setIsLogin(state, action: PayloadAction<boolean>) {
+      state.isLogin = action.payload;
+    },
+    setLoading(state) {
+      state.loading = false;
+    },
+    fetchLoginDone(state) {
+      state.loading = true;
+    },
   },
 });
 
@@ -114,6 +143,12 @@ export const {
   fetchAccuracyOTP,
   fetchResetPassword,
   resetFetchForgotPassword,
+  setTokenUser,
+  setIsLogin,
+  setLoading,
+  fetchLogin,
+  fetchLoginFailed,
+  fetchLoginDone,
 } = authSlice.actions;
 //Selectors
 export const selectRole = (state: RootState) => state.auth.role;
@@ -125,6 +160,10 @@ export const selectFinishedCallApiAuth = (state: RootState) =>
   state.auth.finishedCallApi;
 export const selectEmailForgot = (state: RootState) => state.auth.email;
 export const selectOTP = (state: RootState) => state.auth.otp;
+export const selectIsLogin = (state: RootState) => state.auth.isLogin;
+export const selectIsLoginStatus = (state: RootState) =>
+  state.auth.isLoginStatus;
+export const selectIsLoading = (state: RootState) => state.auth.loading;
 //Reducer
 const authReducer = authSlice.reducer;
 export default authReducer;

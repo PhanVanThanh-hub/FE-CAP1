@@ -172,7 +172,9 @@ const FindYourAccountPage = () => {
                     <Row
                       sx={{ width: "100%", justifyContent: "space-between" }}
                     >
-                      <ButtonStyle>Back to Sign in</ButtonStyle>
+                      <ButtonStyle onClick={() => history.push("/sign-in")}>
+                        Back to Sign in
+                      </ButtonStyle>
                       <ButtonStyle type="submit">Reset Password</ButtonStyle>
                     </Row>
                   </Col>
