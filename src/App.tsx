@@ -7,6 +7,7 @@ import FindYourAccountPage from "./page/Auth/pages/FindYourAccountPage";
 import EnterOTPPage from "./page/Auth/pages/EnterOTPPage";
 import ResetPasswordPage from "./page/Auth/pages/ResetPasswordPage";
 import HomePage from "./page/Home/pages/index";
+import PhotoViewer from "./page/Post/page";
 
 function App() {
   return (
@@ -29,6 +30,9 @@ function App() {
         </Route>
         <Route path="/" exact>
           <HomePage />
+        </Route>
+        <Route path="/post" exact>
+          <PhotoViewer />
         </Route>
       </Switch>
     </ToggleColorMode>
