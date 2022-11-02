@@ -4,7 +4,7 @@ import Menu from "../components/Menu";
 import SuggestionsTab from "../components/SuggestionsTab";
 import CreatePost from "../components/CreatePost";
 import { Col } from "../../../components/elements";
-import Post from "../components/Post";
+import Post from "../../../components/shared/Post";
 
 const HomePage = () => {
   return (
