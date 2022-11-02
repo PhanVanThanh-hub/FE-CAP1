@@ -1,11 +1,12 @@
 import React from "react";
 import ToggleColorMode from "./theme/theme";
-import { Route, Switch } from "react-router-dom";
+import { Route, Router, Switch } from "react-router-dom";
 import SignInForm from "./page/Auth/components/SignInForm";
 import SignUpPage from "./page/Auth/pages/SignUpPage";
 import FindYourAccountPage from "./page/Auth/pages/FindYourAccountPage";
 import EnterOTPPage from "./page/Auth/pages/EnterOTPPage";
 import ResetPasswordPage from "./page/Auth/pages/ResetPasswordPage";
+import HomePage from "./page/Home/pages/index";
 
 function App() {
   return (
@@ -25,6 +26,9 @@ function App() {
         </Route>
         <Route path="/reset-password" exact>
           <ResetPasswordPage />
+        </Route>
+        <Route path="/" exact>
+          <HomePage />
         </Route>
       </Switch>
     </ToggleColorMode>

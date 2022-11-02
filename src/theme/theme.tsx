@@ -28,7 +28,7 @@ const ToggleColorMode = (p: any) => {
         fontSize: "1.875rem",
       },
       subtitle2: {
-        fontSize: "1.5625rem",
+        fontSize: "1.45rem",
       },
       body1: {
         fontSize: "1.25rem",
