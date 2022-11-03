@@ -12,6 +12,8 @@ import {
   InputAdornment,
   IconButton,
 } from "@mui/material";
+import Tooltip, { TooltipProps, tooltipClasses } from "@mui/material/Tooltip";
+import { styled } from "@mui/material/styles";
 
 interface Props {
   open: boolean;
@@ -28,6 +30,24 @@ const style = {
   border: "1px solid white",
   borderRadius: "12px",
 };
+
+const IconStyled: any = {
+  width: "24px",
+  height: "24px",
+  color: "#52734D",
+  cursor: "pointer",
+};
+
+const StyledTooltip = styled(({ className, ...props }: TooltipProps) => (
+  <Tooltip {...props} placement="top" classes={{ popper: className }} />
+))(() => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: "rgba(12, 7, 10, 0.8)",
+    color: "white",
+    fontSize: "0.95rem",
+    padding: "10px 15px",
+  },
+}));
 
 const ButtonStyled: SxProps = {
   color: "white",
@@ -200,6 +220,105 @@ export const SendMessModal = ({ open, handleClose }: Props) => {
                 </InputAdornment>
               }
             />
+          </Row>
+        </Col>
+      </Modal>
+    </div>
+  );
+};
+
+export const CreatePostModal = ({ open, handleClose }: Props) => {
+  return (
+    <div>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Col sx={{ padding: "20px 30px", ...style }}>
+          <Row sx={{ alignItems: "center", justifyContent: "center" }}>
+            <Text fontSize="body1" sx={{ fontWeight: "bold" }}>
+              Create Post
+            </Text>
+          </Row>
+          <Row sx={{ alignItems: "center" }}>
+            <Avatar />
+            <Text sx={{ marginLeft: "10px", fontWeight: "bold" }}>Elian</Text>
+          </Row>
+          <TextField
+            placeholder="I'd like to say..."
+            multiline
+            sx={{
+              overflowY: "auto",
+              height: "200px",
+              width: "100%",
+              "& .MuiOutlinedInput-input": {
+                fontSize: "1rem",
+                lineHeight: "20px",
+              },
+              "& .MuiInput-underline:after": {
+                borderBottomColor: "yellow",
+              },
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "transparent",
+                },
+                "&:hover fieldset": {
+                  borderColor: "transparent",
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "transparent",
+                },
+              },
+            }}
+          />
+          <Row
+            sx={{
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <Row
+              sx={{
+                "& .MuiBox-root": {
+                  marginRight: "20px",
+                },
+              }}
+            >
+              <Row>
+                <StyledTooltip title="Add Image">
+                  <Icon icon="gala:image" style={{ ...IconStyled }} />
+                </StyledTooltip>
+              </Row>
+              <Row>
+                <StyledTooltip title="Video/Audio">
+                  <Icon icon="carbon:play-outline" style={{ ...IconStyled }} />
+                </StyledTooltip>
+              </Row>
+              <Row>
+                <StyledTooltip title="Feelings / Activity">
+                  <Icon icon="bi:emoji-smile" style={{ ...IconStyled }} />
+                </StyledTooltip>
+              </Row>
+              <Row>
+                <StyledTooltip title="Location">
+                  <Icon icon="gis:location-poi-o" style={{ ...IconStyled }} />
+                </StyledTooltip>
+              </Row>
+            </Row>
+            <Button
+              sx={{
+                backgroundColor: "#52734D",
+                color: "white",
+                borderRadius: "12px",
+                padding: "5px 20px",
+                textTransform: "capitalize",
+                "&:hover": { backgroundColor: "#52734D" },
+              }}
+            >
+              Post
+            </Button>
           </Row>
         </Col>
       </Modal>

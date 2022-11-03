@@ -124,7 +124,6 @@ const Menu = () => {
         height: "100vh",
         overflowY: "auto",
         color: "white",
-        backgroundColor: "#91C788",
         pl: "30px",
       }}
     >

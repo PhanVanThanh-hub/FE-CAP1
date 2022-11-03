@@ -235,7 +235,8 @@ const Post = () => {
         width: "100%",
         marginTop: "20px",
         borderRadius: "12px",
-        border: "1px solid #52734D",
+        border: "1px solid white",
+        backgroundColor: "white",
       }}
     >
       <Box sx={{ padding: "10px 20px" }}>

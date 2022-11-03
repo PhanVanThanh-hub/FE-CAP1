@@ -49,7 +49,6 @@ const SuggestionsTab = () => {
       </FormControl>
       <Col
         sx={{
-          backgroundColor: "#91C788",
           height: "100%",
           width: "100%",
           marginTop: "20px",
