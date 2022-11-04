@@ -27,6 +27,7 @@ const CreatePost = () => {
         padding: "20px 5px",
         marginTop: "12px",
         borderRadius: "24px",
+        borderColorRight: "red",
       }}
     >
       <Row

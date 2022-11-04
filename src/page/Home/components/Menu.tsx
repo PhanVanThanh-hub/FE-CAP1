@@ -7,12 +7,14 @@ import {
   SxProps,
 } from "@mui/material";
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { Col, Row, Text } from "../../../components/elements";
 import { MENU_ITEM } from "../../../constants";
 
 interface MenuChildrenProps {
   icon: any;
   title: string;
+  url: string;
 }
 
 interface PopoverProps {
@@ -81,9 +83,14 @@ const PopoverSwitchAccount = ({ open, anchorEl, onClose }: PopoverProps) => {
   );
 };
 
-const MenuChildren = ({ icon, title }: MenuChildrenProps) => {
+const MenuChildren = ({ icon, title, url }: MenuChildrenProps) => {
+  const history = useHistory();
+
   return (
-    <Row sx={{ alignItems: "center", marginTop: "10px", cursor: "pointer" }}>
+    <Row
+      onClick={() => history.push(url)}
+      sx={{ alignItems: "center", marginTop: "10px", cursor: "pointer" }}
+    >
       <Row
         sx={{
           backgroundColor: "white",
@@ -160,7 +167,13 @@ const Menu = () => {
             </Row>
           </Row>
           {MENU_ITEM.map((item) => {
-            return <MenuChildren title={item.title} icon={item.icon} />;
+            return (
+              <MenuChildren
+                title={item.title}
+                icon={item.icon}
+                url={item.url}
+              />
+            );
           })}
         </Col>
         <Row

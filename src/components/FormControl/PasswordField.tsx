@@ -35,29 +35,29 @@ export function PasswordField({
         sx={{
           margin: "0px",
           "& label.Mui-focused": {
-            color: "#D06666",
+            color: "#52734D",
           },
           "& .MuiInput-underline:after": {
-            borderBottomColor: "#D06666",
+            borderBottomColor: "#52734D",
           },
           "& .MuiOutlinedInput-root": {
             borderRadius: "20px",
             fontSize: "16px",
-            paddingLeft: "10px",
+            paddingLeft: "5px",
             "& fieldset": {
-              borderColor: "#D06666",
+              borderColor: "#52734D",
             },
             "&:hover fieldset": {
-              borderColor: "#D06666",
+              borderColor: "#52734D",
             },
             "&.Mui-focused fieldset": {
-              borderColor: "#D06666",
+              borderColor: "#52734D",
             },
           },
           input: {
             "&::placeholder": {
               fontSize: "14px",
-              paddingLeft: "10px",
+              paddingLeft: "0px",
             },
           },
         }}

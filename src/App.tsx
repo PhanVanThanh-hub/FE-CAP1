@@ -8,6 +8,7 @@ import EnterOTPPage from "./page/Auth/pages/EnterOTPPage";
 import ResetPasswordPage from "./page/Auth/pages/ResetPasswordPage";
 import HomePage from "./page/Home/pages/index";
 import PhotoViewer from "./page/Post/page";
+import SettingPage from "./page/Setting/page";
 
 function App() {
   return (
@@ -33,6 +34,9 @@ function App() {
         </Route>
         <Route path="/post" exact>
           <PhotoViewer />
+        </Route>
+        <Route path="/settings">
+          <SettingPage />
         </Route>
       </Switch>
     </ToggleColorMode>
