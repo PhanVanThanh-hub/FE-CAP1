@@ -16,7 +16,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { Col, Row, Text } from "../../../components/elements";
-import { InputField, PasswordField } from "../../../components/FormControl";
+import { PasswordField } from "../../../components/FormControl";
 import { ComponentProps } from "../../../types/models/app";
 import { Button, CircularProgress, SxProps } from "@mui/material";
 import HeaderForgotPassword from "../components/HeaderForgotPassword";

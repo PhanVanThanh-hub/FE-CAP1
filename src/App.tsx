@@ -1,6 +1,6 @@
 import React from "react";
 import ToggleColorMode from "./theme/theme";
-import { Route, Router, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import SignInForm from "./page/Auth/components/SignInForm";
 import SignUpPage from "./page/Auth/pages/SignUpPage";
 import FindYourAccountPage from "./page/Auth/pages/FindYourAccountPage";

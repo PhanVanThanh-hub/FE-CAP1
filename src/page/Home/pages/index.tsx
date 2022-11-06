@@ -1,5 +1,5 @@
-import { Box, Grid } from "@mui/material";
 import React from "react";
+import { Box, Grid } from "@mui/material";
 import Menu from "../components/Menu";
 import SuggestionsTab from "../components/SuggestionsTab";
 import CreatePost from "../components/CreatePost";
@@ -8,7 +8,10 @@ import Post from "../../../components/shared/Post";
 
 const HomePage = () => {
   return (
-    <Box height="100vh" sx={{ margin: " 0 ", backgroundColor: "#91C788" }}>
+    <Box
+      height="100vh"
+      sx={{ margin: " 0 ", backgroundColor: "background.default" }}
+    >
       <Grid container sx={{ justifyContent: "space-between" }}>
         <Grid item xs={2}>
           <Menu />

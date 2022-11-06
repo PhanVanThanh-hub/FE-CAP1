@@ -2,6 +2,7 @@ import React from "react";
 import { Icon } from "@iconify/react";
 import { FormControl, InputAdornment, OutlinedInput } from "@mui/material";
 import { Col, Text } from "../../../components/elements";
+import { COLOR } from "../../../constants";
 
 const SuggestionsTab = () => {
   return (
@@ -23,7 +24,7 @@ const SuggestionsTab = () => {
             borderRadius: "26px",
             height: "2.25em",
             fontSize: "1rem",
-            backgroundColor: "#91C788",
+            backgroundColor: "button.hover",
             input: {
               "&::placeholder": {
                 fontSize: "14px",
@@ -34,10 +35,7 @@ const SuggestionsTab = () => {
           id="outlined-adornment-weight"
           startAdornment={
             <InputAdornment position="end">
-              <Icon
-                icon="flat-color-icons:search"
-                color="rgba(8, 232, 52, 0.8)"
-              />
+              <Icon icon="flat-color-icons:search" color={COLOR.icon.primary} />
             </InputAdornment>
           }
           aria-describedby="outlined-weight-helper-text"

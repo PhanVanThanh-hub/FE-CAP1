@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Box, Divider, Grid } from "@mui/material";
-import { Col, Row, Text } from "../../../components/elements";
-import { Icon } from "@iconify/react";
+import { Col, Row, Text, UiIcon } from "../../../components/elements";
 import ChangeName from "../tabEdit/ChangeName";
 import ChangePassword from "../tabEdit/ChangePassword";
 import ChangePhone from "../tabEdit/ChangePhone";
@@ -16,7 +15,7 @@ const GeneralAccount = () => {
         <Col sx={{ width: "70%", marginTop: "80px" }}>
           {activeTab === "main" && (
             <Col>
-              <Divider sx={{ margin: "20px 0px", borderColor: "#52734D" }} />
+              <Divider sx={{ margin: "20px 0px", borderColor: "divider" }} />
               <Grid container sx={{ width: "100%" }} spacing={2}>
                 <Grid item xs={12}>
                   <Grid container>
@@ -35,10 +34,8 @@ const GeneralAccount = () => {
                         }}
                         onClick={() => setTabEdit("changeName")}
                       >
-                        <Icon icon="ci:edit" />
-                        <Text sx={{ color: "#52734D", marginLeft: "10px" }}>
-                          Edit
-                        </Text>
+                        <UiIcon icon="ci:edit" />
+                        <Text sx={{ marginLeft: "10px" }}>Edit</Text>
                       </Row>
                     </Grid>
                   </Grid>
@@ -60,10 +57,8 @@ const GeneralAccount = () => {
                         }}
                         onClick={() => setTabEdit("changePassword")}
                       >
-                        <Icon icon="ci:edit" />
-                        <Text sx={{ color: "#52734D", marginLeft: "10px" }}>
-                          Edit
-                        </Text>
+                        <UiIcon icon="ci:edit" />
+                        <Text sx={{ marginLeft: "10px" }}>Edit</Text>
                       </Row>
                     </Grid>
                   </Grid>
@@ -85,10 +80,8 @@ const GeneralAccount = () => {
                         }}
                         onClick={() => setTabEdit("changeRole")}
                       >
-                        <Icon icon="ci:edit" />
-                        <Text sx={{ color: "#52734D", marginLeft: "10px" }}>
-                          Edit
-                        </Text>
+                        <UiIcon icon="ci:edit" />
+                        <Text sx={{ marginLeft: "10px" }}>Edit</Text>
                       </Row>
                     </Grid>
                   </Grid>
@@ -110,10 +103,8 @@ const GeneralAccount = () => {
                         }}
                         onClick={() => setTabEdit("changeEmail")}
                       >
-                        <Icon icon="ci:edit" />
-                        <Text sx={{ color: "#52734D", marginLeft: "10px" }}>
-                          Edit
-                        </Text>
+                        <UiIcon icon="ci:edit" />
+                        <Text sx={{ marginLeft: "10px" }}>Edit</Text>
                       </Row>
                     </Grid>
                   </Grid>
@@ -135,16 +126,14 @@ const GeneralAccount = () => {
                         }}
                         onClick={() => setTabEdit("changePhone")}
                       >
-                        <Icon icon="ci:edit" />
-                        <Text sx={{ color: "#52734D", marginLeft: "10px" }}>
-                          Edit
-                        </Text>
+                        <UiIcon icon="ci:edit" />
+                        <Text sx={{ marginLeft: "10px" }}>Edit</Text>
                       </Row>
                     </Grid>
                   </Grid>
                 </Grid>
               </Grid>
-              <Divider sx={{ margin: "20px 0px", borderColor: "#52734D" }} />
+              <Divider sx={{ margin: "20px 0px", borderColor: "divider" }} />
             </Col>
           )}
           {activeTab === "changeName" && (

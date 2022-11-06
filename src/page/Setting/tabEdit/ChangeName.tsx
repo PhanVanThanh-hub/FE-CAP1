@@ -1,7 +1,6 @@
-import { Icon } from "@iconify/react";
-import { Button, Divider, TextField } from "@mui/material";
 import React from "react";
-import { Col, Row, Text } from "../../../components/elements";
+import { Divider, TextField } from "@mui/material";
+import { Col, Row, Text, UiButton, UiIcon } from "../../../components/elements";
 import "animate.css";
 
 interface Props {
@@ -12,25 +11,19 @@ const ChangeName = ({ backMainTab }: Props) => {
   return (
     <Col class="animate__animated animate__slideInRight">
       <Row sx={{ alignItems: "center" }}>
-        <Icon
-          icon="bytesize:arrow-left"
-          height="24"
-          width="24"
-          color="#52734D"
-          cursor="pointer"
-          onClick={backMainTab}
-        />
+        <UiIcon icon="bytesize:arrow-left" onClick={backMainTab} />
         <Text fontSize="body1" sx={{ marginLeft: "10px", fontWeight: "bold" }}>
           Change Name
         </Text>
       </Row>
-      <Divider sx={{ margin: "20px 0px", borderColor: "#52734D" }} />
+      <Divider sx={{ margin: "20px 0px", borderColor: "divider" }} />
       <Text sx={{ fontWeight: "bold" }}>Name</Text>
       <Row sx={{ alignItems: "center", marginTop: "10px" }}>
         <TextField
           placeholder="Not Elian"
           sx={{
             width: "30%",
+            marginRight: "10px",
             "& .MuiOutlinedInput-root": {
               borderRadius: "12px",
               fontSize: "16px",
@@ -41,21 +34,7 @@ const ChangeName = ({ backMainTab }: Props) => {
             },
           }}
         />
-        <Button
-          sx={{
-            marginLeft: "10px",
-            backgroundColor: "#52734D",
-            color: "white",
-            borderRadius: "12px",
-            padding: "5px 20px",
-            textTransform: "capitalize",
-            "&:hover": {
-              backgroundColor: "#52734D",
-            },
-          }}
-        >
-          Save
-        </Button>
+        <UiButton>Save</UiButton>
       </Row>
     </Col>
   );

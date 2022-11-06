@@ -79,6 +79,7 @@ const SignUpForm = ({ changeStep, handleUserForm }: Props) => {
         height: "100%",
         justifyContent: "center",
         alignItems: "center",
+        backgroundColor: "background.default",
       }}
     >
       <Col

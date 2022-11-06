@@ -92,7 +92,13 @@ const SignUpPage = () => {
   }, [dispatch, history, messResponse, statusResponse]);
 
   return (
-    <Row sx={{ height: "100vh", justifyContent: "center" }}>
+    <Row
+      sx={{
+        height: "100vh",
+        justifyContent: "center",
+        backgroundColor: "background.default",
+      }}
+    >
       <Grid container sx={{ width: "100%" }}>
         <Grid item lg={6}>
           {step === 0 && (

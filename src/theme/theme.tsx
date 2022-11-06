@@ -1,11 +1,16 @@
 import React from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { PaletteType } from "@material-ui/core";
 
 //import { useSelector } from "react-redux";
 
 const ToggleColorMode = (p: any) => {
+  const mode = "light";
   const theme = createTheme({
     typography: {
+      allVariants: {
+        color: "#BBE1FA",
+      },
       h1: {
         fontSize: "5.625rem",
       },
@@ -45,6 +50,30 @@ const ToggleColorMode = (p: any) => {
       overline: {
         fontSize: "0.75rem",
       },
+    },
+    palette: {
+      mode,
+      ...(mode === "light"
+        ? {
+            text: {
+              primary: "#BBE1FA",
+              disabled: "rgba(187, 225, 250, 0.5)",
+            },
+            button: {
+              primary: "#3282B8",
+              hover: "#0F4C75",
+            },
+            background: {
+              default: "#1B262C",
+              paper: "rgba(187, 225, 250, 0.2)",
+            },
+            icon: {
+              primary: "#BBE1FA",
+            },
+            divider: "#3282B8",
+            success: { main: "rgb(46, 125, 50)" },
+          }
+        : {}),
     },
   });
 

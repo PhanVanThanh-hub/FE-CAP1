@@ -1,14 +1,7 @@
-import { Icon, IconProps } from "@iconify/react";
-import {
-  Avatar,
-  Box,
-  iconButtonClasses,
-  Popover,
-  SxProps,
-} from "@mui/material";
-import React, { useState } from "react";
+import React from "react";
+import { Avatar, Box, Popover, SxProps } from "@mui/material";
 import { useHistory } from "react-router-dom";
-import { Col, Row, Text } from "../../../components/elements";
+import { Col, Row, Text, UiIcon } from "../../../components/elements";
 import { MENU_ITEM } from "../../../constants";
 
 interface MenuChildrenProps {
@@ -62,10 +55,11 @@ const PopoverSwitchAccount = ({ open, anchorEl, onClose }: PopoverProps) => {
                 marginLeft: "10px",
                 justifyContent: "space-between",
                 width: "100%",
+                alignItems: "center",
               }}
             >
               <Text>Elian</Text>
-              <Icon icon="akar-icons:check" color="rgba(8, 232, 52, 0.8)" />
+              <UiIcon icon="akar-icons:check" size="14px" />
             </Row>
           </Row>
           <Row>
@@ -93,14 +87,14 @@ const MenuChildren = ({ icon, title, url }: MenuChildrenProps) => {
     >
       <Row
         sx={{
-          backgroundColor: "white",
+          backgroundColor: "background.paper",
           border: "1px solid rgba(82, 115, 77, 1)",
           ...RowStyle,
         }}
       >
-        <Icon icon={icon} width="30" height="30" color="rgba(82, 115, 77, 1)" />
+        <UiIcon icon={icon} />
       </Row>
-      <Text ml="20px" fontSize="body2" color="black">
+      <Text ml="20px" fontSize="body2">
         {title}
       </Text>
     </Row>
@@ -130,7 +124,6 @@ const Menu = () => {
         position: "fixed",
         height: "100vh",
         overflowY: "auto",
-        color: "white",
         pl: "30px",
       }}
     >
@@ -139,12 +132,12 @@ const Menu = () => {
           <Row sx={{ alignItems: "center" }}>
             <Row
               sx={{
-                backgroundColor: "#52734D",
+                backgroundColor: "background.paper",
                 borderRadius: "16px",
                 ...RowStyle,
               }}
             >
-              <Icon icon="ant-design:home-outlined" width="30" height="30" />
+              <UiIcon icon="ant-design:home-outlined" size="30" />
             </Row>
             <Text ml="20px" fontSize="body2">
               Home Page
@@ -153,7 +146,7 @@ const Menu = () => {
           <Row sx={{ margin: "20px 0px" }}>
             <Row
               sx={{
-                backgroundColor: "white",
+                backgroundColor: "button.hover",
                 width: "70%",
                 padding: "5px 20px",
                 borderRadius: "32px",
@@ -161,7 +154,7 @@ const Menu = () => {
               }}
             >
               <Avatar sx={{ bgcolor: "red" }}>N</Avatar>
-              <Text fontSize="body1" color="black" ml="10px">
+              <Text fontSize="body1" ml="10px">
                 Elian
               </Text>
             </Row>
@@ -183,7 +176,7 @@ const Menu = () => {
         >
           <Row
             sx={{
-              backgroundColor: "white",
+              backgroundColor: "background.paper",
               width: "70%",
               padding: "5px 20px",
               borderRadius: "32px",
@@ -198,17 +191,11 @@ const Menu = () => {
               >
                 N
               </Avatar>
-              <Text fontSize="caption" color="black" ml="10px">
+              <Text fontSize="caption" ml="10px">
                 Elian
               </Text>
             </Row>
-            <Icon
-              icon="bx:dots-horizontal-rounded"
-              width="25"
-              height="25"
-              color="black"
-              onClick={handleClick}
-            />
+            <UiIcon icon="bx:dots-horizontal-rounded" onClick={handleClick} />
             <PopoverSwitchAccount
               open={isOpenPopover}
               anchorEl={anchorEl}

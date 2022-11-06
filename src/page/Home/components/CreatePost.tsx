@@ -1,14 +1,7 @@
-import { Icon } from "@iconify/react";
-import { Avatar, Box, Button } from "@mui/material";
 import React, { useState } from "react";
-import { Col, Row, Text } from "../../../components/elements";
+import { Avatar, Box } from "@mui/material";
+import { Col, Row, Text, UiButton, UiIcon } from "../../../components/elements";
 import { CreatePostModal } from "../../../components/shared/Modal";
-
-const IconStyled: any = {
-  width: "24px",
-  height: "24px",
-  color: "#52734D",
-};
 
 const CreatePost = () => {
   const [isOpenModalCreatePost, setIsOpenModalCreatePost] =
@@ -21,7 +14,7 @@ const CreatePost = () => {
   return (
     <Col
       sx={{
-        backgroundColor: "white",
+        backgroundColor: "background.paper",
         justifyContent: "center",
         alignItems: "center",
         padding: "20px 5px",
@@ -44,16 +37,14 @@ const CreatePost = () => {
             marginLeft: "10px",
             width: "100%",
             borderRadius: "24px",
-            backgroundColor: "#91C788",
+            backgroundColor: "#3282B8",
             minHeight: "40px",
             alignItems: "center",
             display: "flex",
             cursor: "pointer",
           }}
         >
-          <Text sx={{ color: "white", marginLeft: "10px" }}>
-            What's on your mind, Thanh?
-          </Text>
+          <Text sx={{ marginLeft: "10px" }}>What's on your mind, Thanh?</Text>
         </Box>
       </Row>
       <Row
@@ -67,32 +58,19 @@ const CreatePost = () => {
       >
         <Row>
           <Row sx={{ marginRight: "20px" }}>
-            <Icon icon="gala:image" style={{ ...IconStyled }} />
+            <UiIcon icon="gala:image" />
           </Row>
           <Row sx={{ marginRight: "20px" }}>
-            <Icon icon="carbon:play-outline" style={{ ...IconStyled }} />
+            <UiIcon icon="carbon:play-outline" />
           </Row>
           <Row sx={{ marginRight: "20px" }}>
-            <Icon icon="bi:emoji-smile" style={{ ...IconStyled }} />
+            <UiIcon icon="bi:emoji-smile" />
           </Row>
           <Row sx={{ marginRight: "20px" }}>
-            <Icon icon="gis:location-poi-o" style={{ ...IconStyled }} />
+            <UiIcon icon="gis:location-poi-o" />
           </Row>
         </Row>
-        <Button
-          sx={{
-            backgroundColor: "#52734D",
-            color: "white",
-            borderRadius: "12px",
-            padding: "5px 20px",
-            textTransform: "capitalize",
-            "&:hover": {
-              backgroundColor: "#52734D",
-            },
-          }}
-        >
-          Post
-        </Button>
+        <UiButton>Post</UiButton>
       </Row>
       <CreatePostModal
         handleClose={handleCloseModalCreatePost}

@@ -1,7 +1,6 @@
-import { Icon } from "@iconify/react";
-import { Button, Divider, TextField } from "@mui/material";
 import React from "react";
-import { Col, Row, Text } from "../../../components/elements";
+import { Divider } from "@mui/material";
+import { Col, Row, Text, UiButton, UiIcon } from "../../../components/elements";
 import "animate.css";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -52,19 +51,12 @@ const ChangePassword = ({ backMainTab }: Props) => {
   return (
     <Col class="animate__animated animate__slideInRight">
       <Row sx={{ alignItems: "center" }}>
-        <Icon
-          icon="bytesize:arrow-left"
-          height="24"
-          width="24"
-          color="#52734D"
-          cursor="pointer"
-          onClick={backMainTab}
-        />
+        <UiIcon icon="bytesize:arrow-left" onClick={backMainTab} />
         <Text fontSize="body1" sx={{ marginLeft: "10px", fontWeight: "bold" }}>
           Change Password
         </Text>
       </Row>
-      <Divider sx={{ margin: "20px 0px", borderColor: "#52734D" }} />
+      <Divider sx={{ margin: "20px 0px", borderColor: "divider" }} />
       <form onSubmit={handleSubmit(handleFormSubmit)} style={{ width: "100%" }}>
         <Col
           sx={{
@@ -104,22 +96,9 @@ const ChangePassword = ({ backMainTab }: Props) => {
             except the one you're using at the moment.
           </Text>
           <Row sx={{ justifyContent: "flex-end" }}>
-            <Button
-              type="submit"
-              sx={{
-                margin: "10px 0px",
-                backgroundColor: "#52734D",
-                color: "white",
-                borderRadius: "12px",
-                padding: "5px 20px",
-                textTransform: "capitalize",
-                "&:hover": {
-                  backgroundColor: "#52734D",
-                },
-              }}
-            >
-              Save
-            </Button>
+            <UiButton type="submit">
+              <Text>Save</Text>
+            </UiButton>
           </Row>
         </Col>
       </form>

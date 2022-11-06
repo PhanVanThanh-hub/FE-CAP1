@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { Box, Divider, Grid } from "@mui/material";
-import { Col, Row, Text } from "../../../components/elements";
-import { Icon } from "@iconify/react";
+import { Box, Divider } from "@mui/material";
+import { Col, Row, Text, UiIcon } from "../../../components/elements";
 import { PRIVATE_AND_SAFE } from "../../../constants";
 import DirectMessages from "../tabEdit/DirectMesages";
 import ContentYouSee from "../tabEdit/ContentYouSee";
@@ -24,7 +23,7 @@ const PrivateAndSafe = () => {
                       {value.name}
                     </Text>
                     <Divider
-                      sx={{ margin: "10px 0px", borderColor: "#52734D" }}
+                      sx={{ margin: "10px 0px", borderColor: "divider" }}
                     />
                     {value.options.map((option) => {
                       return (
@@ -45,10 +44,8 @@ const PrivateAndSafe = () => {
                             }}
                             onClick={() => setTabEdit(option.value)}
                           >
-                            <Icon icon="ci:edit" />
-                            <Text sx={{ color: "#52734D", marginLeft: "10px" }}>
-                              Edit
-                            </Text>
+                            <UiIcon icon="ci:edit" />
+                            <Text sx={{ marginLeft: "10px" }}>Edit</Text>
                           </Row>
                         </Row>
                       );

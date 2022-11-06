@@ -1,11 +1,10 @@
 import React from "react";
-import { Box, Button, Grid } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import { Col, Row, Text } from "../../../components/elements";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { InputField, SelectField } from "../../../components/FormControl/index";
-import signUp from "../../../assets/image/auth/sign-up.png";
 import { InvestorApiItem } from "../../../types/models/auth";
 
 const categories = [
@@ -64,6 +63,7 @@ const InvestorForm = ({ handleInvestorForm }: Props) => {
         height: "100%",
         justifyContent: "center",
         alignItems: "center",
+        backgroundColor: "background.default",
       }}
     >
       <Text fontSize="h5" sx={{ fontWeight: "bold" }}>

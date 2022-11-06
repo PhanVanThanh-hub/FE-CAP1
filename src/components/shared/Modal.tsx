@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Col, Row, Text } from "../elements";
+import { Col, Row, Text, UiModal } from "../elements";
 import { Icon } from "@iconify/react";
 import {
   TextField,
@@ -19,17 +19,6 @@ interface Props {
   open: boolean;
   handleClose: any;
 }
-
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "40%",
-  bgcolor: "background.paper",
-  border: "1px solid white",
-  borderRadius: "12px",
-};
 
 const IconStyled: any = {
   width: "24px",
@@ -99,130 +88,120 @@ export const SendMessModal = ({ open, handleClose }: Props) => {
 
   return (
     <div>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Col sx={style}>
-          <Row sx={{ padding: "5px 20px", alignItems: "center" }}>
-            <Icon
-              icon="ci:close-big"
-              width="30"
-              height="30"
-              cursor="pointer"
-              onClick={handleClose}
-            />
-            <Text fontSize="subtitle2" sx={{ marginLeft: "10px" }}>
-              Send via Direct Message
-            </Text>
-          </Row>
-          <Row sx={{ padding: "5px 20px", alignItems: "center" }}>
-            <Icon
-              icon="fluent:search-24-regular"
-              width="30"
-              height="30"
-              cursor="pointer"
-            />
-            <TextField
-              placeholder="Looking for people"
-              variant="standard"
-              sx={{
-                marginLeft: "10px",
-                input: {
-                  fontSize: "1rem",
-                  "&::placeholder": {
-                    fontSize: "14px",
-                    paddingLeft: "0px",
-                  },
-                },
-              }}
-            />
-          </Row>
-          <Divider
+      <UiModal open={open} onClose={handleClose}>
+        <Row sx={{ padding: "5px 20px", alignItems: "center" }}>
+          <Icon
+            icon="ci:close-big"
+            width="30"
+            height="30"
+            cursor="pointer"
+            onClick={handleClose}
+          />
+          <Text fontSize="subtitle2" sx={{ marginLeft: "10px" }}>
+            Send via Direct Message
+          </Text>
+        </Row>
+        <Row sx={{ padding: "5px 20px", alignItems: "center" }}>
+          <Icon
+            icon="fluent:search-24-regular"
+            width="30"
+            height="30"
+            cursor="pointer"
+          />
+          <TextField
+            placeholder="Looking for people"
+            variant="standard"
             sx={{
-              margin: "10px 0px",
-              borderColor: "rgba(82, 115, 77, 0.6)",
+              marginLeft: "10px",
+              input: {
+                fontSize: "1rem",
+                "&::placeholder": {
+                  fontSize: "14px",
+                  paddingLeft: "0px",
+                },
+              },
             }}
           />
-          <Col sx={{ padding: "5px 20px" }}>
-            <Text sx={{ fontWeight: "bold" }}>Recently</Text>
-            <Col sx={{ maxHeight: "300px", overflowY: "auto" }}>
-              <Row sx={{ justifyContent: "space-between", margin: "10px 0px" }}>
-                <Row sx={{ alignItems: "center", cursor: "pointer" }}>
-                  <Avatar />
-                  <Text sx={{ marginLeft: "10px" }}>Elian</Text>
-                </Row>
-                {isSend ? (
-                  <Button
-                    sx={{
-                      ...ButtonSentStyled,
-                    }}
-                  >
-                    Sent
-                  </Button>
-                ) : (
-                  <Button
-                    sx={{
-                      ...ButtonSendStyle,
-                    }}
-                    onClick={() => setIsSend(true)}
-                  >
-                    Send
-                  </Button>
-                )}
+        </Row>
+        <Divider
+          sx={{
+            margin: "10px 0px",
+            borderColor: "rgba(82, 115, 77, 0.6)",
+          }}
+        />
+        <Col sx={{ padding: "5px 20px" }}>
+          <Text sx={{ fontWeight: "bold" }}>Recently</Text>
+          <Col sx={{ maxHeight: "300px", overflowY: "auto" }}>
+            <Row sx={{ justifyContent: "space-between", margin: "10px 0px" }}>
+              <Row sx={{ alignItems: "center", cursor: "pointer" }}>
+                <Avatar />
+                <Text sx={{ marginLeft: "10px" }}>Elian</Text>
               </Row>
-            </Col>
-          </Col>
-          <Col sx={{ padding: "5px 20px" }}>
-            <Text sx={{ fontWeight: "bold" }}>Group chat</Text>
-            <Col sx={{ maxHeight: "300px", overflowY: "auto" }}>
-              <Row sx={{ justifyContent: "space-between", margin: "10px 0px" }}>
-                <Row sx={{ alignItems: "center", cursor: "pointer" }}>
-                  <Avatar />
-                  <Text sx={{ marginLeft: "10px" }}>Elian</Text>
-                </Row>
+              {isSend ? (
+                <Button
+                  sx={{
+                    ...ButtonSentStyled,
+                  }}
+                >
+                  Sent
+                </Button>
+              ) : (
                 <Button
                   sx={{
                     ...ButtonSendStyle,
                   }}
+                  onClick={() => setIsSend(true)}
                 >
                   Send
                 </Button>
-              </Row>
-            </Col>
+              )}
+            </Row>
           </Col>
-          <Divider
-            sx={{
-              margin: "10px 0px",
-              borderColor: "rgba(82, 115, 77, 0.6)",
-            }}
-          />
-          <Row
-            sx={{
-              alignItems: "center",
-              justifyContent: "center",
-              marginBottom: "10px",
-              ...InputProps,
-            }}
-          >
-            <OutlinedInput
-              placeholder="Add a message"
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    edge="end"
-                  >
-                    <Icon icon="akar-icons:send" width="20" height="20" />
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
-          </Row>
         </Col>
-      </Modal>
+        <Col sx={{ padding: "5px 20px" }}>
+          <Text sx={{ fontWeight: "bold" }}>Group chat</Text>
+          <Col sx={{ maxHeight: "300px", overflowY: "auto" }}>
+            <Row sx={{ justifyContent: "space-between", margin: "10px 0px" }}>
+              <Row sx={{ alignItems: "center", cursor: "pointer" }}>
+                <Avatar />
+                <Text sx={{ marginLeft: "10px" }}>Elian</Text>
+              </Row>
+              <Button
+                sx={{
+                  ...ButtonSendStyle,
+                }}
+              >
+                Send
+              </Button>
+            </Row>
+          </Col>
+        </Col>
+        <Divider
+          sx={{
+            margin: "10px 0px",
+            borderColor: "rgba(82, 115, 77, 0.6)",
+          }}
+        />
+        <Row
+          sx={{
+            alignItems: "center",
+            justifyContent: "center",
+            marginBottom: "10px",
+            ...InputProps,
+          }}
+        >
+          <OutlinedInput
+            placeholder="Add a message"
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton aria-label="toggle password visibility" edge="end">
+                  <Icon icon="akar-icons:send" width="20" height="20" />
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+        </Row>
+      </UiModal>
     </div>
   );
 };
@@ -230,13 +209,8 @@ export const SendMessModal = ({ open, handleClose }: Props) => {
 export const CreatePostModal = ({ open, handleClose }: Props) => {
   return (
     <div>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Col sx={{ padding: "20px 30px", ...style }}>
+      <UiModal open={open} onClose={handleClose} padding="20px 30px">
+        <Col>
           <Row sx={{ alignItems: "center", justifyContent: "center" }}>
             <Text fontSize="body1" sx={{ fontWeight: "bold" }}>
               Create Post
@@ -321,7 +295,7 @@ export const CreatePostModal = ({ open, handleClose }: Props) => {
             </Button>
           </Row>
         </Col>
-      </Modal>
+      </UiModal>
     </div>
   );
 };

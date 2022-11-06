@@ -1,7 +1,6 @@
-import { Icon } from "@iconify/react";
-import { Box, Divider } from "@mui/material";
 import React, { useState } from "react";
-import { Row, Col, Text } from "../../../components/elements";
+import { Box, Divider } from "@mui/material";
+import { Row, Col, Text, UiIcon } from "../../../components/elements";
 import EmailNotifications from "../tabEdit/EmailNotifications";
 import PushNotifications from "../tabEdit/PushNotifications";
 
@@ -14,7 +13,7 @@ const Notify = () => {
         <Col sx={{ width: "70%", marginTop: "80px" }}>
           {activeTab === "main" && (
             <Col>
-              <Divider sx={{ margin: "20px 0px", borderColor: "#52734D" }} />
+              <Divider sx={{ margin: "20px 0px", borderColor: "divider" }} />
               <Row sx={{ margin: "10px 0px", justifyContent: "space-between" }}>
                 <Text>Push notifications</Text>
                 <Row
@@ -25,10 +24,8 @@ const Notify = () => {
                   }}
                   onClick={() => setTabEdit("push")}
                 >
-                  <Icon icon="ci:edit" />
-                  <Text sx={{ color: "#52734D", marginLeft: "10px" }}>
-                    Edit
-                  </Text>
+                  <UiIcon icon="ci:edit" />
+                  <Text sx={{ marginLeft: "10px" }}>Edit</Text>
                 </Row>
               </Row>
               <Row sx={{ margin: "10px 0px", justifyContent: "space-between" }}>
@@ -41,14 +38,12 @@ const Notify = () => {
                   }}
                   onClick={() => setTabEdit("email")}
                 >
-                  <Icon icon="ci:edit" />
-                  <Text sx={{ color: "#52734D", marginLeft: "10px" }}>
-                    Edit
-                  </Text>
+                  <UiIcon icon="ci:edit" />
+                  <Text sx={{ marginLeft: "10px" }}>Edit</Text>
                 </Row>
               </Row>
 
-              <Divider sx={{ margin: "20px 0px", borderColor: "#52734D" }} />
+              <Divider sx={{ margin: "20px 0px", borderColor: "divider" }} />
             </Col>
           )}
           {activeTab === "push" && (

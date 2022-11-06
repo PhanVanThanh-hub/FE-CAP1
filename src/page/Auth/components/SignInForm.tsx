@@ -67,7 +67,13 @@ const SignInForm = () => {
   }, [dispatch, history, isLoading, isLoginStatus]);
 
   return (
-    <Row sx={{ height: "100vh", justifyContent: "center" }}>
+    <Row
+      sx={{
+        height: "100vh",
+        justifyContent: "center",
+        backgroundColor: "background.default",
+      }}
+    >
       <Row
         sx={{
           width: "80%",
@@ -140,7 +146,7 @@ const SignInForm = () => {
                 sx={{
                   textAlign: "center",
                   marginBottom: "20px",
-                  color: "rgba(0, 0, 0, 0.6)",
+                  color: "text.disabled",
                 }}
               >
                 Website for the startup community <br /> that aids in
@@ -219,7 +225,7 @@ const SignInForm = () => {
               >
                 <Icon icon="flat-color-icons:google" />
               </Row>
-              <Text sx={{ color: "rgba(0, 0, 0, 0.6)", marginTop: "20px" }}>
+              <Text sx={{ color: "text.disabled", marginTop: "20px" }}>
                 If you don’t have an acccount, you can
                 <br />
                 <Text as="span" sx={{ color: "rgba(208, 102, 102, 1)" }}>

@@ -1,8 +1,6 @@
-import { Icon } from "@iconify/react";
-import { SxProps } from "@mui/material";
 import React, { useState } from "react";
 import { useHistory, useRouteMatch } from "react-router-dom";
-import { Col, Row, Text } from "../../../components/elements";
+import { Col, Row, Text, UiIcon } from "../../../components/elements";
 import { MENU } from "../../../constants";
 
 const RowSelected = (props: any) => {
@@ -27,10 +25,14 @@ const Menu = () => {
 
   return (
     <Col
-      sx={{ height: "100vh", backgroundColor: "#91C788", padding: "50px 20px" }}
+      sx={{
+        height: "100vh",
+        backgroundColor: "background.paper",
+        padding: "50px 20px",
+      }}
     >
       <Row sx={{ alignItems: "center" }}>
-        <Icon icon="ep:setting" width="30" height="30" />
+        <UiIcon icon="ep:setting" size="30px" />
         <Text
           fontSize="subtitle1"
           sx={{ marginLeft: "10px", fontWeight: "bold" }}
