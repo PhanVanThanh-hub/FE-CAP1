@@ -14,6 +14,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { PasswordField } from "../../../components/FormControl";
 import { CHOOSE_ROLES } from "../../../constants";
+import { useBoolBag } from "../../../hooks";
 
 interface Props {
   backMainTab: () => void;
@@ -152,10 +153,11 @@ const ModalChangeRole = ({ open, handleClose }: ModalProps) => {
 };
 
 const ChangeRole = ({ backMainTab }: Props) => {
-  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const { boolBag, setBoolBag } = useBoolBag({ openModal: false });
+  const { openModal } = boolBag;
 
   const handleCloseModal = () => {
-    setIsOpenModal(false);
+    setBoolBag({ openModal: true });
   };
 
   return (
@@ -188,7 +190,7 @@ const ChangeRole = ({ backMainTab }: Props) => {
         </Row>
         <UiButton
           type="submit"
-          onClick={() => setIsOpenModal(true)}
+          onClick={() => setBoolBag({ openModal: true })}
           backgroundColorHover="button.hover"
           backgroundColor="button.primary"
           borderColor="#52734D"
@@ -197,7 +199,7 @@ const ChangeRole = ({ backMainTab }: Props) => {
           Change Role
         </UiButton>
       </Col>
-      <ModalChangeRole open={isOpenModal} handleClose={handleCloseModal} />
+      <ModalChangeRole open={openModal} handleClose={handleCloseModal} />
     </Col>
   );
 };

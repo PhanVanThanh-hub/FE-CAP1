@@ -3,6 +3,7 @@ import { Avatar, Box, Divider, Grid, TextField } from "@mui/material";
 import { Col, Row, Text, UiIcon } from "../../../components/elements";
 import { PopoverSharePost } from "../../../components/shared/Popover";
 import { Content, Comment, PostOwner } from "../../../components/shared/Post";
+import { useBoolBag } from "../../../hooks";
 
 // const PostOwner = () => {
 //   return (
@@ -58,11 +59,14 @@ import { Content, Comment, PostOwner } from "../../../components/shared/Post";
 // };
 
 const UserInteraction = () => {
-  const [isLiked, setIsLiked] = useState<boolean>(false);
-  const [isOpenComments, setIsOpenComments] = useState<boolean>(false);
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
   );
+  const { boolBag, setBoolBag } = useBoolBag({
+    liked: false,
+    openComments: false,
+  });
+  const { liked, openComments } = boolBag;
 
   const openPopover = (event: any) => {
     setAnchorEl(event.currentTarget);
@@ -90,11 +94,11 @@ const UserInteraction = () => {
           },
         }}
       >
-        <Row onClick={() => setIsLiked(!isLiked)}>
-          <UiIcon icon={isLiked ? "bxs:like" : "bx:like"} />
+        <Row onClick={() => setBoolBag({ liked: !liked })}>
+          <UiIcon icon={liked ? "bxs:like" : "bx:like"} />
           <Text>Like</Text>
         </Row>
-        <Row onClick={() => setIsOpenComments(!isOpenComments)}>
+        <Row onClick={() => setBoolBag({ openComments: !openComments })}>
           <UiIcon icon="akar-icons:comment" />
           <Text>Comment</Text>
         </Row>

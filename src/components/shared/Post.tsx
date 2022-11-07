@@ -6,6 +6,7 @@ import { Col, Row, Text, UiIcon } from "../elements";
 import { styled } from "@mui/material/styles";
 import Tooltip, { TooltipProps, tooltipClasses } from "@mui/material/Tooltip";
 import { useHistory } from "react-router-dom";
+import { useBoolBag } from "../../hooks";
 
 const StyledTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -132,13 +133,16 @@ export const Comment = ({ comment }: { comment: string }) => {
 };
 
 export const UserInteraction = () => {
-  const [isLiked, setIsLiked] = useState<boolean>(false);
   const [comments, setComments] = useState(["1231", "321321"]);
   const [comment, setComment] = useState<string>("");
-  const [isOpenComments, setIsOpenComments] = useState<boolean>(false);
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
   );
+  const { boolBag, setBoolBag } = useBoolBag({
+    liked: false,
+    openComments: false,
+  });
+  const { liked, openComments } = boolBag;
 
   const keyPress = (e: any) => {
     if (e.keyCode === 13) {
@@ -174,11 +178,11 @@ export const UserInteraction = () => {
           },
         }}
       >
-        <Row onClick={() => setIsLiked(!isLiked)}>
-          <UiIcon icon={isLiked ? "bxs:like" : "bx:like"} />
+        <Row onClick={() => setBoolBag({ liked: !liked })}>
+          <UiIcon icon={liked ? "bxs:like" : "bx:like"} />
           <Text>Like</Text>
         </Row>
-        <Row onClick={() => setIsOpenComments(!isOpenComments)}>
+        <Row onClick={() => setBoolBag({ openComments: !openComments })}>
           <UiIcon icon="akar-icons:comment" />
           <Text>Comment</Text>
         </Row>
@@ -193,7 +197,7 @@ export const UserInteraction = () => {
         />
       </Row>
 
-      {isOpenComments && (
+      {openComments && (
         <Col>
           <Divider />
           <TransitionGroup>

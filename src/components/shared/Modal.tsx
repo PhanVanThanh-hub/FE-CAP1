@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import Tooltip, { TooltipProps, tooltipClasses } from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
+import { useBoolBag } from "../../hooks";
 
 interface Props {
   open: boolean;
@@ -84,7 +85,8 @@ const InputProps: SxProps = {
 };
 
 export const SendMessModal = ({ open, handleClose }: Props) => {
-  const [isSend, setIsSend] = React.useState<boolean>(false);
+  const { boolBag, setBoolBag } = useBoolBag({ sendMess: false });
+  const { sendMess } = boolBag;
 
   return (
     <div>
@@ -137,7 +139,7 @@ export const SendMessModal = ({ open, handleClose }: Props) => {
                 <Avatar />
                 <Text sx={{ marginLeft: "10px" }}>Elian</Text>
               </Row>
-              {isSend ? (
+              {sendMess ? (
                 <Button
                   sx={{
                     ...ButtonSentStyled,
@@ -150,7 +152,7 @@ export const SendMessModal = ({ open, handleClose }: Props) => {
                   sx={{
                     ...ButtonSendStyle,
                   }}
-                  onClick={() => setIsSend(true)}
+                  onClick={() => setBoolBag({ sendMess: true })}
                 >
                   Send
                 </Button>

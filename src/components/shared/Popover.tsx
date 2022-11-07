@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { Alert, Popover, Snackbar, SxProps } from "@mui/material";
-import { Icon } from "@iconify/react";
-import { Col, Row, Text } from "../elements";
+import { Col, Row, Text, UiIcon } from "../elements";
 import { SendMessModal } from "./Modal";
+import { useBoolBag } from "../../hooks";
 
 interface PopoverProps {
   open: boolean;
@@ -26,19 +26,15 @@ const ColItemStyles: SxProps = {
   },
 };
 
-const IconStyled: any = {
-  width: "24px",
-  height: "24px",
-  color: "#52734D",
-};
-
 export const PopoverSharePost = ({ open, anchorEl, onClose }: PopoverProps) => {
-  const [isOpenAlert, setIsOpenAlert] = useState<boolean>(false);
-  const [isOpenModalShareMess, setIsOpenModalShareMess] =
-    useState<boolean>(false);
+  const { boolBag, setBoolBag } = useBoolBag({
+    openAlert: false,
+    openModalShareMess: false,
+  });
+  const { openAlert, openModalShareMess } = boolBag;
 
   const handleCloseModalShareMess = () => {
-    setIsOpenModalShareMess(false);
+    setBoolBag({ openModalShareMess: false });
   };
 
   return (
@@ -68,27 +64,27 @@ export const PopoverSharePost = ({ open, anchorEl, onClose }: PopoverProps) => {
             ...ColItemStyles,
           }}
         >
-          <Row onClick={() => setIsOpenAlert(true)}>
-            <Icon icon="akar-icons:copy" style={{ ...IconStyled }} />
+          <Row onClick={() => setBoolBag({ openAlert: true })}>
+            <UiIcon icon="akar-icons:copy" />
             <Text>Copy link</Text>
           </Row>
-          <Row onClick={() => setIsOpenModalShareMess(true)}>
-            <Icon icon="fluent:mail-16-filled" style={{ ...IconStyled }} />
+          <Row onClick={() => setBoolBag({ openModalShareMess: true })}>
+            <UiIcon icon="fluent:mail-16-filled" />
             <Text>Send via Direct Message</Text>
           </Row>
           <Row>
-            <Icon icon="heroicons:user-group" style={{ ...IconStyled }} />
+            <UiIcon icon="heroicons:user-group" />
             <Text>Share to group</Text>
           </Row>
         </Col>
       </Col>
       <Snackbar
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        open={isOpenAlert}
-        onClose={() => setIsOpenAlert(false)}
+        open={openAlert}
+        onClose={() => setBoolBag({ openAlert: false })}
       >
         <Alert
-          onClose={() => setIsOpenAlert(false)}
+          onClose={() => setBoolBag({ openAlert: false })}
           severity="success"
           sx={{ width: "100%" }}
         >
@@ -96,7 +92,7 @@ export const PopoverSharePost = ({ open, anchorEl, onClose }: PopoverProps) => {
         </Alert>
       </Snackbar>
       <SendMessModal
-        open={isOpenModalShareMess}
+        open={openModalShareMess}
         handleClose={handleCloseModalShareMess}
       />
     </Popover>
@@ -132,19 +128,19 @@ export const PopoverMenuPost = ({ open, anchorEl, onClose }: PopoverProps) => {
           }}
         >
           <Row>
-            <Icon icon="clarity:sad-face-line" style={{ ...IconStyled }} />
+            <UiIcon icon="clarity:sad-face-line" />
             <Text>Note interested in this post</Text>
           </Row>
           <Row>
-            <Icon icon="fluent-mdl2:block-contact" style={{ ...IconStyled }} />
+            <UiIcon icon="fluent-mdl2:block-contact" />
             <Text>Block Nguyen Tree</Text>
           </Row>
           <Row>
-            <Icon icon="bi:volume-mute-fill" style={{ ...IconStyled }} />
+            <UiIcon icon="bi:volume-mute-fill" />
             <Text>Mute Nguyen Tree </Text>
           </Row>
           <Row>
-            <Icon icon="ic:outline-report" style={{ ...IconStyled }} />
+            <UiIcon icon="ic:outline-report" />
             <Text>Report this port</Text>
           </Row>
         </Col>
@@ -186,11 +182,11 @@ export const PopoverMenuMyPost = ({
           }}
         >
           <Row>
-            <Icon icon="clarity:sad-face-line" style={{ ...IconStyled }} />
+            <UiIcon icon="clarity:sad-face-line" />
             <Text>Note interested in this post</Text>
           </Row>
           <Row>
-            <Icon icon="fluent:delete-20-filled" style={{ ...IconStyled }} />
+            <UiIcon icon="fluent:delete-20-filled" />
             <Text>Remove post</Text>
           </Row>
         </Col>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Divider, Slide } from "@mui/material";
 import {
   Col,
@@ -10,13 +10,15 @@ import {
 } from "../../../components/elements";
 import "animate.css";
 import { AREAS_OF_CONCERN } from "../../../constants";
+import { useBoolBag } from "../../../hooks";
 
 interface Props {
   backMainTab: () => void;
 }
 
 const ContentYouSee = ({ backMainTab }: Props) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const { boolBag, setBoolBag } = useBoolBag({ open: false });
+  const { open } = boolBag;
 
   return (
     <Col class="animate__animated animate__slideInRight">
@@ -35,7 +37,7 @@ const ContentYouSee = ({ backMainTab }: Props) => {
             justifyContent: "flex-end",
             cursor: "pointer",
           }}
-          onClick={() => setIsOpen(true)}
+          onClick={() => setBoolBag({ open: true })}
         >
           <UiIcon icon="ci:edit" />
           <Text sx={{ marginLeft: "10px" }}>Edit</Text>
@@ -47,10 +49,10 @@ const ContentYouSee = ({ backMainTab }: Props) => {
       </Row>
       <Divider sx={{ margin: "20px 0px", borderColor: "divider" }} />
       <Slide
-        in={isOpen}
+        in={open}
         direction="up"
         style={{ transformOrigin: "0 0 0" }}
-        {...(isOpen ? { timeout: 1000 } : {})}
+        {...(open ? { timeout: 1000 } : {})}
       >
         <div>
           <Col
@@ -96,7 +98,7 @@ const ContentYouSee = ({ backMainTab }: Props) => {
               <Row sx={{ marginLeft: "20px" }}>
                 <UiButton
                   variant="contained"
-                  onClick={() => setIsOpen(false)}
+                  onClick={() => setBoolBag({ open: false })}
                   backgroundColor="transparent"
                   backgroundColorHover="transparent"
                   color="black"

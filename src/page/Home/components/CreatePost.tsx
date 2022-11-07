@@ -1,14 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import { Avatar, Box } from "@mui/material";
 import { Col, Row, Text, UiButton, UiIcon } from "../../../components/elements";
 import { CreatePostModal } from "../../../components/shared/Modal";
+import { useBoolBag } from "../../../hooks";
 
 const CreatePost = () => {
-  const [isOpenModalCreatePost, setIsOpenModalCreatePost] =
-    useState<boolean>(false);
+  const { boolBag, setBoolBag } = useBoolBag({ openModalCreatePost: false });
+  const { openModalCreatePost } = boolBag;
 
   const handleCloseModalCreatePost = () => {
-    setIsOpenModalCreatePost(false);
+    setBoolBag({ openModalCreatePost: false });
   };
 
   return (
@@ -32,7 +33,7 @@ const CreatePost = () => {
       >
         <Avatar sx={{ width: "40px", height: "40px" }} />
         <Box
-          onClick={() => setIsOpenModalCreatePost(true)}
+          onClick={() => setBoolBag({ openModalCreatePost: true })}
           sx={{
             marginLeft: "10px",
             width: "100%",
@@ -74,7 +75,7 @@ const CreatePost = () => {
       </Row>
       <CreatePostModal
         handleClose={handleCloseModalCreatePost}
-        open={isOpenModalCreatePost}
+        open={openModalCreatePost}
       />
     </Col>
   );

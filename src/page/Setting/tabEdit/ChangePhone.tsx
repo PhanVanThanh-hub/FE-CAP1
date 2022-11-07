@@ -14,6 +14,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { InputField } from "../../../components/FormControl";
 import { phoneRegExp } from "../../../constants";
+import { useBoolBag } from "../../../hooks";
 
 interface Props {
   backMainTab: () => void;
@@ -147,15 +148,18 @@ const ModalUpdatePhoneNumber = ({ open, handleClose }: ModalProps) => {
 };
 
 const ChangePhone = ({ backMainTab }: Props) => {
-  const [isOpenModalDelete, setIsOpenModelDelete] = useState<boolean>(false);
-  const [isOpenModalUpdate, setIsOpenModelUpdate] = useState<boolean>(false);
+  const { boolBag, setBoolBag } = useBoolBag({
+    openModalDelete: false,
+    openModalUpdate: false,
+  });
+  const { openModalDelete, openModalUpdate } = boolBag;
 
   const handleCloseDelete = () => {
-    setIsOpenModelDelete(false);
+    setBoolBag({ openModalDelete: false });
   };
 
   const handleCloseUpdate = () => {
-    setIsOpenModelUpdate(false);
+    setBoolBag({ openModalUpdate: false });
   };
 
   return (
@@ -181,7 +185,7 @@ const ChangePhone = ({ backMainTab }: Props) => {
         <Col>
           <UiButton
             type="submit"
-            onClick={() => setIsOpenModelUpdate(true)}
+            onClick={() => setBoolBag({ openModalUpdate: true })}
             backgroundColor="transparent"
             backgroundColorHover="rgba(145, 199, 136, 0.4)"
             color="#52734D"
@@ -190,7 +194,7 @@ const ChangePhone = ({ backMainTab }: Props) => {
           </UiButton>
           <UiButton
             type="submit"
-            onClick={() => setIsOpenModelDelete(true)}
+            onClick={() => setBoolBag({ openModalDelete: true })}
             backgroundColor="transparent"
             color="rgba(234, 67, 53, 1)"
             backgroundColorHover="rgba(234, 67, 53, 0.4)"
@@ -200,11 +204,11 @@ const ChangePhone = ({ backMainTab }: Props) => {
         </Col>
       </Col>
       <ModalDeletePhoneNumber
-        open={isOpenModalDelete}
+        open={openModalDelete}
         handleClose={handleCloseDelete}
       />
       <ModalUpdatePhoneNumber
-        open={isOpenModalUpdate}
+        open={openModalUpdate}
         handleClose={handleCloseUpdate}
       />
     </Col>

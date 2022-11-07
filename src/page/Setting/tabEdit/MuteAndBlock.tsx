@@ -10,6 +10,7 @@ import {
 import { Col, Row, Text, UiIcon, UiModal } from "../../../components/elements";
 import "animate.css";
 import { TransitionGroup } from "react-transition-group";
+import { useBoolBag } from "../../../hooks";
 
 interface Props {
   backMainTab: () => void;
@@ -104,11 +105,13 @@ const BlockModal = ({ open, handleClose }: ModalProps) => {
 };
 
 const MuteAndBlock = ({ backMainTab }: Props) => {
-  const [isOpenBlockModal, setIsOpenModalBlock] = useState<boolean>(false);
+  const { boolBag, setBoolBag } = useBoolBag({ openBlockModal: false });
+  const { openBlockModal } = boolBag;
 
   const handleCloseBlockModal = () => {
-    setIsOpenModalBlock(false);
+    setBoolBag({ openBlockModal: false });
   };
+
   return (
     <Col class="animate__animated animate__slideInRight">
       <Row sx={{ alignItems: "center" }}>
@@ -133,7 +136,7 @@ const MuteAndBlock = ({ backMainTab }: Props) => {
             justifyContent: "flex-end",
             cursor: "pointer",
           }}
-          onClick={() => setIsOpenModalBlock(true)}
+          onClick={() => setBoolBag({ openBlockModal: true })}
         >
           <UiIcon icon="ci:edit" />
           <Text sx={{ marginLeft: "10px" }}>Edit</Text>
@@ -153,13 +156,13 @@ const MuteAndBlock = ({ backMainTab }: Props) => {
             justifyContent: "flex-end",
             cursor: "pointer",
           }}
-          onClick={() => setIsOpenModalBlock(true)}
+          onClick={() => setBoolBag({ openBlockModal: true })}
         >
           <UiIcon icon="ci:edit" />
           <Text sx={{ marginLeft: "10px" }}>Edit</Text>
         </Row>
       </Row>
-      <BlockModal open={isOpenBlockModal} handleClose={handleCloseBlockModal} />
+      <BlockModal open={openBlockModal} handleClose={handleCloseBlockModal} />
     </Col>
   );
 };
