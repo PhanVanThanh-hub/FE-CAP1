@@ -36,23 +36,23 @@ export function InputField({
         sx={{
           margin: "0px",
           "& label.Mui-focused": {
-            color: "rgba(82, 115, 77, 1)",
+            color: "button.primary",
           },
           "& .MuiInput-underline:after": {
-            borderBottomColor: "rgba(82, 115, 77, 1)",
+            borderBottomColor: "button.primary",
           },
           "& .MuiOutlinedInput-root": {
             borderRadius: "20px",
             fontSize: "16px",
             paddingLeft: "5px",
             "& fieldset": {
-              borderColor: "rgba(82, 115, 77, 1)",
+              borderColor: "button.primary",
             },
             "&:hover fieldset": {
-              borderColor: "rgba(82, 115, 77, 1)",
+              borderColor: "button.primary",
             },
             "&.Mui-focused fieldset": {
-              borderColor: "rgba(82, 115, 77, 1)",
+              borderColor: "button.primary",
             },
           },
           input: {

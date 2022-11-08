@@ -13,7 +13,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { PasswordField } from "../../../components/FormControl";
-import { CHOOSE_ROLES } from "../../../constants";
+import { CHOOSE_ROLES, COLOR } from "../../../constants";
 import { useBoolBag } from "../../../hooks";
 
 interface Props {
@@ -26,7 +26,6 @@ interface ModalProps {
 }
 
 const RowStyle: SxProps = {
-  border: "1px solid rgba(145, 199, 136, 0.4)",
   borderRadius: "16px",
   minHeight: "44px",
   alignItems: "center",
@@ -116,6 +115,7 @@ const ModalChangeRole = ({ open, handleClose }: ModalProps) => {
                     onClick={() => setSelectedRole(role.value)}
                     sx={{
                       ...RowStyle,
+                      border: `1px solid ${COLOR.border.primary}`,
                       backgroundColor: backgroundColor,
                       color: "black",
                       textAlign: "center",
@@ -157,7 +157,7 @@ const ChangeRole = ({ backMainTab }: Props) => {
   const { openModal } = boolBag;
 
   const handleCloseModal = () => {
-    setBoolBag({ openModal: true });
+    setBoolBag({ openModal: false });
   };
 
   return (

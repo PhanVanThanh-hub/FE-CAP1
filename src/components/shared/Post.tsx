@@ -7,6 +7,7 @@ import { styled } from "@mui/material/styles";
 import Tooltip, { TooltipProps, tooltipClasses } from "@mui/material/Tooltip";
 import { useHistory } from "react-router-dom";
 import { useBoolBag } from "../../hooks";
+import { COLOR } from "../../constants";
 
 const StyledTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -108,7 +109,7 @@ export const Comment = ({ comment }: { comment: string }) => {
         <Col
           sx={{
             borderRadius: "18px",
-            backgroundColor: "button.primary",
+            backgroundColor: "background.default",
             padding: "8px 12px",
           }}
         >
@@ -166,7 +167,7 @@ export const UserInteraction = () => {
       <Divider />
       <Row
         sx={{
-          margin: "5px 0px",
+          margin: "10px 0px",
           alignItems: "center",
           justifyContent: "space-around",
           "& .MuiBox-root": {
@@ -220,7 +221,7 @@ export const UserInteraction = () => {
                   borderRadius: "20px",
                   fontSize: "16px",
                   paddingLeft: "5px",
-                  backgroundColor: "button.primary",
+                  border: `1px solid ${COLOR.border.primary}`,
                 },
                 input: {
                   padding: "7px 10px",

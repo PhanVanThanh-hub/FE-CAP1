@@ -1,6 +1,5 @@
 import React from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { PaletteType } from "@material-ui/core";
 
 //import { useSelector } from "react-redux";
 
@@ -9,7 +8,7 @@ const ToggleColorMode = (p: any) => {
   const theme = createTheme({
     typography: {
       allVariants: {
-        color: "#BBE1FA",
+        color: "rgb(213, 217, 233)",
       },
       h1: {
         fontSize: "5.625rem",
@@ -56,24 +55,28 @@ const ToggleColorMode = (p: any) => {
       ...(mode === "light"
         ? {
             text: {
-              primary: "#BBE1FA",
+              primary: "rgb(255, 255, 255)",
               disabled: "rgba(187, 225, 250, 0.5)",
             },
             button: {
-              primary: "#3282B8",
+              primary: "rgb(236, 64, 122)",
               hover: "#0F4C75",
             },
             background: {
-              default: "#1B262C",
-              paper: "rgba(187, 225, 250, 0.2)",
+              default: "rgb(10, 15, 35)",
+              paper: "rgb(18, 23, 47)",
             },
-            icon: {
-              primary: "#BBE1FA",
-            },
-            divider: "#3282B8",
+
+            divider: "rgb(213, 217, 233)",
             success: { main: "rgb(46, 125, 50)" },
+            action: {
+              hover: "rgb(236, 64, 122)",
+            },
           }
         : {}),
+    },
+    shape: {
+      borderRadius: "12px",
     },
   });
 

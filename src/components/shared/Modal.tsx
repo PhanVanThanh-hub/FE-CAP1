@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Col, Row, Text, UiModal } from "../elements";
+import { Col, Row, Text, UiButton, UiIcon, UiModal } from "../elements";
 import { Icon } from "@iconify/react";
 import {
   TextField,
@@ -264,37 +264,26 @@ export const CreatePostModal = ({ open, handleClose }: Props) => {
             >
               <Row>
                 <StyledTooltip title="Add Image">
-                  <Icon icon="gala:image" style={{ ...IconStyled }} />
+                  <UiIcon icon="gala:image" />
                 </StyledTooltip>
               </Row>
               <Row>
                 <StyledTooltip title="Video/Audio">
-                  <Icon icon="carbon:play-outline" style={{ ...IconStyled }} />
+                  <UiIcon icon="carbon:play-outline" />
                 </StyledTooltip>
               </Row>
               <Row>
                 <StyledTooltip title="Feelings / Activity">
-                  <Icon icon="bi:emoji-smile" style={{ ...IconStyled }} />
+                  <UiIcon icon="bi:emoji-smile" />
                 </StyledTooltip>
               </Row>
               <Row>
                 <StyledTooltip title="Location">
-                  <Icon icon="gis:location-poi-o" style={{ ...IconStyled }} />
+                  <UiIcon icon="gis:location-poi-o" />
                 </StyledTooltip>
               </Row>
             </Row>
-            <Button
-              sx={{
-                backgroundColor: "#52734D",
-                color: "white",
-                borderRadius: "12px",
-                padding: "5px 20px",
-                textTransform: "capitalize",
-                "&:hover": { backgroundColor: "#52734D" },
-              }}
-            >
-              Post
-            </Button>
+            <UiButton>Post</UiButton>
           </Row>
         </Col>
       </UiModal>

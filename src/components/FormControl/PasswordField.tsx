@@ -35,23 +35,23 @@ export function PasswordField({
         sx={{
           margin: "0px",
           "& label.Mui-focused": {
-            color: "#52734D",
+            color: "button.primary",
           },
           "& .MuiInput-underline:after": {
-            borderBottomColor: "#52734D",
+            borderBottomColor: "button.primary",
           },
           "& .MuiOutlinedInput-root": {
             borderRadius: "20px",
             fontSize: "16px",
             paddingLeft: "5px",
             "& fieldset": {
-              borderColor: "#52734D",
+              borderColor: "button.primary",
             },
             "&:hover fieldset": {
-              borderColor: "#52734D",
+              borderColor: "button.primary",
             },
             "&.Mui-focused fieldset": {
-              borderColor: "#52734D",
+              borderColor: "button.primary",
             },
           },
           input: {

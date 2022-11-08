@@ -3,6 +3,7 @@ import { Avatar, Box } from "@mui/material";
 import { Col, Row, Text, UiButton, UiIcon } from "../../../components/elements";
 import { CreatePostModal } from "../../../components/shared/Modal";
 import { useBoolBag } from "../../../hooks";
+import { COLOR } from "../../../constants";
 
 const CreatePost = () => {
   const { boolBag, setBoolBag } = useBoolBag({ openModalCreatePost: false });
@@ -38,7 +39,7 @@ const CreatePost = () => {
             marginLeft: "10px",
             width: "100%",
             borderRadius: "24px",
-            backgroundColor: "#3282B8",
+            border: `1px solid ${COLOR.border.primary}`,
             minHeight: "40px",
             alignItems: "center",
             display: "flex",

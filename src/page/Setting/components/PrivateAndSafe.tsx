@@ -44,7 +44,7 @@ const PrivateAndSafe = () => {
                             }}
                             onClick={() => setTabEdit(option.value)}
                           >
-                            <UiIcon icon="ci:edit" />
+                            <UiIcon icon="ci:edit" size="16" />
                             <Text sx={{ marginLeft: "10px" }}>Edit</Text>
                           </Row>
                         </Row>

@@ -24,7 +24,7 @@ const Notify = () => {
                   }}
                   onClick={() => setTabEdit("push")}
                 >
-                  <UiIcon icon="ci:edit" />
+                  <UiIcon icon="ci:edit" size="16" />
                   <Text sx={{ marginLeft: "10px" }}>Edit</Text>
                 </Row>
               </Row>
@@ -38,7 +38,7 @@ const Notify = () => {
                   }}
                   onClick={() => setTabEdit("email")}
                 >
-                  <UiIcon icon="ci:edit" />
+                  <UiIcon icon="ci:edit" size="16" />
                   <Text sx={{ marginLeft: "10px" }}>Edit</Text>
                 </Row>
               </Row>

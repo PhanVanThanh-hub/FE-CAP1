@@ -34,7 +34,7 @@ const GeneralAccount = () => {
                         }}
                         onClick={() => setTabEdit("changeName")}
                       >
-                        <UiIcon icon="ci:edit" />
+                        <UiIcon icon="ci:edit" size="16" />
                         <Text sx={{ marginLeft: "10px" }}>Edit</Text>
                       </Row>
                     </Grid>
@@ -57,7 +57,7 @@ const GeneralAccount = () => {
                         }}
                         onClick={() => setTabEdit("changePassword")}
                       >
-                        <UiIcon icon="ci:edit" />
+                        <UiIcon icon="ci:edit" size="16" />
                         <Text sx={{ marginLeft: "10px" }}>Edit</Text>
                       </Row>
                     </Grid>
@@ -80,7 +80,7 @@ const GeneralAccount = () => {
                         }}
                         onClick={() => setTabEdit("changeRole")}
                       >
-                        <UiIcon icon="ci:edit" />
+                        <UiIcon icon="ci:edit" size="16" />
                         <Text sx={{ marginLeft: "10px" }}>Edit</Text>
                       </Row>
                     </Grid>
@@ -103,7 +103,7 @@ const GeneralAccount = () => {
                         }}
                         onClick={() => setTabEdit("changeEmail")}
                       >
-                        <UiIcon icon="ci:edit" />
+                        <UiIcon icon="ci:edit" size="16" />
                         <Text sx={{ marginLeft: "10px" }}>Edit</Text>
                       </Row>
                     </Grid>
@@ -126,7 +126,7 @@ const GeneralAccount = () => {
                         }}
                         onClick={() => setTabEdit("changePhone")}
                       >
-                        <UiIcon icon="ci:edit" />
+                        <UiIcon icon="ci:edit" size="16" />
                         <Text sx={{ marginLeft: "10px" }}>Edit</Text>
                       </Row>
                     </Grid>
