@@ -7,21 +7,25 @@ interface Props {
   icon: string;
   onClick?: any;
   size?: string;
+  color?: any;
 }
 
-export const UiIcon = ({ icon, onClick, size = "24px" }: Props) => {
+export const UiIcon = ({
+  icon,
+  onClick,
+  size = "24px",
+  color = COLOR.icon.primary,
+}: Props) => {
   return (
-    <Row>
-      <Icon
-        icon={icon}
-        onClick={onClick}
-        style={{
-          width: size,
-          height: size,
-          color: COLOR.icon.primary,
-          cursor: "pointer",
-        }}
-      />
-    </Row>
+    <Icon
+      icon={icon}
+      onClick={onClick}
+      style={{
+        width: size,
+        height: size,
+        color: color,
+        cursor: "pointer",
+      }}
+    />
   );
 };

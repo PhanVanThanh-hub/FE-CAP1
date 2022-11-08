@@ -9,6 +9,7 @@ import ResetPasswordPage from "./page/Auth/pages/ResetPasswordPage";
 import HomePage from "./page/Home/pages/index";
 import PhotoViewer from "./page/Post/page";
 import SettingPage from "./page/Setting/page";
+import MessagePage from "./page/Mess/page";
 
 function App() {
   return (
@@ -37,6 +38,9 @@ function App() {
         </Route>
         <Route path="/settings">
           <SettingPage />
+        </Route>
+        <Route path="/message">
+          <MessagePage />
         </Route>
       </Switch>
     </ToggleColorMode>
