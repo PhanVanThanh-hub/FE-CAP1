@@ -10,6 +10,7 @@ import HomePage from "./page/Home/pages/index";
 import PhotoViewer from "./page/Post/page";
 import SettingPage from "./page/Setting/page";
 import MessagePage from "./page/Mess/page";
+import NotifyPage from "./page/Notify/page";
 
 function App() {
   return (
@@ -41,6 +42,9 @@ function App() {
         </Route>
         <Route path="/message">
           <MessagePage />
+        </Route>
+        <Route path="/notify">
+          <NotifyPage />
         </Route>
       </Switch>
     </ToggleColorMode>

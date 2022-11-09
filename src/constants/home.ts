@@ -3,7 +3,11 @@ export const MENU_ITEM = [
   { title: "Search", icon: "ant-design:search-outlined", url: "" },
   { title: "Messenger", icon: "ci:message-writing", url: "/message" },
   { title: "Group", icon: "heroicons:user-group", url: "" },
-  { title: "Notify", icon: "clarity:notification-outline-badged", url: "" },
+  {
+    title: "Notify",
+    icon: "clarity:notification-outline-badged",
+    url: "/notify",
+  },
   { title: "Setting", icon: "ant-design:setting-outlined", url: "/settings" },
 ];
 

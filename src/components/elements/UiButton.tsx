@@ -11,6 +11,7 @@ interface ButtonProps extends ButtonBaseProps {
   borderColor?: string;
   borderColorHover?: string;
   onClick?: React.MouseEventHandler<HTMLButtonElement> | undefined;
+  sx?: any;
 }
 
 export const UiButton = ({
@@ -25,6 +26,7 @@ export const UiButton = ({
   borderColor,
   onClick,
   borderColorHover,
+  sx,
 }: ButtonProps) => {
   return (
     <Button
@@ -45,6 +47,7 @@ export const UiButton = ({
           color: colorHover || color,
           borderColor: borderColorHover,
         },
+        ...sx,
       }}
     >
       {children}
