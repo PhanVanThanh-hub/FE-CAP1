@@ -15,6 +15,10 @@ export interface InvestorApiItem {
   categories: string[];
 }
 
+export interface UserApiItem {
+  id: number;
+}
+
 export interface RegisterApiItem {
   username: string;
   email: string;
@@ -60,4 +64,14 @@ export interface LoginProps {
 export interface LoginApiItem {
   access: string;
   refresh: string;
+}
+
+export interface ProfileApiItem {
+  avatar: string;
+  birthday: string;
+  id: number;
+  phone_number: string;
+  role: RoleApiItem;
+  name: string;
+  user: number;
 }

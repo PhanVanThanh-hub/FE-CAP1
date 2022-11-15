@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
-import { saveUserCredential } from "../../services/auth";
+import { saveUserCredential, saveUsername } from "../../services/auth";
 import {
   CategoryApiItem,
   FindAccountApiItem,
@@ -30,6 +30,7 @@ export interface AuthState {
   otp: string;
   isLoginStatus: boolean;
   isLogin: boolean;
+  username: string;
 }
 
 const initialState: AuthState = {
@@ -43,6 +44,7 @@ const initialState: AuthState = {
   otp: "",
   isLoginStatus: false,
   isLogin: false,
+  username: "",
 };
 
 const authSlice = createSlice({
@@ -105,7 +107,10 @@ const authSlice = createSlice({
       state.status = 0;
     },
     //login
-    fetchLogin(state, action: PayloadAction<LoginProps>) {},
+    fetchLogin(state, action: PayloadAction<LoginProps>) {
+      state.username = action.payload.username;
+      saveUsername(action.payload.username);
+    },
     fetchDataSuccess(state) {},
     fetchLoginFailed(state) {
       state.isLoginStatus = false;
@@ -164,6 +169,7 @@ export const selectIsLogin = (state: RootState) => state.auth.isLogin;
 export const selectIsLoginStatus = (state: RootState) =>
   state.auth.isLoginStatus;
 export const selectIsLoading = (state: RootState) => state.auth.loading;
+export const selectUsername = (state: RootState) => state.auth.username;
 //Reducer
 const authReducer = authSlice.reducer;
 export default authReducer;

@@ -75,9 +75,6 @@ const ToggleColorMode = (p: any) => {
           }
         : {}),
     },
-    shape: {
-      borderRadius: "12px",
-    },
   });
 
   return <ThemeProvider theme={theme} {...p} />;

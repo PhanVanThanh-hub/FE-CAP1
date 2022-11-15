@@ -1,6 +1,7 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { call, put, takeLatest } from "redux-saga/effects";
 import authApi from "../../api/authApi";
+import { getAccessTokenFromStorage } from "../../services/auth";
 import {
   CategoryApiItem,
   FindAccountApiItem,
@@ -9,6 +10,7 @@ import {
   OTPApiItem,
   ResetPasswordApiItem,
   RoleApiItem,
+  UserApiItem,
 } from "../../types/models/auth";
 import { ResponseApi } from "../../types/models/common";
 import {
@@ -87,6 +89,14 @@ function* userLogin(action: PayloadAction<LoginProps>) {
       action.payload
     );
     yield put(setTokenUser(responsive));
+    // console.log("response:", responsive);
+    // const accessToken = getAccessTokenFromStorage();
+    // console.log("accessToken:", accessToken);
+    // const user: ResponseApi<UserApiItem> = yield call(
+    //   authApi.getUser,
+    //   accessToken
+    // );
+    // console.log("user:", user);
   } catch (error) {
     yield put(fetchLoginFailed());
   } finally {

@@ -4,11 +4,13 @@ import { connectRouter, routerMiddleware } from "connected-react-router";
 import { history } from "../until/saga/history";
 import rootSaga from "./rootSaga";
 import authReducer from "../redux/auth/authSlice";
+import chatReducer from "../redux/chat/chatSlice";
 
 const sagaMiddleware = createSagaMiddleware();
 const rootReducer = combineReducers({
   router: connectRouter(history),
   auth: authReducer,
+  chat: chatReducer,
 });
 
 export const store = configureStore({

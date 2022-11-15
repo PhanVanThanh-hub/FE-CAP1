@@ -7,3 +7,4 @@ export * from "./UiSwitch";
 export * from "./UiModal";
 export * from "./UiIcon";
 export * from "./UiScrollBar";
+export * from "./UiToolTip";
