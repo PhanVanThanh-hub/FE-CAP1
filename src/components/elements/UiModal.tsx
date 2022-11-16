@@ -34,7 +34,10 @@ export const UiModal = ({
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Col sx={{ ...style, width: width, padding: padding }} {...children} />
+      <Col
+        sx={{ ...style, width: width, padding: padding, maxHeight: "80vh" }}
+        {...children}
+      />
     </Modal>
   );
 };

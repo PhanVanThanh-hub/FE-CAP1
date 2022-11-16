@@ -11,6 +11,7 @@ import PhotoViewer from "./page/Post/page";
 import SettingPage from "./page/Setting/page";
 import MessagePage from "./page/Mess/page";
 import NotifyPage from "./page/Notify/page";
+import ProjectsPage from "./page/Project/page";
 
 function App() {
   return (
@@ -45,6 +46,9 @@ function App() {
         </Route>
         <Route path="/notify">
           <NotifyPage />
+        </Route>
+        <Route path="/projects">
+          <ProjectsPage />
         </Route>
       </Switch>
     </ToggleColorMode>
