@@ -1,17 +1,27 @@
-import { TextField, FormLabel, FormControl } from "@mui/material";
+import {
+  TextField,
+  FormLabel,
+  FormControl,
+  InputAdornment,
+} from "@mui/material";
 import * as React from "react";
 import { Control, useController } from "react-hook-form";
+import { UiIcon } from "../elements";
 
 interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
   name: string;
   control: Control<any>;
   label?: string;
+  multiline?: boolean;
+  icon?: string;
 }
 
 export function InputField({
   name,
   control,
   label,
+  multiline,
+  icon,
   ...inputProps
 }: InputFieldProps) {
   const {
@@ -55,6 +65,7 @@ export function InputField({
               borderColor: "button.primary",
             },
           },
+
           input: {
             "&::placeholder": {
               fontSize: "14px",
@@ -70,7 +81,18 @@ export function InputField({
         helperText={error?.message}
         inputProps={inputProps}
         fullWidth
+        multiline={multiline}
         margin="normal"
+        InputProps={{
+          startAdornment: (
+            <InputAdornment
+              position="start"
+              sx={{ marginLeft: icon ? "10px" : "0px" }}
+            >
+              {icon && <UiIcon icon={icon} />}
+            </InputAdornment>
+          ),
+        }}
       />
     </FormControl>
   );

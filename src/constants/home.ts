@@ -10,6 +10,7 @@ export const MENU_ITEM = [
     url: "/notify",
   },
   { title: "Setting", icon: "ant-design:setting-outlined", url: "/settings" },
+  { title: "My Project", icon: "charm:plant-pot", url: "/my-projects" },
 ];
 
 export const phoneRegExp =

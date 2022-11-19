@@ -23,6 +23,7 @@ export interface SelectFieldProps
   label?: string;
   disabled?: boolean;
   options: SelectOptions[];
+  isMultipleSelection?: boolean;
 }
 
 export function SelectField({
@@ -31,13 +32,49 @@ export function SelectField({
   label,
   disabled,
   options,
+  isMultipleSelection = true,
 }: SelectFieldProps) {
   const {
     field: { value, onChange, onBlur },
     fieldState: { error, invalid },
   } = useController({ name, control });
   return (
-    <FormControl margin="normal" fullWidth error={invalid} disabled={disabled}>
+    <FormControl
+      margin="normal"
+      fullWidth
+      error={invalid}
+      disabled={disabled}
+      sx={{
+        margin: "0px",
+        "& label.Mui-focused": {
+          color: "button.primary",
+        },
+        "& .MuiInput-underline:after": {
+          borderBottomColor: "button.primary",
+        },
+        "& .MuiOutlinedInput-root": {
+          borderRadius: "20px",
+          fontSize: "16px",
+          paddingLeft: "5px",
+          "& fieldset": {
+            borderColor: "button.primary",
+          },
+          "&:hover fieldset": {
+            borderColor: "button.primary",
+          },
+          "&.Mui-focused fieldset": {
+            borderColor: "button.primary",
+          },
+        },
+
+        input: {
+          "&::placeholder": {
+            fontSize: "14px",
+            paddingLeft: "0px",
+          },
+        },
+      }}
+    >
       <FormLabel
         sx={{
           fontSize: "0.875rem",
@@ -53,22 +90,17 @@ export function SelectField({
         value={value}
         onChange={onChange}
         onBlur={onBlur}
-        multiple
+        multiple={isMultipleSelection}
         defaultValue={[]}
-        input={
-          <OutlinedInput
-            id="select-multiple-chip"
-            label="Chip"
-            sx={{
-              borderRadius: "20px",
-            }}
-          />
-        }
         renderValue={(selected) => (
           <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-            {selected.map((select: any) => (
-              <Chip key={select} label={select} />
-            ))}
+            {isMultipleSelection ? (
+              selected.map((select: any) => (
+                <Chip key={select} label={select} />
+              ))
+            ) : (
+              <Chip key={selected} label={selected} />
+            )}
           </Box>
         )}
       >

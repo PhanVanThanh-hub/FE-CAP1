@@ -34,6 +34,7 @@ export const UiButton = ({
       variant={variant}
       onClick={onClick}
       sx={{
+        cursor: "pointer",
         backgroundColor: backgroundColor,
         color: color,
         borderColor: borderColor,

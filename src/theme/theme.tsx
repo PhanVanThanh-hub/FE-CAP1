@@ -47,7 +47,7 @@ const ToggleColorMode = (p: any) => {
         fontSize: "0.875rem",
       },
       overline: {
-        fontSize: "0.75rem",
+        fontSize: "0.45rem",
       },
     },
     palette: {

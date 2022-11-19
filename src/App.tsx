@@ -12,6 +12,7 @@ import SettingPage from "./page/Setting/page";
 import MessagePage from "./page/Mess/page";
 import NotifyPage from "./page/Notify/page";
 import ProjectsPage from "./page/Project/page";
+import MyProjectPage from "./page/MyProject/page";
 
 function App() {
   return (
@@ -49,6 +50,9 @@ function App() {
         </Route>
         <Route path="/projects">
           <ProjectsPage />
+        </Route>
+        <Route path="/my-projects">
+          <MyProjectPage />
         </Route>
       </Switch>
     </ToggleColorMode>
