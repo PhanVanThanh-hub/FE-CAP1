@@ -10,11 +10,11 @@ import {
 } from "lodash";
 import { snakeCase } from "./string";
 
-export function formatSalary(salary: number) {
+export function formatMoney(money: number) {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
-  }).format(salary);
+  }).format(money);
 }
 
 export function snakeCaseObj(

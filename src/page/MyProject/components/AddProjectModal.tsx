@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Text,
   Col,
@@ -20,6 +20,14 @@ import parse from "date-fns/parse";
 import { formatDate } from "../../../until/helpers";
 import uuid from "react-uuid";
 import { phoneRegExp } from "../../../constants";
+import {
+  fetchAddMemberProject,
+  fetchCreateProject,
+  selectProjectID,
+} from "../../../redux/projects/projectSlice";
+import { useAppDispatch } from "../../../app/hooks";
+import { useSelector } from "react-redux";
+import { fetchProjectSuccess } from "../../../redux/uiSlice";
 
 const categories = [
   { label: "AI", value: "1" },
@@ -42,6 +50,9 @@ interface MemberProps {
   joined_date: string;
   avatar: any;
 }
+
+const URL_REGEX =
+  /^((https?|ftp):\/\/)?(www.)?(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i;
 
 interface AddMemberProps {
   handleAddMember: (information: MemberProps) => void;
@@ -225,7 +236,7 @@ const AddProjectModal = ({ isOpenModal, handleCloseModal }: Props) => {
   const initialValues: any = {
     project_name: "",
     introduce: "",
-    categories: [],
+    category: "",
     email: "",
     phone_number: "",
     abbreviations: "",
@@ -240,7 +251,7 @@ const AddProjectModal = ({ isOpenModal, handleCloseModal }: Props) => {
     .object({
       project_name: yup.string().required("Please enter company"),
       introduce: yup.string().required("Please enter position"),
-      categories: yup.array().min(1, "Please choose at least 1 category"),
+      category: yup.string().required("Please choose at least 1 category"),
       email: yup.string().email().required("Please enter email"),
       phone_number: yup
         .string()
@@ -248,10 +259,7 @@ const AddProjectModal = ({ isOpenModal, handleCloseModal }: Props) => {
       abbreviations: yup.string().required("Please enter abbreviations"),
       website: yup
         .string()
-        .matches(
-          /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
-          "Enter correct url!"
-        )
+        .matches(URL_REGEX, "Enter correct url!")
         .required("Please enter website"),
       project_owner: yup.string().required("Please enter company"),
       project_owner_position: yup.string().required("Please enter company"),
@@ -276,28 +284,54 @@ const AddProjectModal = ({ isOpenModal, handleCloseModal }: Props) => {
     })
     .required();
 
-  const {
-    control,
-    handleSubmit,
-    formState: { isSubmitting },
-  } = useForm<any>({
+  const { control, handleSubmit, reset } = useForm<any>({
     defaultValues: initialValues,
     resolver: yupResolver(schema),
   });
+  const dispatch = useAppDispatch();
   const [video, setVideo] = useState<any>();
   const [image, setImage] = useState<any>();
   const [listMember, setListMember] = useState<MemberProps[]>([]);
   const { boolBag, setBoolBag } = useBoolBag({ isAddMember: false });
   const { isAddMember } = boolBag;
+  const projectID = useSelector(selectProjectID);
 
-  const handleFormSubmit = async (formValue: any) => {};
+  useEffect(() => {
+    const postMember = async () => {
+      if (projectID) {
+        if (listMember.length) {
+          listMember.forEach(async (member: any) => {
+            const dataMember = new FormData();
+            dataMember.append("avatar", member.avatar);
+            dataMember.append("information", JSON.stringify(member));
+            dataMember.append("project", projectID);
+            await dispatch(fetchAddMemberProject(dataMember));
+          });
+        } else {
+          await dispatch(fetchProjectSuccess());
+        }
+      }
+    };
+    postMember();
+  }, [dispatch, listMember, projectID]);
+
+  const handleFormSubmit = async (formValue: any) => {
+    let data = new FormData();
+    data.append("image", image);
+    data.append("video", video);
+    data.append("form", JSON.stringify(formValue));
+    await dispatch(fetchCreateProject(data));
+    reset();
+    setImage("");
+    setVideo("");
+  };
 
   const handleAddMember = (information: MemberProps) => {
-    setListMember((prev) => [...prev, information]);
+    setListMember((prev: MemberProps[]) => [...prev, information]);
   };
 
   const removeMember = (key: string) => {
-    setListMember(listMember.filter((member) => member.key !== key));
+    setListMember(listMember.filter((member: any) => member.key !== key));
   };
 
   const onChooseImage = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -453,9 +487,9 @@ const AddProjectModal = ({ isOpenModal, handleCloseModal }: Props) => {
                           <UiInputFile
                             onChooseFile={onChooseImage}
                             accept="application/pdf, image/gif, image/jpeg"
+                            width="200px"
+                            height="150px"
                             sx={{
-                              height: "150px",
-                              width: "200px",
                               borderRadius: "12px",
                             }}
                           />
@@ -494,9 +528,9 @@ const AddProjectModal = ({ isOpenModal, handleCloseModal }: Props) => {
                           <UiInputFile
                             onChooseFile={onChooseVideo}
                             accept="video/mp4,video/x-m4v,video/*"
+                            width="200px"
+                            height="150px"
                             sx={{
-                              height: "150px",
-                              width: "200px",
                               borderRadius: "12px",
                             }}
                           />
@@ -517,7 +551,7 @@ const AddProjectModal = ({ isOpenModal, handleCloseModal }: Props) => {
                         placeholder="Position Product Owner"
                       />
                       <SelectField
-                        name="categories"
+                        name="category"
                         control={control}
                         label="Category Projects"
                         options={categories}

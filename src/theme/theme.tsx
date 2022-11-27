@@ -70,7 +70,8 @@ const ToggleColorMode = (p: any) => {
             divider: "rgb(213, 217, 233)",
             success: { main: "rgb(46, 125, 50)" },
             action: {
-              hover: "rgb(236, 64, 122)",
+              active: "rgb(236, 64, 122)",
+              hover: "rgba(213, 217, 233, 0.082)",
             },
           }
         : {}),

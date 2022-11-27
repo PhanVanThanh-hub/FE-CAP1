@@ -1,5 +1,5 @@
 export interface ListResponse<T> {
-  data: T[];
+  response: { data: { data: T[] } };
 }
 
 export interface ResponseApi<T> {
@@ -7,7 +7,11 @@ export interface ResponseApi<T> {
 }
 
 export interface ListResponseFilter<T> {
-  data: { results?: T[]; count?: number; order?: T[] };
+  data: { results: T[]; count?: number; order?: T[] };
+}
+
+export interface PaginationResponse<T> {
+  response: { data: { count: number; results: T[] } };
 }
 
 export interface PostSuccessResponse {

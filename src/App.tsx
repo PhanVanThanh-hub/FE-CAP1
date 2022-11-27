@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ToggleColorMode from "./theme/theme";
 import { Route, Switch } from "react-router-dom";
 import SignInForm from "./page/Auth/components/SignInForm";
@@ -13,8 +13,40 @@ import MessagePage from "./page/Mess/page";
 import NotifyPage from "./page/Notify/page";
 import ProjectsPage from "./page/Project/page";
 import MyProjectPage from "./page/MyProject/page";
+import { useSelector } from "react-redux";
+import {
+  selectFinishedCallApi,
+  selectLoading,
+  selectMess,
+  selectStatus,
+} from "./redux/uiSlice";
+import { STATUS_AXIOS } from "./constants";
+import Swal from "sweetalert2";
 
 function App() {
+  const loading = useSelector(selectLoading);
+  const mess = useSelector(selectMess);
+  const status = useSelector(selectStatus);
+  const finishedCallApi = useSelector(selectFinishedCallApi);
+
+  useEffect(() => {
+    if (finishedCallApi) {
+      if (status === STATUS_AXIOS.OK) {
+        Swal.fire({
+          title: mess,
+          text: mess,
+          icon: "success",
+        });
+      } else {
+        Swal.fire({
+          title: mess,
+          text: mess,
+          icon: "error",
+        });
+      }
+    }
+  }, [finishedCallApi, mess, status]);
+
   return (
     <ToggleColorMode>
       <Switch>

@@ -29,7 +29,7 @@ const MenuChildren = ({ icon, title, url }: MenuChildrenProps) => {
         marginTop: "10px",
         cursor: "pointer",
         "& :hover": {
-          color: "action.hover",
+          color: "action.active",
         },
       }}
     >

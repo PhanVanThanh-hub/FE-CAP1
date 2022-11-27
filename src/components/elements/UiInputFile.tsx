@@ -5,12 +5,16 @@ interface Props {
   accept?: string;
   onChooseFile: (event: React.ChangeEvent<HTMLInputElement>) => void;
   sx?: any;
+  width?: string;
+  height?: string;
 }
 
 export const UiInputFile = ({
   onChooseFile,
   accept = ".html",
   sx,
+  width = "80px",
+  height = "80px",
   ...rest
 }: Props) => {
   return (
@@ -21,7 +25,8 @@ export const UiInputFile = ({
         overflow: "hidden",
         pos: "relative",
         backgroundColor: "background.default",
-        width: "80px",
+        width: width,
+        height: height,
         padding: "15px 10px",
         justifyContent: "center",
         ...sx,
@@ -33,7 +38,8 @@ export const UiInputFile = ({
         style={{
           opacity: 0,
           position: "absolute",
-          width: "100%",
+          width: width,
+          height: height,
           cursor: "pointer",
         }}
         onChange={(e) => onChooseFile(e)}

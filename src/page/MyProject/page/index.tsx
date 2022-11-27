@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Grid } from "@mui/material";
 import Menu from "../components/Menu";
-import { Route, Switch, useRouteMatch } from "react-router-dom";
+import { useRouteMatch } from "react-router-dom";
 import ProjectList from "../components/ProjectList";
 
 const MyProjectPage = () => {

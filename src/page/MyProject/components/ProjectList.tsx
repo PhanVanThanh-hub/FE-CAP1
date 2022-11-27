@@ -1,38 +1,48 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Col, Row, Text, UiIcon } from "../../../components/elements";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import { Chip } from "@mui/material";
+import {
+  Chip,
+  Table,
+  Paper,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 import AddProjectModal from "./AddProjectModal";
 import { useBoolBag } from "../../../hooks";
-
-function createData(
-  id: string,
-  name: string,
-  fat: number,
-  carbs: number,
-  protein: number,
-  status: boolean
-) {
-  return { id, name, fat, carbs, protein, status };
-}
-
-const rows = [
-  createData("#1231", "Frozen yoghurt", 6.0, 24, 4.0, true),
-  createData("#1k30", "Ice cream sandwich", 9.0, 37, 4.3, false),
-  createData("#wq213", "Eclair", 16.0, 24, 6.0, false),
-  createData("#921", "Cupcake", 3.7, 67, 4.3, true),
-  createData("#3291", "Gingerbread", 16.0, 49, 3.9, false),
-];
+import { useAppDispatch } from "../../../app/hooks";
+import { useSelector } from "react-redux";
+import {
+  fetchProjectsStartup,
+  selectProjectsStartup,
+} from "../../../redux/projects/projectSlice";
+import { ProjectApiItem } from "../../../types/models/projects";
+import { formatDate } from "../../../until/helpers";
+import { selectFinishedCallApi, selectStatus } from "../../../redux/uiSlice";
+import { STATUS_AXIOS } from "../../../constants";
 
 const ProjectList = () => {
   const { boolBag, setBoolBag } = useBoolBag({ isOpenModal: false });
   const { isOpenModal } = boolBag;
+  const dispatch = useAppDispatch();
+  const projects = useSelector(selectProjectsStartup);
+  const status = useSelector(selectStatus);
+  const isFinishCallApi = useSelector(selectFinishedCallApi);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await dispatch(fetchProjectsStartup());
+    };
+    fetchData();
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (status === STATUS_AXIOS.OK) {
+      setBoolBag({ isOpenModal: false });
+    }
+  }, [setBoolBag, status, isFinishCallApi]);
 
   const handleCloseModal = () => {
     setBoolBag({ isOpenModal: false });
@@ -63,50 +73,71 @@ const ProjectList = () => {
         </Row>
         <Col sx={{ padding: "20px 0px", overflow: "hidden" }}>
           <TableContainer component={Paper}>
-            <Table
-              sx={{
-                [`& .${tableCellClasses.root}`]: {
-                  borderBottom: "none",
-                },
-              }}
-              aria-label="simple table"
-            >
+            <Table sx={{}} aria-label="simple table">
               <TableHead>
                 <TableRow>
                   <TableCell>ID</TableCell>
-                  <TableCell>Dessert (100g serving)</TableCell>
-                  <TableCell align="right">Calories</TableCell>
-                  <TableCell align="right">Fat&nbsp;(g)</TableCell>
-                  <TableCell align="right">Protein&nbsp;(g)</TableCell>
+                  <TableCell>Project Name</TableCell>
+                  <TableCell>Category</TableCell>
+                  <TableCell>Project Owner</TableCell>
+                  <TableCell>Establish</TableCell>
                   <TableCell align="center">Status</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
-                  <TableRow
-                    key={row.name}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    <TableCell>{row.id}</TableCell>
-                    <TableCell component="th" scope="row">
-                      {row.name}
-                    </TableCell>
-                    <TableCell align="right">{row.fat}</TableCell>
-                    <TableCell align="right">{row.carbs}</TableCell>
-                    <TableCell align="right">{row.protein}</TableCell>
-                    <TableCell align="center">
-                      {row.status ? (
-                        <Chip label="Open" color="success" variant="outlined" />
-                      ) : (
-                        <Chip
-                          label="Close"
-                          color="warning"
-                          variant="outlined"
-                        />
-                      )}
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {projects.map((project: ProjectApiItem) => {
+                  const {
+                    id,
+                    project_name,
+                    category,
+                    project_owner,
+                    email,
+                    establish,
+                    status,
+                  } = project;
+                  return (
+                    <TableRow
+                      key={id}
+                      hover
+                      sx={{
+                        cursor: "pointer",
+                        "& .MuiTableCell-root": {
+                          fontSize: "0.875rem",
+                          color: "rgb(213, 217, 233)",
+                          borderColor: "rgba(213, 217, 233, 0.082)",
+                          borderBottom: "1px solid rgba(213, 217, 233, 0.082)",
+                          maxWidth: 100,
+                        },
+                        "&:last-child td, &:last-child th": { border: 0 },
+                      }}
+                    >
+                      <TableCell>#{id}</TableCell>
+                      <TableCell component="th" scope="row">
+                        {project_name}
+                      </TableCell>
+                      <TableCell>{category.name}</TableCell>
+                      <TableCell>
+                        {project_owner} - {email}
+                      </TableCell>
+                      <TableCell>{formatDate(establish)}</TableCell>
+                      <TableCell align="center">
+                        {status ? (
+                          <Chip
+                            label="Open"
+                            color="success"
+                            variant="outlined"
+                          />
+                        ) : (
+                          <Chip
+                            label="Close"
+                            color="warning"
+                            variant="outlined"
+                          />
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           </TableContainer>
