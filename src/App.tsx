@@ -22,12 +22,16 @@ import {
 } from "./redux/uiSlice";
 import { STATUS_AXIOS } from "./constants";
 import Swal from "sweetalert2";
+import { getAccessTokenFromStorage } from "./services/auth";
+import { selectTokenUser } from "./redux/auth/authSlice";
 
 function App() {
   const loading = useSelector(selectLoading);
   const mess = useSelector(selectMess);
   const status = useSelector(selectStatus);
   const finishedCallApi = useSelector(selectFinishedCallApi);
+  const isAuth = getAccessTokenFromStorage();
+  const tokenUser = useSelector(selectTokenUser);
 
   useEffect(() => {
     if (finishedCallApi) {
@@ -49,44 +53,49 @@ function App() {
 
   return (
     <ToggleColorMode>
-      <Switch>
-        <Route path="/sign-in" exact>
-          <SignInForm />
-        </Route>
-        <Route path="/sign-up" exact>
-          <SignUpPage />
-        </Route>
-        <Route path="/find-account" exact>
-          <FindYourAccountPage />
-        </Route>
-        <Route path="/otp" exact>
-          <EnterOTPPage />
-        </Route>
-        <Route path="/reset-password" exact>
-          <ResetPasswordPage />
-        </Route>
-        <Route path="/" exact>
-          <HomePage />
-        </Route>
-        <Route path="/post" exact>
-          <PhotoViewer />
-        </Route>
-        <Route path="/settings">
-          <SettingPage />
-        </Route>
-        <Route path="/message">
-          <MessagePage />
-        </Route>
-        <Route path="/notify">
-          <NotifyPage />
-        </Route>
-        <Route path="/projects">
-          <ProjectsPage />
-        </Route>
-        <Route path="/my-projects">
-          <MyProjectPage />
-        </Route>
-      </Switch>
+      {isAuth || tokenUser ? (
+        <Switch>
+          <Route path="/" exact>
+            <HomePage />
+          </Route>
+          <Route path="/post" exact>
+            <PhotoViewer />
+          </Route>
+          <Route path="/settings">
+            <SettingPage />
+          </Route>
+          <Route path="/message">
+            <MessagePage />
+          </Route>
+          <Route path="/notify">
+            <NotifyPage />
+          </Route>
+          <Route path="/projects">
+            <ProjectsPage />
+          </Route>
+          <Route path="/my-projects">
+            <MyProjectPage />
+          </Route>
+        </Switch>
+      ) : (
+        <Switch>
+          <Route path="/" exact>
+            <SignInForm />
+          </Route>
+          <Route path="/sign-up" exact>
+            <SignUpPage />
+          </Route>
+          <Route path="/find-account" exact>
+            <FindYourAccountPage />
+          </Route>
+          <Route path="/otp" exact>
+            <EnterOTPPage />
+          </Route>
+          <Route path="/reset-password" exact>
+            <ResetPasswordPage />
+          </Route>
+        </Switch>
+      )}
     </ToggleColorMode>
   );
 }

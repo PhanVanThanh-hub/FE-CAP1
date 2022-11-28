@@ -30,6 +30,7 @@ export interface AuthState {
   otp: string;
   isLoginStatus: boolean;
   isLogin: boolean;
+  userToken: string;
 }
 
 const initialState: AuthState = {
@@ -43,6 +44,7 @@ const initialState: AuthState = {
   otp: "",
   isLoginStatus: false,
   isLogin: false,
+  userToken: "",
 };
 
 const authSlice = createSlice({
@@ -116,6 +118,7 @@ const authSlice = createSlice({
       saveUserCredential({ access: access, refresh: refresh });
       state.isLogin = true;
       state.isLoginStatus = true;
+      state.userToken = access;
     },
     setIsLogin(state, action: PayloadAction<boolean>) {
       state.isLogin = action.payload;
@@ -164,6 +167,7 @@ export const selectIsLogin = (state: RootState) => state.auth.isLogin;
 export const selectIsLoginStatus = (state: RootState) =>
   state.auth.isLoginStatus;
 export const selectIsLoading = (state: RootState) => state.auth.loading;
+export const selectTokenUser = (state: RootState) => state.auth.userToken;
 //Reducer
 const authReducer = authSlice.reducer;
 export default authReducer;
