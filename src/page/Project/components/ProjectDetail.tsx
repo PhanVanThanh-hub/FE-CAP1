@@ -14,6 +14,8 @@ import Member from "./Member";
 import Video from "./Video";
 import image from "../../../assets/image/auth/sign-up.png";
 import * as Scroll from "react-scroll";
+import { useParams } from "react-router-dom";
+import { ParamsProps } from "../../../types/models/app";
 
 interface ModalProps {
   open: boolean;
@@ -22,6 +24,9 @@ interface ModalProps {
 let Link = Scroll.Link;
 
 const ProjectDetailModal = ({ open, handleClose }: ModalProps) => {
+  const params = useParams<ParamsProps>();
+  const { id } = params;
+
   return (
     <UiModal open={true} onClose={handleClose} width="80%">
       <Grid container>

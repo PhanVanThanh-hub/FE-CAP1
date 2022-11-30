@@ -1,6 +1,8 @@
 import { StartupApiItem, CategoryApiItem } from "./auth";
 
 export interface MemberApiItem {
+  project: ProjectApiItem;
+  id: string;
   name: string;
   position: string;
   avatar: string;
@@ -16,7 +18,7 @@ export interface ProjectApiItem {
   project_owner_position: string;
   category: CategoryApiItem;
   establish: string;
-  investment: string;
+  investment: number;
   percent: string;
   email: string;
   website: string;
@@ -25,6 +27,7 @@ export interface ProjectApiItem {
   image: string;
   video: string;
   status: string;
+  members?: MemberApiItem[];
 }
 
 export interface ProjectMember {

@@ -1,23 +1,31 @@
 import { TextField, FormControl, InputAdornment } from "@mui/material";
-import * as React from "react";
+import React, { useState } from "react";
 import { UiIcon } from "./UiIcon";
 
 interface Props {
   placeholder: string;
   width?: string;
   icon?: string;
+  onChange: (projectName: string) => void;
 }
 
-export function UiInputField({ placeholder, width, icon }: Props) {
+export function UiInputField({ placeholder, width, icon, onChange }: Props) {
+  const [value, setValue] = useState<string>("");
+
   return (
     <FormControl>
       <TextField
+        value={value}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start" sx={{ marginLeft: "10px" }}>
               {icon && <UiIcon icon={icon} />}
             </InputAdornment>
           ),
+        }}
+        onChange={(e) => {
+          setValue(e.target.value);
+          onChange(e.target.value);
         }}
         sx={{
           margin: "0px",
@@ -43,6 +51,7 @@ export function UiInputField({ placeholder, width, icon }: Props) {
             },
           },
           input: {
+            padding: "10px 5px",
             "&::placeholder": {
               fontSize: "14px",
               paddingLeft: "0px",

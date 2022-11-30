@@ -8,20 +8,34 @@ import {
   fetchAddMemberProject,
   fetchCreateProject,
   fetchCreateProjectSuccess,
+  fetchMember,
   fetchProjects,
   fetchProjectsStartup,
-  fetchProjectsStartupSuccess,
+  fetchProjectsSuccess,
 } from "./projectSlice";
 
-function* getProject() {
-  yield call(projectApi.getProjects);
+function* getProject(action: PayloadAction<any>) {
+  const responsive: PaginationResponse<ProjectApiItem> = yield call(
+    projectApi.getProjects,
+    action.payload
+  );
+  yield put(fetchProjectsSuccess(responsive));
 }
 
-function* getProjectsStartup() {
+function* getMember(action: PayloadAction<any>) {
   const responsive: PaginationResponse<ProjectApiItem> = yield call(
-    projectApi.getProjectsStartup
+    projectApi.getMember,
+    action.payload
   );
-  yield put(fetchProjectsStartupSuccess(responsive));
+  console.log("responsive:", responsive);
+}
+
+function* getProjectsStartup(action: PayloadAction<any>) {
+  const responsive: PaginationResponse<ProjectApiItem> = yield call(
+    projectApi.getProjectsStartup,
+    action.payload
+  );
+  yield put(fetchProjectsSuccess(responsive));
 }
 
 function* createProject(action: PayloadAction<any>) {
@@ -55,4 +69,5 @@ export default function* projectSaga() {
   yield takeLatest(fetchProjectsStartup.type, getProjectsStartup);
   yield takeLatest(fetchCreateProject.type, createProject);
   yield takeLatest(fetchAddMemberProject.type, addMemberProject);
+  yield takeLatest(fetchMember.type, getMember);
 }

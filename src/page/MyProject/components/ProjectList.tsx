@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Row, Text, UiIcon } from "../../../components/elements";
 import {
   Chip,
@@ -9,6 +9,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Pagination,
 } from "@mui/material";
 import AddProjectModal from "./AddProjectModal";
 import { useBoolBag } from "../../../hooks";
@@ -16,12 +17,15 @@ import { useAppDispatch } from "../../../app/hooks";
 import { useSelector } from "react-redux";
 import {
   fetchProjectsStartup,
+  selectCountProjectsPagination,
   selectProjectsStartup,
 } from "../../../redux/projects/projectSlice";
 import { ProjectApiItem } from "../../../types/models/projects";
 import { formatDate } from "../../../until/helpers";
 import { selectFinishedCallApi, selectStatus } from "../../../redux/uiSlice";
 import { STATUS_AXIOS } from "../../../constants";
+
+const PAGE_SIZE = 5;
 
 const ProjectList = () => {
   const { boolBag, setBoolBag } = useBoolBag({ isOpenModal: false });
@@ -30,13 +34,16 @@ const ProjectList = () => {
   const projects = useSelector(selectProjectsStartup);
   const status = useSelector(selectStatus);
   const isFinishCallApi = useSelector(selectFinishedCallApi);
+  const count = useSelector(selectCountProjectsPagination);
+  const pagination = Math.ceil(count / PAGE_SIZE);
+  const [page, setPage] = useState<number>(1);
 
   useEffect(() => {
     const fetchData = async () => {
-      await dispatch(fetchProjectsStartup());
+      dispatch(fetchProjectsStartup({ page }));
     };
     fetchData();
-  }, [dispatch]);
+  }, [dispatch, page]);
 
   useEffect(() => {
     if (status === STATUS_AXIOS.OK) {
@@ -46,6 +53,10 @@ const ProjectList = () => {
 
   const handleCloseModal = () => {
     setBoolBag({ isOpenModal: false });
+  };
+
+  const changePage = (event: any, pageNumber: number) => {
+    setPage(pageNumber);
   };
 
   return (
@@ -142,6 +153,13 @@ const ProjectList = () => {
             </Table>
           </TableContainer>
         </Col>
+        <Row sx={{ justifyContent: "flex-end", margin: "10px 0px" }}>
+          <Pagination
+            count={pagination}
+            color="secondary"
+            onChange={changePage}
+          />
+        </Row>
       </Col>
       <AddProjectModal
         isOpenModal={isOpenModal}

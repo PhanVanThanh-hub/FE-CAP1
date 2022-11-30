@@ -8,6 +8,7 @@ interface Props {
   options: { key: number; name: string }[];
   placeholder: string;
   width?: string;
+  setSelectedCategories?: any;
 }
 
 const UiAutoComplete = ({
@@ -15,6 +16,7 @@ const UiAutoComplete = ({
   options,
   placeholder,
   width,
+  setSelectedCategories,
 }: Props) => {
   return (
     <Autocomplete
@@ -25,6 +27,7 @@ const UiAutoComplete = ({
       disableCloseOnSelect
       getOptionLabel={(option) => option.name}
       filterSelectedOptions
+      onChange={(event, value) => setSelectedCategories(value)}
       sx={{
         margin: "0px",
         width: width,

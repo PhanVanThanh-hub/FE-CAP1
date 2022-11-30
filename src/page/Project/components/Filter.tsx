@@ -1,33 +1,97 @@
-import { Autocomplete, Checkbox, TextField } from "@mui/material";
-import React from "react";
-import { Col, Row, UiButton, UiInputField } from "../../../components/elements";
-import UiAutoComplete from "../../../components/elements/UiAutoComplete";
-import { categories, COLOR } from "../../../constants";
+import {
+  CardMedia,
+  Chip,
+  styled,
+  Tooltip,
+  tooltipClasses,
+  TooltipProps,
+} from "@mui/material";
+import React, { useState } from "react";
+import { Col, Row, UiInputField, Text } from "../../../components/elements";
+import { categories } from "../../../constants";
 
-const Filter = () => {
+interface Props {
+  handleFilterCategory: (category: string) => void;
+  handleFilterSearch: (projectName: string) => void;
+}
+
+const StyledTooltip = styled(({ className, ...props }: TooltipProps) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(() => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: "rgba(12, 7, 10, 0.8)",
+    color: "white",
+    fontSize: "0.95rem",
+    padding: "10px 15px",
+  },
+}));
+
+const Filter = ({ handleFilterCategory, handleFilterSearch }: Props) => {
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
+
   return (
     <Col>
       <Row>
         <Row
           sx={{
-            backgroundColor: "background.default",
+            backgroundColor: "background.paper",
             width: "100%",
             padding: "10px 20px",
             borderRadius: "12px",
             alignItems: "center",
+            justifyContent: "space-between",
           }}
         >
-          <UiInputField placeholder="Search" icon="material-symbols:search" />
-          <Row sx={{ margin: "0px 10px" }} />
-          <UiAutoComplete
-            multiple={true}
-            options={categories}
-            placeholder="Categories"
-            width="500px"
-          />
-          <UiButton sx={{ marginLeft: "20px" }}>Search</UiButton>
+          <Row sx={{ alignItems: "center" }}>
+            <Text>
+              Filter by category :
+              {selectedCategory && (
+                <Chip
+                  variant="outlined"
+                  label={selectedCategory}
+                  onDelete={() => {
+                    handleFilterCategory("");
+                    setSelectedCategory("");
+                  }}
+                />
+              )}
+            </Text>
+            {categories.map((category) => {
+              return (
+                <StyledTooltip key={category.key} title={category.name}>
+                  <div>
+                    <Row
+                      onClick={() => {
+                        handleFilterCategory(category.name);
+                        setSelectedCategory(category.name);
+                      }}
+                      sx={{
+                        marginLeft: "10px",
+                        borderRadius: "50%",
+                        overflow: "hidden",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <CardMedia
+                        component="img"
+                        height="30px"
+                        image={category.logo}
+                        style={{ width: "30px" }}
+                      />
+                    </Row>
+                  </div>
+                </StyledTooltip>
+              );
+            })}
+          </Row>
+          <Row sx={{ margin: "0px 10px", alignItems: "center" }}>
+            <UiInputField
+              placeholder="Search"
+              icon="material-symbols:search"
+              onChange={handleFilterSearch}
+            />
+          </Row>
         </Row>
-        <Row></Row>
       </Row>
     </Col>
   );

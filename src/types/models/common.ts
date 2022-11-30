@@ -11,7 +11,9 @@ export interface ListResponseFilter<T> {
 }
 
 export interface PaginationResponse<T> {
-  response: { data: { count: number; results: T[] } };
+  response: {
+    data: { count: number; results: T[]; next: string; previous: string };
+  };
 }
 
 export interface PostSuccessResponse {
