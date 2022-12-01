@@ -22,6 +22,7 @@ export interface projectState {
   count: number;
   nextPage: string;
   previousPage: string;
+  project?: ProjectApiItem;
 }
 
 const initialState: projectState = {
@@ -35,6 +36,7 @@ const initialState: projectState = {
   count: 0,
   nextPage: "",
   previousPage: "",
+  project: undefined,
 };
 
 const projectSlice = createSlice({
@@ -43,6 +45,9 @@ const projectSlice = createSlice({
   reducers: {
     //All Project
     fetchProjects(state, action: PayloadAction<any>) {
+      state.loading = true;
+    },
+    fetchProjectByID(state, action: PayloadAction<any>) {
       state.loading = true;
     },
     fetchRequestAuthSuccess(state, action: PayloadAction<PostSuccessResponse>) {
@@ -65,6 +70,12 @@ const projectSlice = createSlice({
       state.nextPage = action.payload.response.data.next;
       state.previousPage = action.payload.response.data.previous;
     },
+    fetchProjectByIDSuccess(
+      state,
+      action: PayloadAction<PaginationResponse<ProjectApiItem>>
+    ) {
+      state.project = action.payload.response.data.results[0];
+    },
     fetchCreateProject(state, action: PayloadAction<any>) {
       state.loading = true;
     },
@@ -80,6 +91,7 @@ const projectSlice = createSlice({
 //Actions
 export const {
   fetchProjects,
+  fetchProjectByID,
   fetchRequestAuthSuccess,
   fetchRequestAuthFailure,
   fetchProjectsStartup,
@@ -88,6 +100,7 @@ export const {
   fetchAddMemberProject,
   fetchCreateProjectSuccess,
   fetchMember,
+  fetchProjectByIDSuccess,
 } = projectSlice.actions;
 //Selectors
 export const selectRole = (state: RootState) => state.auth.role;
@@ -101,6 +114,7 @@ export const selectCountProjectsPagination = (state: RootState) =>
 export const selectNextPage = (state: RootState) => state.projects.nextPage;
 export const selectPreviousPage = (state: RootState) =>
   state.projects.previousPage;
+export const selectProject = (state: RootState) => state.projects.project;
 //Reducer
 const projectReducer = projectSlice.reducer;
 export default projectReducer;

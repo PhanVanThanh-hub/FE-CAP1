@@ -35,7 +35,6 @@ const Investment = () => {
       <Row sx={{ margin: "10px 0px", justifyContent: "center" }}>
         <Row sx={{ width: "50%", justifyContent: "space-around" }}>
           <UiButton>Deal with startup</UiButton>
-          <UiButton>Add to favorites</UiButton>
         </Row>
       </Row>
     </Col>

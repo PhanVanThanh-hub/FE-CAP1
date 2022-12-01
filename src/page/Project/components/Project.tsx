@@ -4,8 +4,6 @@ import { Col, Row, Text } from "../../../components/elements";
 import { formatMoney } from "../../../until/helpers/functions";
 import { MemberApiItem, ProjectApiItem } from "../../../types/models/projects";
 import { formatShortDateTime } from "../../../until/helpers";
-import { useParams } from "react-router-dom";
-import { ParamsProps } from "../../../types/models/app";
 
 interface Props {
   project: ProjectApiItem;
@@ -20,6 +18,7 @@ const Project = ({ project }: Props) => {
     investment,
     percent,
     members,
+    category,
   } = project;
 
   return (
@@ -36,17 +35,32 @@ const Project = ({ project }: Props) => {
         },
       }}
     >
-      <CardMedia
-        component="img"
-        sx={{
-          margin: "10px 0px",
-          height: "150px",
-          width: "100%",
-          borderRadius: "12px",
-        }}
-        image={image}
-        alt="Paella dish"
-      />
+      <Row sx={{ position: "relative" }}>
+        <CardMedia
+          component="img"
+          sx={{
+            margin: "10px 0px",
+            height: "150px",
+            width: "100%",
+            borderRadius: "12px",
+          }}
+          image={image}
+          alt="Paella dish"
+        />
+        <CardMedia
+          component="img"
+          height="30px"
+          image={category.logo}
+          style={{
+            width: "30px",
+            position: "absolute",
+            borderRadius: "50%",
+            top: "50%",
+            left: "-5%",
+          }}
+        />
+      </Row>
+
       <Text fontSize="body2" sx={{ fontWeight: "bold" }}>
         {project_name}
       </Text>

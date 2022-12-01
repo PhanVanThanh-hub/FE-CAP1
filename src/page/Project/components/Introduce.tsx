@@ -8,6 +8,12 @@ import TimelineConnector from "@mui/lab/TimelineConnector";
 import TimelineContent from "@mui/lab/TimelineContent";
 import TimelineDot from "@mui/lab/TimelineDot";
 import { COLOR } from "../../../constants";
+import { ProjectApiItem } from "../../../types/models/projects";
+import { formatShortDateTime } from "../../../until/helpers";
+
+interface Props {
+  project: ProjectApiItem;
+}
 
 const TimelineSeparatorStyle = () => {
   return (
@@ -18,7 +24,17 @@ const TimelineSeparatorStyle = () => {
   );
 };
 
-const Introduce = () => {
+const Introduce = ({ project }: Props) => {
+  const {
+    abbreviations,
+    email,
+    phone_number,
+    website,
+    project_owner,
+    project_owner_position,
+    category,
+    establish,
+  } = project;
   return (
     <Col>
       <Grid container>
@@ -27,18 +43,10 @@ const Introduce = () => {
             <Text fontSize="subtitle1" sx={{ fontWeight: "bold" }}>
               Introduce
             </Text>
-            <Text sx={{ margin: "20px 0px" }}>
-              Currently, young start-ups appear a lot with new and attractive
-              projects, but along with new projects is the cost and capital to
-              develop that project successfully, so in addition to the start-up
-              having a stable source of capital for the project, some start-ups
-              will go to call for capital from investors, and calling for
-              investors has many ways: direct contact with investors, or through
-              fundraising platforms or social networking sites.
-            </Text>
-            <Row>
+            <Text sx={{ margin: "20px 0px" }}>{project.introduce} </Text>
+            {/* <Row>
               <UiButton>See More</UiButton>
-            </Row>
+            </Row> */}
             <Col>
               <Text fontSize="body1" sx={{ fontWeight: "bold" }}>
                 Contact Info
@@ -53,18 +61,30 @@ const Introduce = () => {
                   <Text sx={{ width: "30%" }}>Full name</Text>
                   <Text>The community startups website</Text>
                 </Row>
-                <Row>
-                  <Text sx={{ width: "30%" }}>Abbreviations</Text>
-                  <Text>CSW</Text>
-                </Row>
-                <Row>
-                  <Text sx={{ width: "30%" }}>Email</Text>
-                  <Text>csw_startups@gmail.com</Text>
-                </Row>
-                <Row>
-                  <Text sx={{ width: "30%" }}>Website</Text>
-                  <Text>https://cswstartups.vn</Text>
-                </Row>
+                {abbreviations && (
+                  <Row>
+                    <Text sx={{ width: "30%" }}>Abbreviations</Text>
+                    <Text>{abbreviations}</Text>
+                  </Row>
+                )}
+                {email && (
+                  <Row>
+                    <Text sx={{ width: "30%" }}>Email</Text>
+                    <Text>{email}</Text>
+                  </Row>
+                )}
+                {website && (
+                  <Row>
+                    <Text sx={{ width: "30%" }}>Website</Text>
+                    <Text>{website}</Text>
+                  </Row>
+                )}
+                {phone_number && (
+                  <Row>
+                    <Text sx={{ width: "30%" }}>Phone Number</Text>
+                    <Text>{phone_number}</Text>
+                  </Row>
+                )}
               </Col>
             </Col>
           </Col>
@@ -86,8 +106,8 @@ const Introduce = () => {
                   <Row sx={{ marginTop: "10px" }}>
                     <Avatar />
                     <Col sx={{ marginLeft: "10px" }}>
-                      <Text>Esther Howard</Text>
-                      <Text>CEO</Text>
+                      <Text>{project_owner}</Text>
+                      <Text>{project_owner_position}</Text>
                     </Col>
                   </Row>
                 </Col>
@@ -99,7 +119,7 @@ const Introduce = () => {
                 <Col>
                   <Text sx={{ fontWeight: "bold" }}>Category</Text>
                   <Text fontSize="caption" sx={{ marginTop: "10px" }}>
-                    Education
+                    {category.name}
                   </Text>
                 </Col>
               </TimelineContent>
@@ -110,7 +130,7 @@ const Introduce = () => {
                 <Col>
                   <Text sx={{ fontWeight: "bold" }}>Establish</Text>
                   <Text fontSize="caption" sx={{ marginTop: "10px" }}>
-                    08/2022
+                    {formatShortDateTime(establish)}
                   </Text>
                 </Col>
               </TimelineContent>

@@ -28,8 +28,9 @@ export interface RegisterApiItem {
 }
 
 export interface CategoryApiItem {
-  id?: string;
-  name?: string;
+  id: string;
+  name: string;
+  logo: string;
 }
 
 export interface RoleApiItem {

@@ -23,11 +23,17 @@ const ProjectList = ({ projects }: Props) => {
     setBoolBag({ openModalProjectDetail: false });
     history.push("/projects");
   };
+
   return (
     <Col
-      sx={{ alignItems: "center", justifyContent: "center", height: "100%" }}
+      sx={{
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100%",
+        minHeight: "70vh",
+      }}
     >
-      {!!!projects && (
+      {!!!projects.length && (
         <Col sx={{ alignItems: "center", justifyContent: "center" }}>
           <UiIcon icon="charm:plant-pot" size="300" />
           <Text fontSize="subtitle1">

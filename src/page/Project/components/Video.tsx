@@ -1,12 +1,17 @@
 import React from "react";
-import { Col, Row, Text, UiButton } from "../../../components/elements";
+import { Col, Row, Text } from "../../../components/elements";
 import ModalVideo from "react-modal-video";
 import { useBoolBag } from "../../../hooks";
 import "./video.scss";
 import { CardMedia } from "@mui/material";
 import img from "../../../assets/image/auth/sign-in.png";
 
-const Video = () => {
+interface Props {
+  video: string;
+  image: string;
+}
+
+const Video = ({ video, image }: Props) => {
   const { boolBag, setBoolBag } = useBoolBag({ isOpenVideo: false });
   const { isOpenVideo } = boolBag;
   return (
@@ -23,7 +28,7 @@ const Video = () => {
       >
         <CardMedia
           component="img"
-          image={img}
+          image={image}
           sx={{
             height: "15.625em",
             width: "25em",
@@ -47,7 +52,7 @@ const Video = () => {
       <ModalVideo
         channel="custom"
         isOpen={isOpenVideo}
-        url="../../../assets/video/video1.mp4"
+        url={video}
         onClose={() => setBoolBag({ isOpenVideo: false })}
       />
     </Col>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { CardMedia, Grid } from "@mui/material";
 import {
   Col,
@@ -16,6 +16,12 @@ import image from "../../../assets/image/auth/sign-up.png";
 import * as Scroll from "react-scroll";
 import { useParams } from "react-router-dom";
 import { ParamsProps } from "../../../types/models/app";
+import { useAppDispatch } from "../../../app/hooks";
+import {
+  fetchProjectByID,
+  selectProject,
+} from "../../../redux/projects/projectSlice";
+import { useSelector } from "react-redux";
 
 interface ModalProps {
   open: boolean;
@@ -24,8 +30,19 @@ interface ModalProps {
 let Link = Scroll.Link;
 
 const ProjectDetailModal = ({ open, handleClose }: ModalProps) => {
+  const dispatch = useAppDispatch();
   const params = useParams<ParamsProps>();
   const { id } = params;
+  const project = useSelector(selectProject);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await dispatch(fetchProjectByID({ id: id }));
+    };
+    fetchData();
+  }, [dispatch, id]);
+
+  console.log("project:", project);
 
   return (
     <UiModal open={true} onClose={handleClose} width="80%">
@@ -83,7 +100,9 @@ const ProjectDetailModal = ({ open, handleClose }: ModalProps) => {
         <Grid item xs={9} sx={{ height: "100%" }}>
           <Col>
             <Col>
-              <Text fontSize="h6">CSW - The community startups website</Text>
+              <Text fontSize="h6">
+                {project?.abbreviations} - {project?.project_name}
+              </Text>
               <Text sx={{ marginTop: "20px" }}>
                 Website for the startup community that aids in introducing and
                 promoting startup ideas. To help the Start-up that want to
@@ -91,12 +110,14 @@ const ProjectDetailModal = ({ open, handleClose }: ModalProps) => {
               </Text>
               <UiDivider />
               <UiScrollBar>
-                <Col sx={{ maxHeight: "60vh" }}>
-                  <Introduce />
-                  <Video />
-                  <Member />
-                  <Investment />
-                </Col>
+                {project && (
+                  <Col sx={{ maxHeight: "60vh" }}>
+                    <Introduce project={project} />
+                    <Video video={project.video} image={project.image} />
+                    {project.members && <Member members={project.members} />}
+                    <Investment />
+                  </Col>
+                )}
               </UiScrollBar>
             </Col>
           </Col>

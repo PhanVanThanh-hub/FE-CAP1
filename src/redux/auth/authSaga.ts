@@ -47,6 +47,7 @@ function* getCategory() {
   const responsive: ResponseApi<CategoryApiItem[]> = yield call(
     authApi.getCategory
   );
+  console.log("re:", responsive);
   yield put(fetchCategorySuccess(responsive));
 }
 

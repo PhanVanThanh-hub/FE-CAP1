@@ -6,9 +6,12 @@ import {
   tooltipClasses,
   TooltipProps,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useAppDispatch } from "../../../app/hooks";
 import { Col, Row, UiInputField, Text } from "../../../components/elements";
-import { categories } from "../../../constants";
+import { fetchCategory, selectCategory } from "../../../redux/auth/authSlice";
+import { CategoryApiItem } from "../../../types/models/auth";
 
 interface Props {
   handleFilterCategory: (category: string) => void;
@@ -27,7 +30,18 @@ const StyledTooltip = styled(({ className, ...props }: TooltipProps) => (
 }));
 
 const Filter = ({ handleFilterCategory, handleFilterSearch }: Props) => {
+  const dispatch = useAppDispatch();
   const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const categories = useSelector(selectCategory);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await dispatch(fetchCategory());
+    };
+    fetchData();
+  }, [dispatch]);
+
+  console.log("categories:", categories);
 
   return (
     <Col>
@@ -56,33 +70,34 @@ const Filter = ({ handleFilterCategory, handleFilterSearch }: Props) => {
                 />
               )}
             </Text>
-            {categories.map((category) => {
-              return (
-                <StyledTooltip key={category.key} title={category.name}>
-                  <div>
-                    <Row
-                      onClick={() => {
-                        handleFilterCategory(category.name);
-                        setSelectedCategory(category.name);
-                      }}
-                      sx={{
-                        marginLeft: "10px",
-                        borderRadius: "50%",
-                        overflow: "hidden",
-                        cursor: "pointer",
-                      }}
-                    >
-                      <CardMedia
-                        component="img"
-                        height="30px"
-                        image={category.logo}
-                        style={{ width: "30px" }}
-                      />
-                    </Row>
-                  </div>
-                </StyledTooltip>
-              );
-            })}
+            {categories &&
+              categories.map((category: CategoryApiItem) => {
+                return (
+                  <StyledTooltip key={category.id} title={category.name}>
+                    <div>
+                      <Row
+                        onClick={() => {
+                          handleFilterCategory(category.name);
+                          setSelectedCategory(category.name);
+                        }}
+                        sx={{
+                          marginLeft: "10px",
+                          borderRadius: "50%",
+                          overflow: "hidden",
+                          cursor: "pointer",
+                        }}
+                      >
+                        <CardMedia
+                          component="img"
+                          height="30px"
+                          image={category.logo}
+                          style={{ width: "30px" }}
+                        />
+                      </Row>
+                    </div>
+                  </StyledTooltip>
+                );
+              })}
           </Row>
           <Row sx={{ margin: "0px 10px", alignItems: "center" }}>
             <UiInputField

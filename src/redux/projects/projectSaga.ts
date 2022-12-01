@@ -12,6 +12,8 @@ import {
   fetchProjects,
   fetchProjectsStartup,
   fetchProjectsSuccess,
+  fetchProjectByID,
+  fetchProjectByIDSuccess,
 } from "./projectSlice";
 
 function* getProject(action: PayloadAction<any>) {
@@ -20,6 +22,14 @@ function* getProject(action: PayloadAction<any>) {
     action.payload
   );
   yield put(fetchProjectsSuccess(responsive));
+}
+
+function* getProjectByID(action: PayloadAction<any>) {
+  const responsive: PaginationResponse<ProjectApiItem> = yield call(
+    projectApi.getProjects,
+    action.payload
+  );
+  yield put(fetchProjectByIDSuccess(responsive));
 }
 
 function* getMember(action: PayloadAction<any>) {
@@ -70,4 +80,5 @@ export default function* projectSaga() {
   yield takeLatest(fetchCreateProject.type, createProject);
   yield takeLatest(fetchAddMemberProject.type, addMemberProject);
   yield takeLatest(fetchMember.type, getMember);
+  yield takeLatest(fetchProjectByID.type, getProjectByID);
 }
