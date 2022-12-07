@@ -11,10 +11,12 @@ import {
   RoleApiItem,
 } from "../../types/models/auth";
 import {
+  PaginationResponse,
   PostErrorResponse,
   PostSuccessResponse,
   ResponseApi,
 } from "../../types/models/common";
+import { ProfileApiItem, UserApiItem } from "../../types/models/user";
 import { getObjNthItem } from "../../until/helpers/functions";
 
 export interface AuthState {}
@@ -31,6 +33,7 @@ export interface AuthState {
   isLoginStatus: boolean;
   isLogin: boolean;
   userToken: string;
+  listUser: ProfileApiItem[];
 }
 
 const initialState: AuthState = {
@@ -45,6 +48,7 @@ const initialState: AuthState = {
   isLoginStatus: false,
   isLogin: false,
   userToken: "",
+  listUser: [],
 };
 
 const authSlice = createSlice({
@@ -129,6 +133,15 @@ const authSlice = createSlice({
     fetchLoginDone(state) {
       state.loading = true;
     },
+    //fetchSearch
+    fetchSearch(state, action: PayloadAction<any>) {},
+    fetchSearchSuccess(
+      state,
+      action: PayloadAction<PaginationResponse<ProfileApiItem>>
+    ) {
+      const responsive = action.payload.response.data.results;
+      state.listUser = responsive;
+    },
   },
 });
 
@@ -152,6 +165,8 @@ export const {
   fetchLogin,
   fetchLoginFailed,
   fetchLoginDone,
+  fetchSearch,
+  fetchSearchSuccess,
 } = authSlice.actions;
 //Selectors
 export const selectRole = (state: RootState) => state.auth.role;
@@ -168,6 +183,7 @@ export const selectIsLoginStatus = (state: RootState) =>
   state.auth.isLoginStatus;
 export const selectIsLoading = (state: RootState) => state.auth.loading;
 export const selectTokenUser = (state: RootState) => state.auth.userToken;
+export const selectListUser = (state: RootState) => state.auth.listUser;
 //Reducer
 const authReducer = authSlice.reducer;
 export default authReducer;

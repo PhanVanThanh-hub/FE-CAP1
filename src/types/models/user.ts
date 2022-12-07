@@ -1,3 +1,5 @@
+import { RoleApiItem } from "./auth";
+
 export interface UserApiItem {
   id?: number;
   created_at?: string;
@@ -8,6 +10,15 @@ export interface UserApiItem {
   isActive?: boolean;
   roles?: UserRole[];
   token?: string;
+}
+
+export interface ProfileApiItem {
+  avatar: string;
+  birthday: string;
+  id: number;
+  name: string;
+  role: RoleApiItem;
+  user: number;
 }
 
 export interface UserEntity extends UserApiItem {}

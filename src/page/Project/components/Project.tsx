@@ -60,14 +60,12 @@ const Project = ({ project }: Props) => {
           }}
         />
       </Row>
-
       <Text fontSize="body2" sx={{ fontWeight: "bold" }}>
         {project_name}
       </Text>
       <Text
         sx={{
           margin: "5px 0px",
-          height: "50px",
           overflow: "hidden",
           textOverflow: "ellipsis",
           display: "-webkit-box",
@@ -83,7 +81,9 @@ const Project = ({ project }: Props) => {
           <AvatarGroup max={4}>
             {members.map((member: MemberApiItem) => {
               const avatar = `http://127.0.0.1:8000${member.avatar}`;
-              return <Avatar src={avatar} />;
+              return (
+                <Avatar src={avatar} sx={{ width: "35px", height: "35px" }} />
+              );
             })}
           </AvatarGroup>
         </Row>
@@ -91,17 +91,19 @@ const Project = ({ project }: Props) => {
         <></>
       )}
 
-      <Col
-        sx={{
-          margin: "10px 0px",
-        }}
-      >
-        <Text>
-          Investment :<strong>{formatMoney(investment)}</strong>{" "}
-        </Text>
-        <Text>
-          For : <strong>{percent}%</strong> of the company's shares
-        </Text>
+      <Col sx={{ marginTop: "10px" }}>
+        <Row sx={{ justifyContent: "space-between" }}>
+          <Text>Total call for funds :</Text>
+          <Text sx={{ color: "rgb(236, 64, 122)", fontWeight: "bold" }}>
+            {formatMoney(investment)}
+          </Text>
+        </Row>
+        <Row sx={{ justifyContent: "space-between" }}>
+          <Text>For :</Text>
+          <Text sx={{ color: "rgb(236, 64, 122)", fontWeight: "bold" }}>
+            {percent}% the company's shares
+          </Text>
+        </Row>
       </Col>
       <Text fontSize="caption">{formatShortDateTime(establish)}</Text>
     </Col>

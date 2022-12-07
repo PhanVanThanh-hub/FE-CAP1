@@ -10,7 +10,8 @@ import {
   ResetPasswordApiItem,
   RoleApiItem,
 } from "../../types/models/auth";
-import { ResponseApi } from "../../types/models/common";
+import { PaginationResponse, ResponseApi } from "../../types/models/common";
+import { ProfileApiItem } from "../../types/models/user";
 import {
   fetchAccuracyOTP,
   fetchCategory,
@@ -25,8 +26,20 @@ import {
   fetchResetPassword,
   fetchRole,
   fetchRoleSuccess,
+  fetchSearch,
+  fetchSearchSuccess,
   setTokenUser,
 } from "./authSlice";
+
+function* searchUser(action: PayloadAction<any>) {
+  const responsive: PaginationResponse<ProfileApiItem> = yield call(
+    authApi.searchUser,
+    action.payload
+  );
+  if (responsive) {
+    yield put(fetchSearchSuccess(responsive));
+  }
+}
 
 function* userRegister(action: PayloadAction<any>) {
   const { response, error } = yield call(authApi.register, action.payload);
@@ -103,4 +116,5 @@ export default function* authSaga() {
   yield takeLatest(fetchAccuracyOTP.type, accuracyOTP);
   yield takeLatest(fetchResetPassword.type, resetPassword);
   yield takeLatest(fetchLogin.type, userLogin);
+  yield takeLatest(fetchSearch.type, searchUser);
 }

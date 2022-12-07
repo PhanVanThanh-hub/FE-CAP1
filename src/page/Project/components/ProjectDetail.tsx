@@ -42,8 +42,6 @@ const ProjectDetailModal = ({ open, handleClose }: ModalProps) => {
     fetchData();
   }, [dispatch, id]);
 
-  console.log("project:", project);
-
   return (
     <UiModal open={true} onClose={handleClose} width="80%">
       <Grid container>

@@ -34,8 +34,8 @@ export interface CategoryApiItem {
 }
 
 export interface RoleApiItem {
-  id?: string;
-  name?: string;
+  id: string;
+  name: string;
 }
 
 export interface FindAccountApiItem {

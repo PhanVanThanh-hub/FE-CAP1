@@ -1,3 +1,4 @@
+import { getAccessTokenFromStorage } from "../services/auth";
 import {
   FindAccountApiItem,
   OTPApiItem,
@@ -46,6 +47,21 @@ const authApi = {
   login(data: any) {
     const url = "/api/token/";
     return axiosClient.post(url, data);
+  },
+  searchUser(params: any) {
+    const accessToken = getAccessTokenFromStorage();
+    const url = "search/";
+    return axiosClient
+      .get(url, {
+        params: {
+          ...params,
+        },
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response: PostSuccessResponse) => ({ response }))
+      .catch((error: PostErrorResponse) => ({ error }));
   },
 };
 

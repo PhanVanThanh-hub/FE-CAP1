@@ -3,8 +3,9 @@ import { Box, Grid } from "@mui/material";
 import Menu from "../components/Menu";
 import SuggestionsTab from "../components/SuggestionsTab";
 import CreatePost from "../components/CreatePost";
-import { Col } from "../../../components/elements";
+import { Col, Row } from "../../../components/elements";
 import Post from "../../../components/shared/Post";
+import Search from "../components/Search";
 
 const HomePage = () => {
   return (
@@ -15,6 +16,9 @@ const HomePage = () => {
       <Grid container sx={{ justifyContent: "space-between" }}>
         <Grid item xs={2}>
           <Menu />
+          <Row sx={{ position: "absolute", left: "100px" }}>
+            <Search />
+          </Row>
         </Grid>
         <Grid item xs={4}>
           <Col>
