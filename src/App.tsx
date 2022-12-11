@@ -24,6 +24,7 @@ import { STATUS_AXIOS } from "./constants";
 import Swal from "sweetalert2";
 import { getAccessTokenFromStorage } from "./services/auth";
 import { selectTokenUser } from "./redux/auth/authSlice";
+import ProfilePage from "./page/Profile/page";
 
 function App() {
   const loading = useSelector(selectLoading);
@@ -75,6 +76,9 @@ function App() {
           </Route>
           <Route path="/my-projects">
             <MyProjectPage />
+          </Route>
+          <Route path="/me">
+            <ProfilePage />
           </Route>
         </Switch>
       ) : (
