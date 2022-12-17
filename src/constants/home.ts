@@ -1,9 +1,9 @@
 export const MENU_ITEM = [
   { title: "Home Page", icon: "ant-design:home-outlined", url: "" },
   { title: "Projects", icon: "charm:plant-pot", url: "/projects" },
-  { title: "Search", icon: "ant-design:search-outlined", url: "" },
+  { title: "Search", icon: "ant-design:search-outlined", url: "/search" },
   { title: "Messenger", icon: "ci:message-writing", url: "/message" },
-  { title: "Group", icon: "heroicons:user-group", url: "" },
+  { title: "Group", icon: "heroicons:user-group", url: "/groups" },
   {
     title: "Notify",
     icon: "clarity:notification-outline-badged",

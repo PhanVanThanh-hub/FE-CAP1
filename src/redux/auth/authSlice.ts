@@ -12,8 +12,8 @@ import {
 } from "../../types/models/auth";
 import {
   PaginationResponse,
-  PostErrorResponse,
-  PostSuccessResponse,
+  ErrorResponse,
+  SuccessResponse,
   ResponseApi,
 } from "../../types/models/common";
 import { ProfileApiItem, UserApiItem } from "../../types/models/user";
@@ -59,14 +59,14 @@ const authSlice = createSlice({
     fetchRegister(state, action: PayloadAction<any>) {
       state.loading = true;
     },
-    fetchRequestAuthSuccess(state, action: PayloadAction<PostSuccessResponse>) {
+    fetchRequestAuthSuccess(state, action: PayloadAction<SuccessResponse>) {
       state.loading = false;
       state.mess = getObjNthItem(action.payload.data, 1);
       state.status = action.payload.status;
       state.loading = false;
       state.finishedCallApi = true;
     },
-    fetchRequestAuthFailure(state, action: PayloadAction<PostErrorResponse>) {
+    fetchRequestAuthFailure(state, action: PayloadAction<ErrorResponse>) {
       const mess = getObjNthItem(action.payload.response.data, 1);
       state.mess = mess[0];
       state.status = action.payload.response.status;

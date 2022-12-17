@@ -4,8 +4,8 @@ import {
   ListResponse,
   ListResponseFilter,
   PaginationResponse,
-  PostErrorResponse,
-  PostSuccessResponse,
+  ErrorResponse,
+  SuccessResponse,
   ResponseApi,
 } from "../../types/models/common";
 import { ProjectApiItem } from "../../types/models/projects";
@@ -50,10 +50,10 @@ const projectSlice = createSlice({
     fetchProjectByID(state, action: PayloadAction<any>) {
       state.loading = true;
     },
-    fetchRequestAuthSuccess(state, action: PayloadAction<PostSuccessResponse>) {
+    fetchRequestAuthSuccess(state, action: PayloadAction<SuccessResponse>) {
       state.loading = false;
     },
-    fetchRequestAuthFailure(state, action: PayloadAction<PostErrorResponse>) {
+    fetchRequestAuthFailure(state, action: PayloadAction<ErrorResponse>) {
       state.loading = false;
     },
     //Project Startup

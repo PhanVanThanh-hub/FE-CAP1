@@ -4,7 +4,7 @@ import {
   OTPApiItem,
   ResetPasswordApiItem,
 } from "../types/models/auth";
-import { PostErrorResponse, PostSuccessResponse } from "../types/models/common";
+import { ErrorResponse, SuccessResponse } from "../types/models/common";
 import axiosClient from "./axiosClient";
 
 const authApi = {
@@ -12,8 +12,8 @@ const authApi = {
     const url = "register/";
     return axiosClient
       .post(url, data)
-      .then((response: PostSuccessResponse) => ({ response }))
-      .catch((error: PostErrorResponse) => ({ error }));
+      .then((response: SuccessResponse) => ({ response }))
+      .catch((error: ErrorResponse) => ({ error }));
   },
   getRole() {
     const response = axiosClient.get("role/");
@@ -27,22 +27,22 @@ const authApi = {
     const url = "gmail_authentication/";
     return axiosClient
       .post(url, data)
-      .then((response: PostSuccessResponse) => ({ response }))
-      .catch((error: PostErrorResponse) => ({ error }));
+      .then((response: SuccessResponse) => ({ response }))
+      .catch((error: ErrorResponse) => ({ error }));
   },
   accuracyOTP(data: OTPApiItem) {
     const url = "accuracy_otp/";
     return axiosClient
       .post(url, data)
-      .then((response: PostSuccessResponse) => ({ response }))
-      .catch((error: PostErrorResponse) => ({ error }));
+      .then((response: SuccessResponse) => ({ response }))
+      .catch((error: ErrorResponse) => ({ error }));
   },
   resetPassword(data: ResetPasswordApiItem) {
     const url = "reset-password/";
     return axiosClient
       .post(url, data)
-      .then((response: PostSuccessResponse) => ({ response }))
-      .catch((error: PostErrorResponse) => ({ error }));
+      .then((response: SuccessResponse) => ({ response }))
+      .catch((error: ErrorResponse) => ({ error }));
   },
   login(data: any) {
     const url = "/api/token/";
@@ -60,8 +60,8 @@ const authApi = {
           Authorization: `Bearer ${accessToken}`,
         },
       })
-      .then((response: PostSuccessResponse) => ({ response }))
-      .catch((error: PostErrorResponse) => ({ error }));
+      .then((response: SuccessResponse) => ({ response }))
+      .catch((error: ErrorResponse) => ({ error }));
   },
 };
 

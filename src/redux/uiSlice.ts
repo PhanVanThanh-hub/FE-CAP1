@@ -2,8 +2,8 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../app/store";
 import {
   ListResponse,
-  PostErrorResponse,
-  PostSuccessResponse,
+  ErrorResponse,
+  SuccessResponse,
   ResponseApi,
 } from "../types/models/common";
 import { ProjectApiItem } from "../types/models/projects";
@@ -35,14 +35,14 @@ const uiSlice = createSlice({
       state.loading = true;
       state.finishedCallApi = false;
     },
-    fetchFailed(state, action: PayloadAction<PostErrorResponse>) {
+    fetchFailed(state, action: PayloadAction<ErrorResponse>) {
       const mess = getObjNthItem(action.payload.response.data, 1);
       state.mess = mess[0];
       state.status = action.payload.response.status;
       state.loading = false;
       state.finishedCallApi = true;
     },
-    fetchSuccess(state, action: PayloadAction<PostSuccessResponse>) {
+    fetchSuccess(state, action: PayloadAction<SuccessResponse>) {
       state.loading = false;
       state.mess = getObjNthItem(action.payload.data, 1);
       state.status = action.payload.status;

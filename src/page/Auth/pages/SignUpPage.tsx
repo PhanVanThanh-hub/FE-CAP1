@@ -84,7 +84,7 @@ const SignUpPage = () => {
         }).then((result) => {
           if (result) {
             dispatch(resetFetchRegister());
-            history.push("/sign-in");
+            history.push("/");
           }
         });
       }

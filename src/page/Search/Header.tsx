@@ -1,8 +1,16 @@
-import React from "react";
-import { Col, Row, UiIcon, Text } from "../../../components/elements";
-import logo from "../../../assets/image/logo.png";
+import React, { useEffect, useState } from "react";
+import {
+  Col,
+  Row,
+  UiIcon,
+  Text,
+  UiInputField,
+} from "../../components/elements";
+import logo from "../../assets/image/logo.png";
 import { Avatar, CardMedia, Popover, SxProps, Box } from "@mui/material";
-import { COLOR } from "../../../constants";
+import { COLOR } from "../../constants";
+import { useAppDispatch } from "../../app/hooks";
+import { fetchSearch } from "../../redux/auth/authSlice";
 
 interface PopoverProps {
   open: boolean;
@@ -75,6 +83,19 @@ const Header = () => {
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
   );
+  const dispatch = useAppDispatch();
+  const [name, setName] = useState<string>("");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await dispatch(fetchSearch({ name: name }));
+    };
+    fetchData();
+  }, [dispatch, name]);
+
+  const handleFilterSearch = (name: string) => {
+    setName(name);
+  };
 
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
@@ -91,11 +112,6 @@ const Header = () => {
       sx={{
         backgroundColor: "background.paper",
         borderRadius: "24px",
-        position: "fixed",
-        right: "0",
-        left: "0",
-        top: "0",
-        zIndex: "999",
       }}
     >
       <Row
@@ -106,14 +122,20 @@ const Header = () => {
           padding: "5px 20px",
         }}
       >
-        <Row>
+        <Row sx={{ alignItems: "center" }}>
           <CardMedia
             component="img"
             image={logo}
             alt="logo"
-            style={{ width: "30%" }}
+            style={{ width: "20%" }}
+          />
+          <UiInputField
+            placeholder="Search"
+            icon="material-symbols:search"
+            onChange={handleFilterSearch}
           />
         </Row>
+
         <Row sx={{ alignItems: "center" }}>
           <Row
             sx={{

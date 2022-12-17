@@ -25,6 +25,10 @@ import Swal from "sweetalert2";
 import { getAccessTokenFromStorage } from "./services/auth";
 import { selectTokenUser } from "./redux/auth/authSlice";
 import ProfilePage from "./page/Profile/page";
+import SearchPage from "./page/Search";
+import GroupListPage from "./page/Groups/page";
+import GroupPage from "./page/Group/page";
+import CreateGroupPage from "./page/CreateGroup/page";
 
 function App() {
   const loading = useSelector(selectLoading);
@@ -79,6 +83,18 @@ function App() {
           </Route>
           <Route path="/me">
             <ProfilePage />
+          </Route>
+          <Route path="/search">
+            <SearchPage />
+          </Route>
+          <Route path="/groups" exact>
+            <GroupListPage />
+          </Route>
+          <Route path="/group/:id" exact>
+            <GroupPage />
+          </Route>
+          <Route path="/groups/create">
+            <CreateGroupPage />
           </Route>
         </Switch>
       ) : (

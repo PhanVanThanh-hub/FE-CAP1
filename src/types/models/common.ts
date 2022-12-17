@@ -16,11 +16,11 @@ export interface PaginationResponse<T> {
   };
 }
 
-export interface PostSuccessResponse {
+export interface SuccessResponse {
   data: { message: string };
   status: number;
 }
 
-export interface PostErrorResponse {
+export interface ErrorResponse {
   response: { data: any; status: number };
 }
