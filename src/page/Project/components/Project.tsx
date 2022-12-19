@@ -4,6 +4,7 @@ import { Col, Row, Text } from "../../../components/elements";
 import { formatMoney } from "../../../until/helpers/functions";
 import { MemberApiItem, ProjectApiItem } from "../../../types/models/projects";
 import { formatShortDateTime } from "../../../until/helpers";
+import { COLOR } from "../../../constants";
 
 interface Props {
   project: ProjectApiItem;
@@ -31,7 +32,7 @@ const Project = ({ project }: Props) => {
         border: "1px solid transparent",
         width: "100%",
         "&:hover": {
-          borderColor: "rgb(236, 64, 122)",
+          borderColor: COLOR.icon.primary,
         },
       }}
     >
@@ -82,7 +83,11 @@ const Project = ({ project }: Props) => {
             {members.map((member: MemberApiItem) => {
               const avatar = `http://127.0.0.1:8000${member.avatar}`;
               return (
-                <Avatar src={avatar} sx={{ width: "35px", height: "35px" }} />
+                <Avatar
+                  key={member.id}
+                  src={avatar}
+                  sx={{ width: "35px", height: "35px" }}
+                />
               );
             })}
           </AvatarGroup>
@@ -94,13 +99,13 @@ const Project = ({ project }: Props) => {
       <Col sx={{ marginTop: "10px" }}>
         <Row sx={{ justifyContent: "space-between" }}>
           <Text>Total call for funds :</Text>
-          <Text sx={{ color: "rgb(236, 64, 122)", fontWeight: "bold" }}>
+          <Text sx={{ color: COLOR.icon.primary, fontWeight: "bold" }}>
             {formatMoney(investment)}
           </Text>
         </Row>
         <Row sx={{ justifyContent: "space-between" }}>
           <Text>For :</Text>
-          <Text sx={{ color: "rgb(236, 64, 122)", fontWeight: "bold" }}>
+          <Text sx={{ color: COLOR.icon.primary, fontWeight: "bold" }}>
             {percent}% the company's shares
           </Text>
         </Row>

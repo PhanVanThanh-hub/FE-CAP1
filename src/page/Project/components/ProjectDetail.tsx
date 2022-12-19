@@ -20,6 +20,7 @@ import { useAppDispatch } from "../../../app/hooks";
 import {
   fetchProjectByID,
   selectProject,
+  selectProjectDetail,
 } from "../../../redux/projects/projectSlice";
 import { useSelector } from "react-redux";
 
@@ -33,7 +34,7 @@ const ProjectDetailModal = ({ open, handleClose }: ModalProps) => {
   const dispatch = useAppDispatch();
   const params = useParams<ParamsProps>();
   const { id } = params;
-  const project = useSelector(selectProject);
+  const projectDetail = useSelector(selectProjectDetail);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,53 +54,13 @@ const ProjectDetailModal = ({ open, handleClose }: ModalProps) => {
               image={image}
               alt="Paella dish"
             />
-            <Col
-              sx={{
-                height: "20vh",
-                justifyContent: "space-between",
-                marginTop: "20px",
-              }}
-            >
-              <Link
-                to="introduce_project"
-                smooth={true}
-                offset={50}
-                duration={500}
-              >
-                <Row
-                  sx={{
-                    backgroundColor: "button.primary",
-                    width: "50%",
-                    padding: "10px 5px",
-                    borderRadius: "12px",
-                  }}
-                >
-                  <Text>Introduce</Text>
-                </Row>
-              </Link>
-              <Link to="video_project">
-                <Text>Video</Text>
-              </Link>
-              <Link
-                to="memberProject"
-                smooth={true}
-                hashSpy={true}
-                offset={0}
-                duration={800}
-              >
-                <Text>Member</Text>
-              </Link>
-              <Link to="invest_project">
-                <Text>Invest</Text>
-              </Link>
-            </Col>
           </Col>
         </Grid>
         <Grid item xs={9} sx={{ height: "100%" }}>
           <Col>
             <Col>
               <Text fontSize="h6">
-                {project?.abbreviations} - {project?.project_name}
+                {projectDetail?.abbreviations} - {projectDetail?.project_name}
               </Text>
               <Text sx={{ marginTop: "20px" }}>
                 Website for the startup community that aids in introducing and
@@ -108,12 +69,21 @@ const ProjectDetailModal = ({ open, handleClose }: ModalProps) => {
               </Text>
               <UiDivider />
               <UiScrollBar>
-                {project && (
+                {projectDetail && (
                   <Col sx={{ maxHeight: "60vh" }}>
-                    <Introduce project={project} />
-                    <Video video={project.video} image={project.image} />
-                    {project.members && <Member members={project.members} />}
-                    <Investment />
+                    <Introduce project={projectDetail} />
+                    <Video
+                      video={projectDetail.video}
+                      image={projectDetail.image}
+                    />
+                    {projectDetail.members && (
+                      <Member members={projectDetail.members} />
+                    )}
+                    <Investment
+                      investment={projectDetail.investment}
+                      percent={projectDetail.percent}
+                      investor_project={projectDetail.investor_project}
+                    />
                   </Col>
                 )}
               </UiScrollBar>

@@ -18,7 +18,17 @@ export interface ProfileApiItem {
   id: number;
   name: string;
   role: RoleApiItem;
-  user: number;
+  user: { id: number; email: string };
+  phone_number: string;
+}
+
+export interface InvestorApiItem {
+  id: number;
+  company: string;
+  max_investment: string;
+  min_investment: string;
+  profile: ProfileApiItem;
+  position: string;
 }
 
 export interface UserEntity extends UserApiItem {}

@@ -8,7 +8,10 @@ import {
   SuccessResponse,
   ResponseApi,
 } from "../../types/models/common";
-import { ProjectApiItem } from "../../types/models/projects";
+import {
+  ProjectApiItem,
+  ProjectDetailApiItem,
+} from "../../types/models/projects";
 import { getObjNthItem } from "../../until/helpers/functions";
 
 export interface projectState {
@@ -23,6 +26,7 @@ export interface projectState {
   nextPage: string;
   previousPage: string;
   project?: ProjectApiItem;
+  projectDetail?: ProjectDetailApiItem;
 }
 
 const initialState: projectState = {
@@ -37,6 +41,7 @@ const initialState: projectState = {
   nextPage: "",
   previousPage: "",
   project: undefined,
+  projectDetail: undefined,
 };
 
 const projectSlice = createSlice({
@@ -72,9 +77,9 @@ const projectSlice = createSlice({
     },
     fetchProjectByIDSuccess(
       state,
-      action: PayloadAction<PaginationResponse<ProjectApiItem>>
+      action: PayloadAction<ResponseApi<ProjectDetailApiItem[]>>
     ) {
-      state.project = action.payload.response.data.results[0];
+      state.projectDetail = action.payload.data[0];
     },
     fetchCreateProject(state, action: PayloadAction<any>) {
       state.loading = true;
@@ -115,6 +120,8 @@ export const selectNextPage = (state: RootState) => state.projects.nextPage;
 export const selectPreviousPage = (state: RootState) =>
   state.projects.previousPage;
 export const selectProject = (state: RootState) => state.projects.project;
+export const selectProjectDetail = (state: RootState) =>
+  state.projects.projectDetail;
 //Reducer
 const projectReducer = projectSlice.reducer;
 export default projectReducer;

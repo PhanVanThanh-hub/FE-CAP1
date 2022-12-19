@@ -1,8 +1,11 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { call, put, takeLatest } from "redux-saga/effects";
 import projectApi from "../../api/projectApi";
-import { PaginationResponse } from "../../types/models/common";
-import { ProjectApiItem } from "../../types/models/projects";
+import { PaginationResponse, ResponseApi } from "../../types/models/common";
+import {
+  ProjectApiItem,
+  ProjectDetailApiItem,
+} from "../../types/models/projects";
 import { fetchData, fetchFailed, fetchSuccess } from "../uiSlice";
 import {
   fetchAddMemberProject,
@@ -25,8 +28,8 @@ function* getProject(action: PayloadAction<any>) {
 }
 
 function* getProjectByID(action: PayloadAction<any>) {
-  const responsive: PaginationResponse<ProjectApiItem> = yield call(
-    projectApi.getProjects,
+  const responsive: ResponseApi<ProjectDetailApiItem[]> = yield call(
+    projectApi.getProjectDetail,
     action.payload
   );
   yield put(fetchProjectByIDSuccess(responsive));

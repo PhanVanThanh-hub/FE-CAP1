@@ -41,8 +41,6 @@ const Filter = ({ handleFilterCategory, handleFilterSearch }: Props) => {
     fetchData();
   }, [dispatch]);
 
-  console.log("categories:", categories);
-
   return (
     <Col>
       <Row>

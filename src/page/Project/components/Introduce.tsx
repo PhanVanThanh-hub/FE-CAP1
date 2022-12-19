@@ -1,4 +1,4 @@
-import { Avatar, Grid } from "@mui/material";
+import { Avatar, Grid, Link } from "@mui/material";
 import React from "react";
 import { Col, Row, Text, UiButton } from "../../../components/elements";
 import Timeline from "@mui/lab/Timeline";
@@ -8,11 +8,11 @@ import TimelineConnector from "@mui/lab/TimelineConnector";
 import TimelineContent from "@mui/lab/TimelineContent";
 import TimelineDot from "@mui/lab/TimelineDot";
 import { COLOR } from "../../../constants";
-import { ProjectApiItem } from "../../../types/models/projects";
+import { ProjectDetailApiItem } from "../../../types/models/projects";
 import { formatShortDateTime } from "../../../until/helpers";
 
 interface Props {
-  project: ProjectApiItem;
+  project: ProjectDetailApiItem;
 }
 
 const TimelineSeparatorStyle = () => {
@@ -76,7 +76,9 @@ const Introduce = ({ project }: Props) => {
                 {website && (
                   <Row>
                     <Text sx={{ width: "30%" }}>Website</Text>
-                    <Text>{website}</Text>
+                    <Link href={website} target="_blank">
+                      Open Website
+                    </Link>
                   </Row>
                 )}
                 {phone_number && (

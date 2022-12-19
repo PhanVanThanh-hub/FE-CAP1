@@ -22,6 +22,18 @@ const projectApi = {
       .then((response: SuccessResponse) => ({ response }))
       .catch((error: ErrorResponse) => ({ error }));
   },
+  getProjectDetail(params: any) {
+    const accessToken = getAccessTokenFromStorage();
+    const url = "project/";
+    return axiosClient.get(url, {
+      params: {
+        ...params,
+      },
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+  },
   getProjectsStartup(params: any) {
     const accessToken = getAccessTokenFromStorage();
     const url = "projects_startup/";

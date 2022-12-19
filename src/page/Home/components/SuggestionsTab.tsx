@@ -2,6 +2,7 @@ import React from "react";
 import { Avatar, Box, Popover, SxProps } from "@mui/material";
 import { Col, Row, Text, UiIcon } from "../../../components/elements";
 import { COLOR } from "../../../constants";
+import { useHistory } from "react-router-dom";
 
 interface PopoverProps {
   open: boolean;
@@ -41,7 +42,7 @@ const PopoverSwitchAccount = ({ open, anchorEl, onClose }: PopoverProps) => {
         }}
       >
         <Col>
-          <Row sx={{ alignItems: "center" }}>
+          <Row sx={{ alignItems: "center", cursor: "pointer" }}>
             <Avatar sx={{ width: "40px", height: "40px" }} />
             <Row
               sx={{
@@ -71,6 +72,7 @@ const PopoverSwitchAccount = ({ open, anchorEl, onClose }: PopoverProps) => {
 };
 
 const SuggestionsTab = () => {
+  const history = useHistory();
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
   );
@@ -128,9 +130,13 @@ const SuggestionsTab = () => {
             justifyContent: "space-between",
             position: "relative",
             marginLeft: "10px",
+            cursor: "pointer",
           }}
         >
-          <Row sx={{ alignItems: "center" }}>
+          <Row
+            onClick={() => history.push("/me")}
+            sx={{ alignItems: "center" }}
+          >
             <Avatar sx={{ bgcolor: "red", width: "1.25em", height: "1.25em" }}>
               N
             </Avatar>
