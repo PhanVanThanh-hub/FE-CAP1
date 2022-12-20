@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import { Col, Row, Text, UiButton, UiIcon, UiModal } from "../elements";
 import { Icon } from "@iconify/react";
 import {
@@ -15,6 +15,14 @@ import {
 import Tooltip, { TooltipProps, tooltipClasses } from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
 import { useBoolBag } from "../../hooks";
+import { TransitionGroup } from "react-transition-group";
+import { getAccessTokenFromStorage } from "../../services/auth";
+import { UserInteraction } from "./Post";
+import axiosClient from '../../api/axiosClient'
+import { light } from "@mui/material/styles/createPalette";
+import { array } from "yup";
+
+
 
 interface Props {
   open: boolean;
@@ -207,8 +215,40 @@ export const SendMessModal = ({ open, handleClose }: Props) => {
     </div>
   );
 };
-
 export const CreatePostModal = ({ open, handleClose }: Props) => {
+  //code add post
+    const [ content, setContent ] = useState(""); 
+    const [images, setImages] = useState("");
+
+    // const handleImange = (event:any) =>{
+    //   setImages(event.target.files[1]);
+    // };
+    const handleImange = (event:any) =>{
+      setImages(event.target.files[0]);
+    };
+    
+    const aut = getAccessTokenFromStorage();
+    const NewPost = () => {
+      // window.location.reload();
+      const uploadData = new FormData();
+      uploadData.append('content', content);
+      // for(var i = 0; i<images.length;i++){
+      // }
+      if(images){
+        uploadData.append('images', images, 'images.name' );
+      }
+      // uploadData.append('images', images)
+      const url = "post/";
+      axiosClient
+      .post(url,uploadData,{
+        headers: {
+          Authorization: `Bearer ${aut}`,
+        },
+      })
+      .then(res =>  console.log(res))
+      .catch(error => console.log(error))
+    }
+
   return (
     <div>
       <UiModal open={open} onClose={handleClose} padding="20px 30px">
@@ -222,7 +262,9 @@ export const CreatePostModal = ({ open, handleClose }: Props) => {
             <Avatar />
             <Text sx={{ marginLeft: "10px", fontWeight: "bold" }}>Elian</Text>
           </Row>
+          
           <TextField
+            value={content} onChange={(e) => setContent(e.target.value)}
             placeholder="I'd like to say..."
             multiline
             sx={{
@@ -249,6 +291,10 @@ export const CreatePostModal = ({ open, handleClose }: Props) => {
               },
             }}
           />
+            <Row>
+              <input accept="image/jpeg,image/png,image/gif" type="file" name="file" multiple onChange={(e) => {handleImange(e)}}/>
+            </Row>
+            
           <Row
             sx={{
               alignItems: "center",
@@ -263,8 +309,8 @@ export const CreatePostModal = ({ open, handleClose }: Props) => {
               }}
             >
               <Row>
-                <StyledTooltip title="Add Image">
-                  <UiIcon icon="gala:image" />
+              <StyledTooltip title="Add Image" >
+                  <UiIcon icon="gala:image"/>
                 </StyledTooltip>
               </Row>
               <Row>
@@ -283,10 +329,12 @@ export const CreatePostModal = ({ open, handleClose }: Props) => {
                 </StyledTooltip>
               </Row>
             </Row>
-            <UiButton>Post</UiButton>
+            <UiButton 
+                sx={{color:'white'}} type="submit" color="primary" onClick={() => NewPost()}>Post</UiButton>
           </Row>
         </Col>
       </UiModal>
     </div>
   );
 };
+
