@@ -15,6 +15,10 @@ export const removeUserCredential = async () => {
   localStorage.removeItem(STORAGE_KEYS.REFRESH);
 };
 
+export const saveUsername = async (username: string) => {
+  localStorage.setItem(STORAGE_KEYS.USER, username);
+};
+
 export const saveUserCredential = async ({
   access,
   refresh,
@@ -26,4 +30,9 @@ export const saveUserCredential = async ({
 export const getAccessTokenFromStorage = () => {
   const accessToken = localStorage.getItem(STORAGE_KEYS.ACCESS);
   return accessToken;
+};
+
+export const getUsernameFromStorage = () => {
+  const username = localStorage.getItem(STORAGE_KEYS.USER);
+  return username;
 };

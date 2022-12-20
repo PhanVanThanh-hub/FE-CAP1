@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
-import { saveUserCredential } from "../../services/auth";
+import { saveUserCredential, saveUsername } from "../../services/auth";
 import {
   CategoryApiItem,
   FindAccountApiItem,
@@ -34,6 +34,7 @@ export interface AuthState {
   isLogin: boolean;
   userToken: string;
   listUser: ProfileApiItem[];
+  username: string;
 }
 
 const initialState: AuthState = {
@@ -49,6 +50,7 @@ const initialState: AuthState = {
   isLogin: false,
   userToken: "",
   listUser: [],
+  username: "",
 };
 
 const authSlice = createSlice({
@@ -111,7 +113,10 @@ const authSlice = createSlice({
       state.status = 0;
     },
     //login
-    fetchLogin(state, action: PayloadAction<LoginProps>) {},
+    fetchLogin(state, action: PayloadAction<LoginProps>) {
+      state.username = action.payload.username;
+      saveUsername(action.payload.username);
+    },
     fetchDataSuccess(state) {},
     fetchLoginFailed(state) {
       state.isLoginStatus = false;
@@ -184,6 +189,7 @@ export const selectIsLoginStatus = (state: RootState) =>
 export const selectIsLoading = (state: RootState) => state.auth.loading;
 export const selectTokenUser = (state: RootState) => state.auth.userToken;
 export const selectListUser = (state: RootState) => state.auth.listUser;
+export const selectUsername = (state: RootState) => state.auth.username;
 //Reducer
 const authReducer = authSlice.reducer;
 export default authReducer;

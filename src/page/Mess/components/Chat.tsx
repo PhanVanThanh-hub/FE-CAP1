@@ -1,50 +1,228 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Avatar, Divider, FormControl, OutlinedInput } from "@mui/material";
-import { Col, Row, Text, UiIcon } from "../../../components/elements";
+import {
+  Col,
+  Row,
+  Text,
+  UiIcon,
+  UiToolTip,
+} from "../../../components/elements";
 import { COLOR } from "../../../constants";
 import UiScrollBar from "../../../components/elements/UiScrollBar";
+import useWebSocket from "react-use-websocket";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { fetchChat, selectContentBoxChat } from "../../../redux/chat/chatSlice";
+import { ProfileApiItem } from "../../../types/models/auth";
+import { MessageApiItem } from "../../../types/models/chat";
+import { formatShortDateTime, timeAgo } from "../../../until/helpers";
+import { getUsernameFromStorage } from "../../../services/auth";
+import moment from "moment";
 
 interface Props {
   setBoolBag: (item: { [key: string]: boolean }) => void;
   openInformation: boolean;
+  boxChatAction?: string;
+  userBoxChat?: ProfileApiItem;
 }
 
-const Message = () => {
+interface NewMessProps {
+  message: string;
+  user: number;
+  status: boolean;
+  create_at: string;
+}
+
+interface MessageProps {
+  mess: MessageApiItem;
+  avatar: string;
+  userBoxChat?: ProfileApiItem;
+}
+
+const Message = ({ mess, avatar, userBoxChat }: MessageProps) => {
+  const isUser = userBoxChat?.user === mess.user;
   return (
-    <Row sx={{ alignItems: "end", margin: "5px 0px" }}>
-      <Col
-        sx={{
-          backgroundColor: "background.default",
-          padding: "10px 20px ",
-          borderRadius: "12px",
-        }}
-      >
-        <Text>Hi Good Morning!</Text>
-        <Text
-          fontSize="caption"
-          sx={{ width: "100%", textAlign: "end", marginTop: "10px" }}
+    <Row
+      sx={{
+        justifyContent: isUser ? "flex-start" : "flex-end",
+        padding: "0px 30px",
+      }}
+    >
+      <Row sx={{ alignItems: "end", margin: "5px 0px", maxWidth: "40%" }}>
+        {isUser && <Avatar src={avatar} sx={{ marginRight: "10px" }} />}
+        <Col
+          sx={{
+            backgroundColor: "background.default",
+            padding: "10px 20px ",
+            borderRadius: "12px",
+          }}
         >
-          11:23 AM
-        </Text>
-      </Col>
-      <Row
-        sx={{
-          backgroundColor: "white",
-          height: "15px",
-          width: "15px",
-          borderRadius: "50%",
-          alignItems: "center",
-          justifyContent: "center",
-          marginLeft: "2px",
-        }}
-      >
-        <UiIcon icon="charm:tick" size="12" />
+          <Text>{mess.content}</Text>
+          <UiToolTip
+            title={formatShortDateTime(mess.create_at)}
+            placeholder="right"
+          >
+            <div>
+              <Text
+                fontSize="caption"
+                sx={{
+                  width: "100%",
+                  textAlign: isUser ? "start" : "end",
+                  marginTop: "10px",
+                }}
+              >
+                {timeAgo(mess.create_at)}
+              </Text>
+            </div>
+          </UiToolTip>
+        </Col>
+        {!mess.status && !isUser && (
+          <Row
+            sx={{
+              backgroundColor: "white",
+              height: "15px",
+              width: "15px",
+              borderRadius: "50%",
+              alignItems: "center",
+              justifyContent: "center",
+              marginLeft: "2px",
+            }}
+          >
+            <UiIcon icon="charm:tick" size="12" />
+          </Row>
+        )}
       </Row>
     </Row>
   );
 };
 
-const Chat = ({ setBoolBag, openInformation }: Props) => {
+const NewMessage = ({
+  mess,
+  userBoxChat,
+  avatar,
+}: {
+  mess: NewMessProps;
+  userBoxChat?: ProfileApiItem;
+  avatar: string;
+}) => {
+  const isUser = userBoxChat?.user === mess.user;
+  return (
+    <Row
+      sx={{
+        justifyContent: isUser ? "flex-start" : "flex-end",
+        padding: "0px 30px",
+      }}
+    >
+      <Row sx={{ alignItems: "end", margin: "5px 0px", maxWidth: "40%" }}>
+        {isUser && <Avatar src={avatar} sx={{ marginRight: "10px" }} />}
+        <Col
+          sx={{
+            backgroundColor: "background.default",
+            padding: "10px 20px ",
+            borderRadius: "12px",
+          }}
+        >
+          <Text>{mess.message}</Text>
+          <UiToolTip
+            title={formatShortDateTime(mess.create_at)}
+            placeholder="right"
+          >
+            <div>
+              <Text
+                fontSize="caption"
+                sx={{
+                  width: "100%",
+                  textAlign: isUser ? "start" : "end",
+                  marginTop: "10px",
+                }}
+              >
+                {timeAgo(mess.create_at)}
+              </Text>
+            </div>
+          </UiToolTip>
+        </Col>
+        {!mess.status && !isUser && (
+          <Row
+            sx={{
+              backgroundColor: "white",
+              height: "15px",
+              width: "15px",
+              borderRadius: "50%",
+              alignItems: "center",
+              justifyContent: "center",
+              marginLeft: "2px",
+            }}
+          >
+            <UiIcon icon="charm:tick" size="12" />
+          </Row>
+        )}
+      </Row>
+    </Row>
+  );
+};
+
+const Chat = ({
+  setBoolBag,
+  openInformation,
+  boxChatAction = "9999",
+  userBoxChat,
+}: Props) => {
+  const username = getUsernameFromStorage();
+  const roomName = `${boxChatAction}user${username}`;
+  console.log(roomName);
+  const socketUrl = `ws://127.0.0.1:8000/ws/chat/${roomName}/`;
+  const [newMess, setNewMess] = useState<NewMessProps[]>([]);
+  const { sendJsonMessage, getWebSocket } = useWebSocket(socketUrl, {
+    onOpen: () => console.log("WebSocket connection opened."),
+    onClose: () => console.log("WebSocket connection closed."),
+    shouldReconnect: (closeEvent) => true,
+    onMessage: (event: WebSocketEventMap["message"]) => {
+      const data = JSON.parse(event.data);
+      const mess = {
+        message: data["message"],
+        user: data["user"],
+        status: data["status"],
+        create_at: moment().toString(),
+      };
+      setNewMess((prev) => [...prev, mess]);
+    },
+  });
+  const dispatch = useAppDispatch();
+  const [mess, setMess] = useState<string>("");
+  const listBoxChat: MessageApiItem[] = useAppSelector(selectContentBoxChat);
+  const avatar = `http://127.0.0.1:8000${userBoxChat?.avatar}`;
+
+  useEffect(() => {
+    const fetchContentChat = async () => {
+      if (boxChatAction) {
+        await dispatch(fetchChat({ box_chat: boxChatAction }));
+      }
+    };
+    fetchContentChat();
+  }, [boxChatAction, dispatch]);
+  const handleSendMess = () => {
+    if (mess) {
+      sendJsonMessage({
+        message: mess,
+        box_chat: boxChatAction,
+        user: username,
+      });
+    }
+    setMess("");
+  };
+
+  const keyPress = (e: any) => {
+    if (e.keyCode === 13) {
+      if (mess) {
+        sendJsonMessage({
+          message: mess,
+          box_chat: boxChatAction,
+          user: username,
+        });
+      }
+      setMess("");
+    }
+  };
+
   return (
     <Col
       sx={{ alginItems: "center", justifyContent: "center", height: "100%" }}
@@ -54,7 +232,6 @@ const Chat = ({ setBoolBag, openInformation }: Props) => {
           height: "95vh",
           backgroundColor: "background.paper",
           borderRadius: "24px",
-          padding: "0px 30px",
         }}
       >
         <Row
@@ -62,6 +239,7 @@ const Chat = ({ setBoolBag, openInformation }: Props) => {
             marginTop: "20px",
             alignItems: "center",
             justifyContent: "space-between",
+            padding: "0px 30px",
           }}
         >
           <Row>
@@ -86,20 +264,34 @@ const Chat = ({ setBoolBag, openInformation }: Props) => {
         </Row>
         <Divider sx={{ margin: "20px 0px" }} />
         <UiScrollBar>
-          <Message />
-          <Message />
-          <Message />
-          <Message />
-          <Message />
-          <Message />
-          <Message />
-          <Message />
-          <Message />
-          <Message />
+          {listBoxChat &&
+            listBoxChat
+              .slice(0)
+              .reverse()
+              .map((mess: MessageApiItem) => {
+                return (
+                  <Message
+                    key={mess.id}
+                    mess={mess}
+                    avatar={avatar}
+                    userBoxChat={userBoxChat}
+                  />
+                );
+              })}
+          {newMess.map((mess, index) => {
+            return (
+              <NewMessage
+                key={index}
+                mess={mess}
+                avatar={avatar}
+                userBoxChat={userBoxChat}
+              />
+            );
+          })}
         </UiScrollBar>
         <Row
           sx={{
-            padding: "10px 0px",
+            padding: "10px 30px",
             alignItems: "center",
           }}
         >
@@ -149,10 +341,13 @@ const Chat = ({ setBoolBag, openInformation }: Props) => {
                 "aria-label": "weight",
               }}
               placeholder="Type a message"
+              value={mess}
+              onChange={(e) => setMess(e.target.value)}
+              onKeyDown={keyPress}
             />
           </FormControl>
           <Row sx={{ marginLeft: "50px" }}>
-            <UiIcon icon="akar-icons:send" size="18" />
+            <UiIcon icon="akar-icons:send" size="18" onClick={handleSendMess} />
           </Row>
         </Row>
       </Col>

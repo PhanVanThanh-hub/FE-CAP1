@@ -7,6 +7,7 @@ import authReducer from "../redux/auth/authSlice";
 import projectReducer from "../redux/projects/projectSlice";
 import uiReducer from "../redux/uiSlice";
 import groupReducer from "../redux/group/groupSlice";
+import chatReducer from "../redux/chat/chatSlice";
 
 const sagaMiddleware = createSagaMiddleware();
 const rootReducer = combineReducers({
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   projects: projectReducer,
   ui: uiReducer,
   groups: groupReducer,
+  chat: chatReducer,
 });
 
 export const store = configureStore({

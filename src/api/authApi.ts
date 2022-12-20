@@ -49,13 +49,22 @@ const authApi = {
     return axiosClient.post(url, data);
   },
   searchUser(params: any) {
-    const accessToken = getAccessTokenFromStorage();
     const url = "search/";
     return axiosClient
       .get(url, {
         params: {
           ...params,
         },
+      })
+      .then((response: SuccessResponse) => ({ response }))
+      .catch((error: ErrorResponse) => ({ error }));
+  },
+  getUser(data: any) {
+    const accessToken = getAccessTokenFromStorage();
+
+    const url = "user/";
+    return axiosClient
+      .get(url, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

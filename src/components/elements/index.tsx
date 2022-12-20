@@ -8,3 +8,4 @@ export * from "./UiModal";
 export * from "./UiIcon";
 export * from "./UiScrollBar";
 export * from "./UiTextField";
+export * from "./UiToolTip";
