@@ -24,12 +24,17 @@ import { ProjectApiItem } from "../../../types/models/projects";
 import { formatDate } from "../../../until/helpers";
 import { selectFinishedCallApi, selectStatus } from "../../../redux/uiSlice";
 import { STATUS_AXIOS } from "../../../constants";
+import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
+import ProjectDetailModal from "./ProjectDetail";
 
 const PAGE_SIZE = 5;
 
 const ProjectList = () => {
-  const { boolBag, setBoolBag } = useBoolBag({ isOpenModal: false });
-  const { isOpenModal } = boolBag;
+  const { boolBag, setBoolBag } = useBoolBag({
+    isOpenModal: false,
+    openModalProjectDetail: true,
+  });
+  const { isOpenModal, openModalProjectDetail } = boolBag;
   const dispatch = useAppDispatch();
   const projects = useSelector(selectProjectsStartup);
   const status = useSelector(selectStatus);
@@ -37,6 +42,13 @@ const ProjectList = () => {
   const count = useSelector(selectCountProjectsPagination);
   const pagination = Math.ceil(count / PAGE_SIZE);
   const [page, setPage] = useState<number>(1);
+  const match = useRouteMatch();
+  const history = useHistory();
+
+  const handleCloseProjectDetail = () => {
+    setBoolBag({ openModalProjectDetail: false });
+    history.push("/my-projects");
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -121,6 +133,10 @@ const ProjectList = () => {
                         },
                         "&:last-child td, &:last-child th": { border: 0 },
                       }}
+                      onClick={() => {
+                        history.push(`my-projects/${project.id}`);
+                        setBoolBag({ openModalProjectDetail: true });
+                      }}
                     >
                       <TableCell>#{id}</TableCell>
                       <TableCell component="th" scope="row">
@@ -165,6 +181,16 @@ const ProjectList = () => {
         isOpenModal={isOpenModal}
         handleCloseModal={handleCloseModal}
       />
+      <Switch>
+        <Route path={`${match.url}/:id`}>
+          {openModalProjectDetail && (
+            <ProjectDetailModal
+              open={openModalProjectDetail}
+              handleClose={handleCloseProjectDetail}
+            />
+          )}
+        </Route>
+      </Switch>
     </Col>
   );
 };

@@ -1,14 +1,4 @@
-import {
-  Avatar,
-  Grid,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from "@mui/material";
+import { Avatar, Grid } from "@mui/material";
 import React from "react";
 import { Col, Row, Text, UiButton } from "../../../components/elements";
 import { COLOR } from "../../../constants";
@@ -17,7 +7,6 @@ import { InvestorApiItem } from "../../../types/models/user";
 import { formatMoney } from "../../../until/helpers/functions";
 import { styled } from "@mui/material/styles";
 import Tooltip, { TooltipProps, tooltipClasses } from "@mui/material/Tooltip";
-import { formatShortDateTime } from "../../../until/helpers";
 
 interface Props {
   investment: number;
@@ -163,7 +152,7 @@ const Investment = ({ investment, investor_project, percent }: Props) => {
   const percentReceived = (totalAmountReceived / investment) * 100;
 
   return (
-    <Col sx={{ margin: "20px 0px" }}>
+    <Col sx={{ margin: "20px 0px", paddingBottom: "50px" }}>
       <Text fontSize="subtitle1" sx={{ fontWeight: "bold" }}>
         Investment
       </Text>
@@ -195,56 +184,15 @@ const Investment = ({ investment, investor_project, percent }: Props) => {
           </Text>
         </Row>
       </Row>
-      <Col sx={{ padding: "20px 0px", overflow: "hidden" }}>
-        <TableContainer component={Paper}>
-          <Table sx={{}} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Time</TableCell>
-                <TableCell>Investor</TableCell>
-                <TableCell>Value</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {investor_project.map(
-                (investor_project: InvestorProjectApiItem) => {
-                  const { date_create, investor, investment_money } =
-                    investor_project;
-                  return (
-                    <TableRow
-                      key={investor_project.id}
-                      hover
-                      sx={{
-                        cursor: "pointer",
-                        "& .MuiTableCell-root": {
-                          fontSize: "0.875rem",
-                          color: "rgb(213, 217, 233)",
-                          borderColor: "rgba(213, 217, 233, 0.082)",
-                          borderBottom: "1px solid rgba(213, 217, 233, 0.082)",
-                          maxWidth: 100,
-                        },
-                        "&:last-child td, &:last-child th": { border: 0 },
-                      }}
-                    >
-                      <TableCell>{formatShortDateTime(date_create)}</TableCell>
-                      <TableCell component="th" scope="row">
-                        {investor.profile.name}
-                      </TableCell>
-                      <TableCell>{formatMoney(investment_money)}</TableCell>
-                    </TableRow>
-                  );
-                }
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Col>
-
-      <Row sx={{ margin: "10px 0px", justifyContent: "center" }}>
-        <Row sx={{ width: "50%", justifyContent: "space-around" }}>
-          <UiButton>Deal with startup</UiButton>
-        </Row>
-      </Row>
+      <Grid container spacing={2}>
+        {investor_project.map((investor: InvestorProjectApiItem) => {
+          return (
+            <Grid key={investor.id} item xs={4}>
+              {investor && <InvestorCard investor={investor} />}
+            </Grid>
+          );
+        })}
+      </Grid>
     </Col>
   );
 };

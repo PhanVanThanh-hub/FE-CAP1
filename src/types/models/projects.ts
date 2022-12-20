@@ -17,6 +17,7 @@ export interface InvestorProjectApiItem {
   investment_percent: number;
   investor: InvestorApiItem;
   project: number;
+  date_create: string;
 }
 
 export interface ProjectApiItem {
