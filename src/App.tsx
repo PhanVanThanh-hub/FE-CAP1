@@ -13,6 +13,7 @@ import MessagePage from "./page/Mess/page";
 import NotifyPage from "./page/Notify/page";
 import ProjectsPage from "./page/Project/page";
 import MyProjectPage from "./page/MyProject/page";
+import { UserInteraction } from "./components/shared/Post";
 
 function App() {
   return (
@@ -36,7 +37,7 @@ function App() {
         <Route path="/" exact>
           <HomePage />
         </Route>
-        <Route path="/post" exact>
+        <Route path="/post/:id" exact>
           <PhotoViewer />
         </Route>
         <Route path="/settings">
