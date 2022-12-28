@@ -1,12 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../app/store";
-import {
-  ListResponse,
-  ErrorResponse,
-  SuccessResponse,
-  ResponseApi,
-} from "../types/models/common";
-import { ProjectApiItem } from "../types/models/projects";
+import { ErrorResponse, SuccessResponse } from "../types/models/common";
 import { getObjNthItem } from "../until/helpers/functions";
 
 export interface uiState {
@@ -16,6 +10,7 @@ export interface uiState {
   mess: string;
   status: number;
   finishedCallApi: boolean;
+  title: string;
 }
 
 const initialState: uiState = {
@@ -24,6 +19,7 @@ const initialState: uiState = {
   isLogin: false,
   mess: "",
   status: 0,
+  title: "",
   finishedCallApi: false,
 };
 
@@ -44,7 +40,8 @@ const uiSlice = createSlice({
     },
     fetchSuccess(state, action: PayloadAction<SuccessResponse>) {
       state.loading = false;
-      state.mess = getObjNthItem(action.payload.data, 1);
+      state.title = getObjNthItem(action.payload.data, 1);
+      state.mess = getObjNthItem(action.payload.data, 2);
       state.status = action.payload.status;
       state.finishedCallApi = true;
     },
@@ -66,6 +63,7 @@ export const selectMess = (state: RootState) => state.ui.mess;
 export const selectStatus = (state: RootState) => state.ui.status;
 export const selectFinishedCallApi = (state: RootState) =>
   state.ui.finishedCallApi;
+export const selectTitle = (state: RootState) => state.ui.title;
 //Reducer
 const uiReducer = uiSlice.reducer;
 export default uiReducer;

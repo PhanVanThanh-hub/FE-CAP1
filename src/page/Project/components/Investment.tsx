@@ -11,13 +11,16 @@ import {
 } from "@mui/material";
 import React from "react";
 import { Col, Row, Text, UiButton } from "../../../components/elements";
-import { COLOR } from "../../../constants";
+import { COLOR, USER_ROLE } from "../../../constants";
 import { InvestorProjectApiItem } from "../../../types/models/projects";
 import { InvestorApiItem } from "../../../types/models/user";
 import { formatMoney } from "../../../until/helpers/functions";
 import { styled } from "@mui/material/styles";
 import Tooltip, { TooltipProps, tooltipClasses } from "@mui/material/Tooltip";
 import { formatShortDateTime } from "../../../until/helpers";
+import { useSelector } from "react-redux";
+import { selectUserRole } from "../../../redux/auth/authSlice";
+import { getUserRoleFromStorage } from "../../../services/auth";
 
 interface Props {
   investment: number;
@@ -155,6 +158,8 @@ const InvestorCard = ({ investor }: { investor: InvestorProjectApiItem }) => {
 };
 
 const Investment = ({ investment, investor_project, percent }: Props) => {
+  const userRole = useSelector(selectUserRole) || getUserRoleFromStorage();
+
   const totalAmountReceived = investor_project.reduce(
     (totalAmount, investor) => totalAmount + Number(investor.investment_money),
     0
@@ -240,11 +245,13 @@ const Investment = ({ investment, investor_project, percent }: Props) => {
         </TableContainer>
       </Col>
 
-      <Row sx={{ margin: "10px 0px", justifyContent: "center" }}>
-        <Row sx={{ width: "50%", justifyContent: "space-around" }}>
-          <UiButton>Deal with startup</UiButton>
+      {userRole === USER_ROLE.INVESTOR && (
+        <Row sx={{ margin: "10px 0px", justifyContent: "center" }}>
+          <Row sx={{ width: "50%", justifyContent: "space-around" }}>
+            <UiButton>Deal with startup</UiButton>
+          </Row>
         </Row>
-      </Row>
+      )}
     </Col>
   );
 };

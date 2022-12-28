@@ -26,6 +26,7 @@ import { selectFinishedCallApi, selectStatus } from "../../../redux/uiSlice";
 import { STATUS_AXIOS } from "../../../constants";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
 import ProjectDetailModal from "./ProjectDetail";
+import FormContractModal from "./FormContract";
 
 const PAGE_SIZE = 5;
 
@@ -33,8 +34,10 @@ const ProjectList = () => {
   const { boolBag, setBoolBag } = useBoolBag({
     isOpenModal: false,
     openModalProjectDetail: true,
+    isOpenContractModal: false,
   });
-  const { isOpenModal, openModalProjectDetail } = boolBag;
+  const { isOpenModal, openModalProjectDetail, isOpenContractModal } = boolBag;
+  const [projectChoose, setProjectChoose] = useState({ id: 0, name: "" });
   const dispatch = useAppDispatch();
   const projects = useSelector(selectProjectsStartup);
   const status = useSelector(selectStatus);
@@ -64,7 +67,7 @@ const ProjectList = () => {
   }, [setBoolBag, status, isFinishCallApi]);
 
   const handleCloseModal = () => {
-    setBoolBag({ isOpenModal: false });
+    setBoolBag({ isOpenModal: false, isOpenContractModal: false });
   };
 
   const changePage = (event: any, pageNumber: number) => {
@@ -105,6 +108,7 @@ const ProjectList = () => {
                   <TableCell>Project Owner</TableCell>
                   <TableCell>Establish</TableCell>
                   <TableCell align="center">Status</TableCell>
+                  <TableCell align="center">Create Contract</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -133,13 +137,16 @@ const ProjectList = () => {
                         },
                         "&:last-child td, &:last-child th": { border: 0 },
                       }}
-                      onClick={() => {
-                        history.push(`my-projects/${project.id}`);
-                        setBoolBag({ openModalProjectDetail: true });
-                      }}
                     >
                       <TableCell>#{id}</TableCell>
-                      <TableCell component="th" scope="row">
+                      <TableCell
+                        component="th"
+                        scope="row"
+                        onClick={() => {
+                          history.push(`my-projects/${project.id}`);
+                          setBoolBag({ openModalProjectDetail: true });
+                        }}
+                      >
                         {project_name}
                       </TableCell>
                       <TableCell>{category.name}</TableCell>
@@ -161,6 +168,18 @@ const ProjectList = () => {
                             variant="outlined"
                           />
                         )}
+                      </TableCell>
+                      <TableCell
+                        align="center"
+                        onClick={() => {
+                          setBoolBag({ isOpenContractModal: true });
+                          setProjectChoose({
+                            id: id || 0,
+                            name: project_name,
+                          });
+                        }}
+                      >
+                        <UiIcon icon="mdi:deal-outline" />
                       </TableCell>
                     </TableRow>
                   );
@@ -191,6 +210,11 @@ const ProjectList = () => {
           )}
         </Route>
       </Switch>
+      <FormContractModal
+        open={isOpenContractModal}
+        handleClose={handleCloseModal}
+        project={projectChoose}
+      />
     </Col>
   );
 };

@@ -19,6 +19,10 @@ export const saveUsername = async (username: string) => {
   localStorage.setItem(STORAGE_KEYS.USER, username);
 };
 
+export const saveUserRole = async (role: string) => {
+  localStorage.setItem(STORAGE_KEYS.ROLE, role);
+};
+
 export const saveUserCredential = async ({
   access,
   refresh,
@@ -35,4 +39,9 @@ export const getAccessTokenFromStorage = () => {
 export const getUsernameFromStorage = () => {
   const username = localStorage.getItem(STORAGE_KEYS.USER);
   return username;
+};
+
+export const getUserRoleFromStorage = () => {
+  const role = localStorage.getItem(STORAGE_KEYS.ROLE);
+  return role;
 };

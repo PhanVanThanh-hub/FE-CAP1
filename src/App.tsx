@@ -19,16 +19,21 @@ import {
   selectLoading,
   selectMess,
   selectStatus,
+  selectTitle,
 } from "./redux/uiSlice";
-import { STATUS_AXIOS } from "./constants";
+import { STATUS_AXIOS, USER_ROLE } from "./constants";
 import Swal from "sweetalert2";
-import { getAccessTokenFromStorage } from "./services/auth";
-import { selectTokenUser } from "./redux/auth/authSlice";
+import {
+  getAccessTokenFromStorage,
+  getUserRoleFromStorage,
+} from "./services/auth";
+import { selectTokenUser, selectUserRole } from "./redux/auth/authSlice";
 import ProfilePage from "./page/Profile/page";
 import SearchPage from "./page/Search";
 import GroupListPage from "./page/Groups/page";
 import GroupPage from "./page/Group/page";
 import CreateGroupPage from "./page/CreateGroup/page";
+import MyProjectInvestorPage from "./page/MyProjectInvestor/page";
 
 function App() {
   const loading = useSelector(selectLoading);
@@ -37,24 +42,26 @@ function App() {
   const finishedCallApi = useSelector(selectFinishedCallApi);
   const isAuth = getAccessTokenFromStorage();
   const tokenUser = useSelector(selectTokenUser);
+  const userRole = useSelector(selectUserRole) || getUserRoleFromStorage();
+  const title = useSelector(selectTitle);
 
   useEffect(() => {
     if (finishedCallApi) {
       if (status === STATUS_AXIOS.OK) {
         Swal.fire({
-          title: mess,
+          title: title,
           text: mess,
           icon: "success",
         });
       } else {
         Swal.fire({
-          title: mess,
+          title: title,
           text: mess,
           icon: "error",
         });
       }
     }
-  }, [finishedCallApi, mess, status]);
+  }, [finishedCallApi, mess, status, title]);
 
   return (
     <ToggleColorMode>
@@ -79,7 +86,8 @@ function App() {
             <ProjectsPage />
           </Route>
           <Route path="/my-projects">
-            <MyProjectPage />
+            {userRole === USER_ROLE.STARTUP && <MyProjectPage />}
+            {userRole === USER_ROLE.INVESTOR && <MyProjectInvestorPage />}
           </Route>
           <Route path="/me">
             <ProfilePage />

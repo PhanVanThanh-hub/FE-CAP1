@@ -49,11 +49,15 @@ const authApi = {
     return axiosClient.post(url, data);
   },
   searchUser(params: any) {
+    const accessToken = getAccessTokenFromStorage();
     const url = "search/";
     return axiosClient
       .get(url, {
         params: {
           ...params,
+        },
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
         },
       })
       .then((response: SuccessResponse) => ({ response }))
@@ -65,6 +69,22 @@ const authApi = {
     const url = "user/";
     return axiosClient
       .get(url, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response: SuccessResponse) => ({ response }))
+      .catch((error: ErrorResponse) => ({ error }));
+  },
+
+  getProfile(params: any) {
+    const accessToken = getAccessTokenFromStorage();
+    const url = "profile/";
+    return axiosClient
+      .get(url, {
+        params: {
+          ...params,
+        },
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

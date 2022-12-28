@@ -2,11 +2,7 @@ import { PayloadAction } from "@reduxjs/toolkit";
 import { call, put, takeLatest } from "redux-saga/effects";
 import chatApi from "../../api/chatApi";
 import { ListBoxChatApiItem, MessageApiItem } from "../../types/models/chat";
-import {
-  ListResponse,
-  ListResponseFilter,
-  ResponseApi,
-} from "../../types/models/common";
+import { ListResponseFilter, ResponseApi } from "../../types/models/common";
 import {
   fetchBoxChat,
   fetchBoxChatSuccess,

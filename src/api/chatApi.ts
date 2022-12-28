@@ -1,5 +1,5 @@
 import { getAccessTokenFromStorage } from "../services/auth";
-import { PostErrorResponse, PostSuccessResponse } from "../types/models/common";
+import { ErrorResponse, SuccessResponse } from "../types/models/common";
 import axiosClient from "./axiosClient";
 
 const chatApi = {
