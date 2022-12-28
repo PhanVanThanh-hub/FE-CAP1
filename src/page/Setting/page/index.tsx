@@ -1,11 +1,11 @@
 import React from "react";
 import { Grid } from "@mui/material";
 import Menu from "../components/Menu";
-import GeneralAccount from "../components/GenaralAccount";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
 import Notify from "../components/Notify";
 import PrivateAndSafe from "../components/PrivateAndSafe";
 import { Col } from "../../../components/elements";
+import GeneralAccount from "../components/GenarakAccount";
 
 const SettingPage = () => {
   const match = useRouteMatch();
