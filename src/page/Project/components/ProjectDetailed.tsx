@@ -50,7 +50,7 @@ const ProjectDetailModal = ({ open, handleClose }: ModalProps) => {
           <Col sx={{ padding: "0px 20px" }}>
             <CardMedia
               component="img"
-              height="194"
+              height="195"
               image={image}
               alt="Paella dish"
             />

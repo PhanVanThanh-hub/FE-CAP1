@@ -4,7 +4,7 @@ import Menu from "../components/Menu";
 import SuggestionsTab from "../components/SuggestionsTab";
 import CreatePost from "../components/CreatePost";
 import { Col } from "../../../components/elements";
-import Post from "../../../components/shared/Post";
+import ListPost from "../../../components/shared/ListPost";
 
 const HomePage = () => {
   return (
@@ -19,7 +19,7 @@ const HomePage = () => {
         <Grid item xs={4}>
           <Col>
             <CreatePost />
-            <Post />
+            <ListPost/>
           </Col>
         </Grid>
         <Grid item xs={2}>

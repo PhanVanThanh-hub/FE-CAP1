@@ -1,0 +1,212 @@
+[33mcommit 31c68d8d29154126a1f6780b9b23f0fb21a967a4[m[33m ([m[1;36mHEAD[m[33m, [m[1;31morigin/post[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mpost[m[33m)[m
+Author: PhanVanThanh-hub <66579818+PhanVanThanh-hub@users.noreply.github.com>
+Date:   Sat Nov 19 20:54:52 2022 +0700
+
+    feat:UI Add Project
+
+[1mdiff --git a/package.json b/package.json[m
+[1mindex 6a0e8af..2fccff3 100644[m
+[1m--- a/package.json[m
+[1m+++ b/package.json[m
+[36m@@ -53,6 +53,7 @@[m
+     "react-scroll": "^1.8.8",[m
+     "react-slick": "^0.29.0",[m
+     "react-top-loading-bar": "^2.3.1",[m
+[32m+[m[32m    "react-uuid": "^2.0.0",[m
+     "redux-saga": "^1.2.1",[m
+     "slick-carousel": "^1.8.1",[m
+     "styled-components": "^5.3.5",[m
+[1mdiff --git a/src/App.tsx b/src/App.tsx[m
+[1mindex 5e0643f..565444c 100644[m
+[1m--- a/src/App.tsx[m
+[1m+++ b/src/App.tsx[m
+[36m@@ -12,6 +12,7 @@[m [mimport SettingPage from "./page/Setting/page";[m
+ import MessagePage from "./page/Mess/page";[m
+ import NotifyPage from "./page/Notify/page";[m
+ import ProjectsPage from "./page/Project/page";[m
+[32m+[m[32mimport MyProjectPage from "./page/MyProject/page";[m
+ [m
+ function App() {[m
+   return ([m
+[36m@@ -50,6 +51,9 @@[m [mfunction App() {[m
+         <Route path="/projects">[m
+           <ProjectsPage />[m
+         </Route>[m
+[32m+[m[32m        <Route path="/my-projects">[m
+[32m+[m[32m          <MyProjectPage />[m
+[32m+[m[32m        </Route>[m
+       </Switch>[m
+     </ToggleColorMode>[m
+   );[m
+[1mdiff --git a/src/assets/image/logo.png b/src/assets/image/logo.png[m
+[1mnew file mode 100644[m
+[1mindex 0000000..33e1309[m
+Binary files /dev/null and b/src/assets/image/logo.png differ
+[1mdiff --git a/src/components/FormControl/InputField.tsx b/src/components/FormControl/InputField.tsx[m
+[1mindex 7b552cb..97d3cdb 100644[m
+[1m--- a/src/components/FormControl/InputField.tsx[m
+[1m+++ b/src/components/FormControl/InputField.tsx[m
+[36m@@ -1,17 +1,27 @@[m
+[31m-import { TextField, FormLabel, FormControl } from "@mui/material";[m
+[32m+[m[32mimport {[m
+[32m+[m[32m  TextField,[m
+[32m+[m[32m  FormLabel,[m
+[32m+[m[32m  FormControl,[m
+[32m+[m[32m  InputAdornment,[m
+[32m+[m[32m} from "@mui/material";[m
+ import * as React from "react";[m
+ import { Control, useController } from "react-hook-form";[m
+[32m+[m[32mimport { UiIcon } from "../elements";[m
+ [m
+ interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {[m
+   name: string;[m
+   control: Control<any>;[m
+   label?: string;[m
+[32m+[m[32m  multiline?: boolean;[m
+[32m+[m[32m  icon?: string;[m
+ }[m
+ [m
+ export function InputField({[m
+   name,[m
+   control,[m
+   label,[m
+[32m+[m[32m  multiline,[m
+[32m+[m[32m  icon,[m
+   ...inputProps[m
+ }: InputFieldProps) {[m
+   const {[m
+[36m@@ -55,6 +65,7 @@[m [mexport function InputField({[m
+               borderColor: "button.primary",[m
+             },[m
+           },[m
+[32m+[m
+           input: {[m
+             "&::placeholder": {[m
+               fontSize: "14px",[m
+[36m@@ -70,7 +81,18 @@[m [mexport function InputField({[m
+         helperText={error?.message}[m
+         inputProps={inputProps}[m
+         fullWidth[m
+[32m+[m[32m        multiline={multiline}[m
+         margin="normal"[m
+[32m+[m[32m        InputProps={{[m
+[32m+[m[32m          startAdornment: ([m
+[32m+[m[32m            <InputAdornment[m
+[32m+[m[32m              position="start"[m
+[32m+[m[32m              sx={{ marginLeft: icon ? "10px" : "0px" }}[m
+[32m+[m[32m            >[m
+[32m+[m[32m              {icon && <UiIcon icon={icon} />}[m
+[32m+[m[32m            </InputAdornment>[m
+[32m+[m[32m          ),[m
+[32m+[m[32m        }}[m
+       />[m
+     </FormControl>[m
+   );[m
+[1mdiff --git a/src/components/FormControl/SelectField.tsx b/src/components/FormControl/SelectField.tsx[m
+[1mindex bdd0a8c..cd53ad8 100644[m
+[1m--- a/src/components/FormControl/SelectField.tsx[m
+[1m+++ b/src/components/FormControl/SelectField.tsx[m
+[36m@@ -23,6 +23,7 @@[m [mexport interface SelectFieldProps[m
+   label?: string;[m
+   disabled?: boolean;[m
+   options: SelectOptions[];[m
+[32m+[m[32m  isMultipleSelection?: boolean;[m
+ }[m
+ [m
+ export function SelectField({[m
+[36m@@ -31,13 +32,49 @@[m [mexport function SelectField({[m
+   label,[m
+   disabled,[m
+   options,[m
+[32m+[m[32m  isMultipleSelection = true,[m
+ }: SelectFieldProps) {[m
+   const {[m
+     field: { value, onChange, onBlur },[m
+     fieldState: { error, invalid },[m
+   } = useController({ name, control });[m
+   return ([m
+[31m-    <FormControl margin="normal" fullWidth error={invalid} disabled={disabled}>[m
+[32m+[m[32m    <FormControl[m
+[32m+[m[32m      margin="normal"[m
+[32m+[m[32m      fullWidth[m
+[32m+[m[32m      error={invalid}[m
+[32m+[m[32m      disabled={disabled}[m
+[32m+[m[32m      sx={{[m
+[32m+[m[32m        margin: "0px",[m
+[32m+[m[32m        "& label.Mui-focused": {[m
+[32m+[m[32m          color: "button.primary",[m
+[32m+[m[32m        },[m
+[32m+[m[32m        "& .MuiInput-underline:after": {[m
+[32m+[m[32m          borderBottomColor: "button.primary",[m
+[32m+[m[32m        },[m
+[32m+[m[32m        "& .MuiOutlinedInput-root": {[m
+[32m+[m[32m          borderRadius: "20px",[m
+[32m+[m[32m          fontSize: "16px",[m
+[32m+[m[32m          paddingLeft: "5px",[m
+[32m+[m[32m          "& fieldset": {[m
+[32m+[m[32m            borderColor: "button.primary",[m
+[32m+[m[32m          },[m
+[32m+[m[32m          "&:hover fieldset": {[m
+[32m+[m[32m            borderColor: "button.primary",[m
+[32m+[m[32m          },[m
+[32m+[m[32m          "&.Mui-focused fieldset": {[m
+[32m+[m[32m            borderColor: "button.primary",[m
+[32m+[m[32m          },[m
+[32m+[m[32m        },[m
+[32m+[m
+[32m+[m[32m        input: {[m
+[32m+[m[32m          "&::placeholder": {[m
+[32m+[m[32m            fontSize: "14px",[m
+[32m+[m[32m            paddingLeft: "0px",[m
+[32m+[m[32m          },[m
+[32m+[m[32m        },[m
+[32m+[m[32m      }}[m
+[32m+[m[32m    >[m
+       <FormLabel[m
+         sx={{[m
+           fontSize: "0.875rem",[m
+[36m@@ -53,22 +90,17 @@[m [mexport function SelectField({[m
+         value={value}[m
+         onChange={onChange}[m
+         onBlur={onBlur}[m
+[31m-        multiple[m
+[32m+[m[32m        multiple={isMultipleSelection}[m
+         defaultValue={[]}[m
+[31m-        input={[m
+[31m-          <OutlinedInput[m
+[31m-            id="select-multiple-chip"[m
+[31m-            label="Chip"[m
+[31m-            sx={{[m
+[31m-              borderRadius: "20px",[m
+[31m-            }}[m
+[31m-          />[m
+[31m-        }[m
+         renderValue={(selected) => ([m
+           <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>[m
+[31m-            {selected.map((select: any) => ([m
+[31m-              <Chip key={select} label={select} />[m
+[31m-            ))}[m
+[32m+[m[32m            {isMultipleSelection ? ([m
+[32m+[m[32m              selected.map((select: any) => ([m
+[32m+[m[32m                <Chip key={select} label={select} />[m
+[32m+[m[32m              ))[m
+[32m+[m[32m            ) : ([m
+[32m+[m[32m              <Chip key={selected} label={selected} />[m
+[32m+[m[32m            )}[m
+           </Box>[m
+         )}[m
+       >[m
+[1mdiff --git a/src/components/elements/UiButton.tsx b/src/components/elements/UiButton.tsx[m
+[1mindex 723da7d..765a44b 100644[m
+[1m--- a/src/components/elements/UiButton.tsx[m
+[1m+++ b/src/components/elements/UiButton.tsx[m
+[36m@@ -34,6 +34,7 @@[m [mexport const UiButton = ({[m
+       variant={variant}[m
+       onClick={onClick}[m
+       sx={{[m
+[32m+[m[32m        cursor: "pointer",[m
+         backgroundColor: backgroundColor,[m
+         color: color,[m
+         borderColor: borderColor,[m
+[1mdiff --git a/src/components/elements/UiInputFile.tsx b/src/components/elements/UiInputFile.tsx[m
+[1mnew file mode
