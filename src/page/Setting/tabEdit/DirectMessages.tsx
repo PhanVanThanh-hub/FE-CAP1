@@ -20,20 +20,20 @@ const DirectMessages = ({ backMainTab }: Props) => {
       <Col sx={{ marginBottom: "20px" }}>
         <Row sx={{ alignItems: "center", justifyContent: "space-between" }}>
           <Text fontSize="body1" sx={{ fontWeight: "bold" }}>
-            Allow pending messages from everyone
+            Allow pending messages from everyone.
           </Text>
           <UiSwitch />
         </Row>
         <Text sx={{ marginTop: "10px" }}>
           Tell people you don't follow to send you pending messages and add you
           to group chats. To reply to their message, you need to accept this
-          pending message
+          pending message.
         </Text>
       </Col>
       <Col>
         <Row sx={{ alignItems: "center", justifyContent: "space-between" }}>
           <Text fontSize="body1" sx={{ fontWeight: "bold" }}>
-            Show reading report
+            Show reading report.
           </Text>
           <UiSwitch />
         </Row>

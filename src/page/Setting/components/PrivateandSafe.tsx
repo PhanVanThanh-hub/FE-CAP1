@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { Box, Divider } from "@mui/material";
 import { Col, Row, Text, UiIcon } from "../../../components/elements";
 import { PRIVATE_AND_SAFE } from "../../../constants";
-import DirectMessages from "../tabEdit/DirectMesages";
+import DirectMessages from "../tabEdit/DirectMessages";
 import ContentYouSee from "../tabEdit/ContentYouSee";
 import LocationInformation from "../tabEdit/LocationInformation";
 import MuteAndBlock from "../tabEdit/MuteAndBlock";
 
-const PrivateAndSafe = () => {
+const PrivateandSafe = () => {
   const [activeTab, setTabEdit] = useState<string>("main");
 
   return (
@@ -73,4 +73,4 @@ const PrivateAndSafe = () => {
   );
 };
 
-export default PrivateAndSafe;
+export default PrivateandSafe;
