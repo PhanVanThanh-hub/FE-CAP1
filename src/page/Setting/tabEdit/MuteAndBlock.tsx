@@ -24,9 +24,9 @@ interface ModalProps {
 const BlockModal = ({ open, handleClose }: ModalProps) => {
   const [listBlocked, setListBlocked] = useState<string[]>([
     "Son Ngo",
-    "Son Ngo1",
-    "Son Ngo2",
-    "Son Ngo3",
+    "Quang Do",
+    "Duy Phan",
+    "Thanh Phan",
   ]);
 
   const handleUnblock = (user: string) => {
@@ -37,7 +37,7 @@ const BlockModal = ({ open, handleClose }: ModalProps) => {
     <UiModal open={open} onClose={handleClose} padding="20px 30px">
       <OutlinedInput
         sx={{
-          borderRadius: "26px",
+          borderRadius: "25px",
           height: "2.25em",
           fontSize: "1rem",
           input: {
@@ -86,7 +86,7 @@ const BlockModal = ({ open, handleClose }: ModalProps) => {
                   <Row
                     onClick={() => handleUnblock(user)}
                     sx={{
-                      borderRadius: "12px",
+                      borderRadius: "15px",
                       backgroundColor: "success.main",
                       padding: "5px 10px",
                       cursor: "pointer",
