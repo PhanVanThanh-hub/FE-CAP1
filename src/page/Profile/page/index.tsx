@@ -1,5 +1,6 @@
 import { Grid } from "@mui/material";
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Col, Row } from "../../../components/elements";
 import Post from "../../../components/shared/Post";
 import CreatePost from "../../Home/components/CreatePost";
@@ -8,6 +9,12 @@ import Information from "../components/Information";
 import Introduce from "../components/Introduce";
 
 const ProfilePage = () => {
+  const [listPost, setListPost] = useState([]);
+  useEffect(() => {
+    axios.get('http://127.0.0.1:8000/post/')
+      .then(res => setListPost(res.data))
+      .catch(error => console.log(error))
+  }, [])
   return (
     <Col
       sx={{
@@ -32,7 +39,13 @@ const ProfilePage = () => {
           </Grid>
           <Grid item md={7}>
             <CreatePost />
-            <Post />
+            {
+            listPost.map((postData: { id: any; image: any; author: any; create_at:any; num_comment:any}) => { 
+             return (
+             <Post key={postData.id} postData={postData}/>)
+            })
+            }
+
           </Grid>
         </Grid>
       </Col>

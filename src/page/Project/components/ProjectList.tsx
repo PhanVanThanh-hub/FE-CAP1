@@ -4,8 +4,9 @@ import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
 import { Col, UiIcon, Text, Row } from "../../../components/elements";
 import { useBoolBag } from "../../../hooks";
 import { ProjectApiItem } from "../../../types/models/projects";
+import ProjectDetailModal from "../../MyProject/components/ProjectDetail";
 import Project from "./Project";
-import ProjectDetailModal from "./ProjectDetail";
+
 
 interface Props {
   projects: ProjectApiItem[];

@@ -104,12 +104,15 @@ function App() {
           <Route path="/groups/create">
             <CreateGroupPage />
           </Route>
+          <Route path="/sign-in" exact>
+            <SignInForm />
+          </Route>
         </Switch>
       ) : (
         <Switch>
-          <Route path="/" exact>
+          {/* <Route path="/sign-in" exact>
             <SignInForm />
-          </Route>
+          </Route> */}
           <Route path="/sign-up" exact>
             <SignUpPage />
           </Route>
