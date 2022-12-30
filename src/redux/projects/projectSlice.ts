@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import {
-  ListResponse,
   ListResponseFilter,
   PaginationResponse,
   ErrorResponse,
@@ -12,7 +11,6 @@ import {
   ProjectApiItem,
   ProjectDetailApiItem,
 } from "../../types/models/projects";
-import { getObjNthItem } from "../../until/helpers/functions";
 
 export interface projectState {
   loading: boolean;

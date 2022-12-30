@@ -1,9 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
-import { saveUserCredential, saveUsername } from "../../services/auth";
+import {
+  saveUserCredential,
+  saveUsername,
+  saveUserRole,
+} from "../../services/auth";
 import {
   CategoryApiItem,
   FindAccountApiItem,
+  InformationContractApiItem,
   LoginApiItem,
   LoginProps,
   OTPApiItem,
@@ -15,8 +20,9 @@ import {
   ErrorResponse,
   SuccessResponse,
   ResponseApi,
+  ResponseDataApi,
 } from "../../types/models/common";
-import { ProfileApiItem, UserApiItem } from "../../types/models/user";
+import { ProfileApiItem } from "../../types/models/user";
 import { getObjNthItem } from "../../until/helpers/functions";
 
 export interface AuthState {}
@@ -35,6 +41,9 @@ export interface AuthState {
   userToken: string;
   listUser: ProfileApiItem[];
   username: string;
+  profile?: InformationContractApiItem;
+  profileInvestor?: InformationContractApiItem;
+  userRole: string;
 }
 
 const initialState: AuthState = {
@@ -51,6 +60,9 @@ const initialState: AuthState = {
   userToken: "",
   listUser: [],
   username: "",
+  profile: undefined,
+  profileInvestor: undefined,
+  userRole: "",
 };
 
 const authSlice = createSlice({
@@ -83,6 +95,10 @@ const authSlice = createSlice({
     fetchRole(state) {},
     fetchRoleSuccess(state, action: PayloadAction<ResponseApi<RoleApiItem[]>>) {
       state.role = action.payload.data;
+    },
+    setUserRole(state, action: PayloadAction<string>) {
+      state.userRole = action.payload;
+      saveUserRole(action.payload);
     },
     //category
     fetchCategory(state) {},
@@ -147,6 +163,22 @@ const authSlice = createSlice({
       const responsive = action.payload.response.data.results;
       state.listUser = responsive;
     },
+    //fetchProfile
+    fetchProfile(state, action: PayloadAction<any>) {},
+    fetchProfileSuccess(
+      state,
+      action: PayloadAction<ResponseDataApi<InformationContractApiItem>>
+    ) {
+      state.profile = action.payload.response.data[0];
+    },
+    //fetchProfileInvestor
+    fetchProfileInvestor(state, action: PayloadAction<any>) {},
+    fetchProfileInvestorSuccess(
+      state,
+      action: PayloadAction<ResponseDataApi<InformationContractApiItem>>
+    ) {
+      state.profileInvestor = action.payload.response.data[0];
+    },
   },
 });
 
@@ -172,6 +204,11 @@ export const {
   fetchLoginDone,
   fetchSearch,
   fetchSearchSuccess,
+  fetchProfile,
+  fetchProfileSuccess,
+  fetchProfileInvestorSuccess,
+  fetchProfileInvestor,
+  setUserRole,
 } = authSlice.actions;
 //Selectors
 export const selectRole = (state: RootState) => state.auth.role;
@@ -190,6 +227,10 @@ export const selectIsLoading = (state: RootState) => state.auth.loading;
 export const selectTokenUser = (state: RootState) => state.auth.userToken;
 export const selectListUser = (state: RootState) => state.auth.listUser;
 export const selectUsername = (state: RootState) => state.auth.username;
+export const selectProfile = (state: RootState) => state.auth.profile;
+export const selectProfileInvestor = (state: RootState) =>
+  state.auth.profileInvestor;
+export const selectUserRole = (state: RootState) => state.auth.userRole;
 //Reducer
 const authReducer = authSlice.reducer;
 export default authReducer;

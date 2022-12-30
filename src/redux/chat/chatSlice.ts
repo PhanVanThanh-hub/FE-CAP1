@@ -5,11 +5,7 @@ import {
   ListBoxChatApiItem,
   MessageApiItem,
 } from "../../types/models/chat";
-import {
-  ListResponse,
-  ListResponseFilter,
-  ResponseApi,
-} from "../../types/models/common";
+import { ListResponseFilter, ResponseApi } from "../../types/models/common";
 
 export interface ChatState {
   list_box_chat: ListBoxChatApiItem;

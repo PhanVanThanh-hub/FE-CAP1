@@ -1,5 +1,5 @@
-export interface ListResponse<T> {
-  response: { data: { data: T[] } };
+export interface ResponseDataApi<T> {
+  response: { data: T[] };
 }
 
 export interface ResponseApi<T> {
@@ -17,7 +17,7 @@ export interface PaginationResponse<T> {
 }
 
 export interface SuccessResponse {
-  data: { message: string };
+  data: { message: string; title: string };
   status: number;
 }
 

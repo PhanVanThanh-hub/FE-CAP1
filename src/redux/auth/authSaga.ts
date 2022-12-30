@@ -1,18 +1,21 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { call, put, takeLatest } from "redux-saga/effects";
 import authApi from "../../api/authApi";
-import { getAccessTokenFromStorage } from "../../services/auth";
 import {
   CategoryApiItem,
   FindAccountApiItem,
+  InformationContractApiItem,
   LoginApiItem,
   LoginProps,
   OTPApiItem,
   ResetPasswordApiItem,
   RoleApiItem,
-  UserApiItem,
 } from "../../types/models/auth";
-import { PaginationResponse, ResponseApi } from "../../types/models/common";
+import {
+  PaginationResponse,
+  ResponseApi,
+  ResponseDataApi,
+} from "../../types/models/common";
 import { ProfileApiItem } from "../../types/models/user";
 import {
   fetchAccuracyOTP,
@@ -22,6 +25,10 @@ import {
   fetchLogin,
   fetchLoginDone,
   fetchLoginFailed,
+  fetchProfile,
+  fetchProfileInvestor,
+  fetchProfileInvestorSuccess,
+  fetchProfileSuccess,
   fetchRegister,
   fetchRequestAuthFailure,
   fetchRequestAuthSuccess,
@@ -31,6 +38,7 @@ import {
   fetchSearch,
   fetchSearchSuccess,
   setTokenUser,
+  setUserRole,
 } from "./authSlice";
 
 function* searchUser(action: PayloadAction<any>) {
@@ -102,19 +110,32 @@ function* userLogin(action: PayloadAction<LoginProps>) {
       action.payload
     );
     yield put(setTokenUser(responsive));
-    // console.log("response:", responsive);
-    // const accessToken = getAccessTokenFromStorage();
-    // console.log("accessToken:", accessToken);
-    // const user: ResponseApi<UserApiItem> = yield call(
-    //   authApi.getUser,
-    //   accessToken
-    // );
-    // console.log("user:", user);
+    const response: ResponseDataApi<InformationContractApiItem> = yield call(
+      authApi.getProfile,
+      action.payload
+    );
+    yield put(setUserRole(response.response.data[0].role.name));
   } catch (error) {
     yield put(fetchLoginFailed());
   } finally {
     yield put(fetchLoginDone());
   }
+}
+
+function* getProfile(action: PayloadAction<any>) {
+  const response: ResponseDataApi<InformationContractApiItem> = yield call(
+    authApi.getProfile,
+    action.payload
+  );
+  yield put(fetchProfileSuccess(response));
+}
+
+function* getProfileInvestor(action: PayloadAction<any>) {
+  const response: ResponseDataApi<InformationContractApiItem> = yield call(
+    authApi.getProfile,
+    action.payload
+  );
+  yield put(fetchProfileInvestorSuccess(response));
 }
 
 export default function* authSaga() {
@@ -126,4 +147,6 @@ export default function* authSaga() {
   yield takeLatest(fetchResetPassword.type, resetPassword);
   yield takeLatest(fetchLogin.type, userLogin);
   yield takeLatest(fetchSearch.type, searchUser);
+  yield takeLatest(fetchProfile.type, getProfile);
+  yield takeLatest(fetchProfileInvestor.type, getProfileInvestor);
 }

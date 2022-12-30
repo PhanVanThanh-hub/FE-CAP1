@@ -5,6 +5,7 @@ export interface StartupApiItem {
   total_assets: number;
   expected_revenue: number;
   desired_investment: number;
+  id: number;
 }
 
 export interface InvestorApiItem {
@@ -75,4 +76,27 @@ export interface ProfileApiItem {
   role: RoleApiItem;
   name: string;
   user: number;
+}
+
+export interface InformationContractApiItem {
+  avatar: string;
+  birthday: string;
+  id: number;
+  phone_number: string;
+  role: RoleApiItem;
+  name: string;
+  user: { email: string; id: number };
+  information: {
+    id: number;
+    company: string;
+    field: string;
+    revenue: number;
+    total_assets: number;
+    expected_revenue: number;
+    desired_investment: number;
+    position: string;
+    min_investment: number;
+    max_investment: number;
+    categories: string[];
+  };
 }

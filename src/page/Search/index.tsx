@@ -2,14 +2,8 @@ import { Avatar, Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../app/hooks";
-import {
-  Col,
-  Row,
-  Text,
-  UiIcon,
-  UiInputField,
-} from "../../components/elements";
-import { fetchSearch, selectListUser } from "../../redux/auth/authSlice";
+import { Col, Row, Text, UiIcon } from "../../components/elements";
+import { selectListUser } from "../../redux/auth/authSlice";
 import Header from "./Header";
 
 const SearchPage = () => {
