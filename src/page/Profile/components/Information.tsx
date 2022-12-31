@@ -3,11 +3,19 @@ import React, { useEffect, useState } from "react";
 import { Col, Row, Text, UiButton, UiIcon } from "../../../components/elements";
 import image from "../../../assets/image/auth/sign-in.png";
 import axios from "axios";
-import { useParams } from "react-router-dom";
-import { ParamsProps } from "../../../types/models/app";
+import authApi from "../../../api/authApi";
+import { getAccessTokenFromStorage } from "../../../services/auth";
+import axiosClient from "../../../api/axiosClient";
+import { useSelector } from "react-redux";
+import { selectTokenUser } from "../../../redux/auth/authSlice";
+
 
 const Information = () => {
  const [profile, setProfile] = useState([]);
+ const aut = getAccessTokenFromStorage();
+ console.log( `Bearer ${aut}`)
+ const id = 1
+
  useEffect(() => {
    axios.get('http://127.0.0.1:8000/get-profile/')
    .then(res => setProfile(res.data) )
@@ -42,12 +50,12 @@ const Information = () => {
               <Col>
                 <Text fontSize="subtitle2" sx={{ fontWeight: "bold" }}>
                   Elian
-                  {
+                  {/* {
             profile.map((profileData: {name:any}) => { 
              return (
              <Text profileData={profileData}>{profileData.name}</Text>)
             })
-            }
+            } */}
                 </Text>
                 <Text>243 Follower</Text>
               </Col>
