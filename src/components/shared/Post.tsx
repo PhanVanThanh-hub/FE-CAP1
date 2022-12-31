@@ -274,7 +274,6 @@ export const UserInteraction = ({postData}:{postData: any}) => {
 // Post comment
   const aut = getAccessTokenFromStorage();
   const postId = postData.id
-  console.log("postID: ", postId)
   const NewComment = () => {
   window.location.reload();
   const uploadData = new FormData();
