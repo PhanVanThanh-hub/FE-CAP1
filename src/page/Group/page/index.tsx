@@ -8,7 +8,7 @@ import { fetchGroupDetail, selectGroup } from "../../../redux/group/groupSlice";
 import { ParamsProps } from "../../../types/models/app";
 import Header from "../../Profile/components/Header";
 import Banner from "../components/Banner";
-import GroupName from "../components/GroupName";
+import GroupName from "../components/Groupname";
 import Introduce from "../components/Introduce";
 import MemberList from "../components/Member";
 

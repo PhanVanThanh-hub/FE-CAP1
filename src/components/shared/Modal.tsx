@@ -229,15 +229,12 @@ export const CreatePostModal = ({ open, handleClose }: Props) => {
     
     const aut = getAccessTokenFromStorage();
     const NewPost = () => {
-      // window.location.reload();
+      window.location.reload();
       const uploadData = new FormData();
       uploadData.append('content', content);
-      // for(var i = 0; i<images.length;i++){
-      // }
       if(images){
         uploadData.append('images', images, 'images.name' );
       }
-      // uploadData.append('images', images)
       const url = "post/";
       axiosClient
       .post(url,uploadData,{
