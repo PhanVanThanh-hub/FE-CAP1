@@ -20,7 +20,7 @@ const CreatePost = () => {
         justifyContent: "center",
         alignItems: "center",
         padding: "20px 5px",
-        // marginTop: "12px",
+        marginTop: "12px",
         borderRadius: "24px",
         borderColorRight: "red",
       }}

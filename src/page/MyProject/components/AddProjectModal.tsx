@@ -35,12 +35,16 @@ const categories = [
   { label: "Data Analyst", value: "3" },
   { label: "Cryptocurrency", value: "4" },
   { label: "Logistic", value: "5" },
-  { label: "Other", value: "6" },
+  { label: "Stock", value: "6" },
+  { label: "Hospital", value: "8" },
+  { label: "Education", value: "10" },
+  { label: "Other", value: "9" },
 ];
 
 interface Props {
   isOpenModal: boolean;
   handleCloseModal: () => void;
+  handleCreateProject: () => void;
 }
 
 interface MemberProps {
@@ -232,7 +236,11 @@ const Member = ({
   );
 };
 
-const AddProjectModal = ({ isOpenModal, handleCloseModal }: Props) => {
+const AddProjectModal = ({
+  isOpenModal,
+  handleCloseModal,
+  handleCreateProject,
+}: Props) => {
   const initialValues: any = {
     project_name: "",
     introduce: "",
@@ -324,6 +332,7 @@ const AddProjectModal = ({ isOpenModal, handleCloseModal }: Props) => {
     reset();
     setImage("");
     setVideo("");
+    handleCreateProject();
   };
 
   const handleAddMember = (information: MemberProps) => {
@@ -519,7 +528,7 @@ const AddProjectModal = ({ isOpenModal, handleCloseModal }: Props) => {
                                 marginTop: "10px",
                                 cursor: "pointer",
                               }}
-                              onClick={() => setImage("")}
+                              onClick={() => setVideo("")}
                             >
                               Remove
                             </Text>

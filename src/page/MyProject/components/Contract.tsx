@@ -1,5 +1,7 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import { Link } from "@mui/material";
 import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { useParams, useRouteMatch } from "react-router-dom";
 import { useAppDispatch } from "../../../app/hooks";
@@ -15,11 +17,15 @@ import { COLOR } from "../../../constants";
 import {
   fetchContractDecision,
   fetchContractDetail,
+  fetchCreateContract,
   selectContractDetail,
 } from "../../../redux/contract/contactSlice";
 import { ParamsProps } from "../../../types/models/app";
 import { ContractApiItems } from "../../../types/models/contract";
 import { formatMoney } from "../../../until/helpers/functions";
+import * as yup from "yup";
+import { InputField } from "../../../components/FormControl";
+import { selectFinishedCallApi } from "../../../redux/uiSlice";
 
 interface Props {
   open: boolean;
@@ -43,9 +49,34 @@ const RowInformation = ({
 
 const Contract = ({ open, handleClose }: Props) => {
   const dispatch = useAppDispatch();
+  const contract = useSelector(selectContractDetail);
+  const initalValues: any = {
+    description: contract?.description || "",
+    amount: contract?.investment_money || "",
+    percent: contract?.investment_percent || "",
+  } as any;
+  const schema = yup
+    .object({
+      description: yup.string().required("Please enter description"),
+      amount: yup.number().typeError("Please enter a valid number"),
+      percent: yup
+        .number()
+        .typeError("Please enter a valid number")
+        .required("Dilute % is required")
+        .min(0, "Minimum atleast 0")
+        .max(100, "Allowed maximum is 100"),
+    })
+    .required();
+  const {
+    control,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useForm<any>({
+    defaultValues: initalValues,
+    resolver: yupResolver(schema),
+  });
   const params = useParams<ParamsProps>();
   const { id } = params;
-  const contract = useSelector(selectContractDetail);
   const projectLink = `http://localhost:3000/projects/${contract?.project.id}`;
 
   useEffect(() => {
@@ -55,26 +86,27 @@ const Contract = ({ open, handleClose }: Props) => {
     fetchData();
   }, [dispatch, id]);
 
+  const handleFormSubmit = async (formValue: any) => {
+    const params = {
+      ...formValue,
+      project: contract?.project.id,
+      startup: contract?.startup.id,
+      investor: contract?.investor.id,
+    };
+    dispatch(fetchCreateContract(params));
+  };
+
   const informationContract = {
     project: contract?.project.id,
     investor: contract?.investor.id,
     startup: contract?.startup.id,
   };
 
-  const handleAgreeContract = async () => {
+  const handleDeleteContract = async () => {
     await dispatch(
       fetchContractDecision({
         ...informationContract,
         close_the_deal: true,
-      })
-    );
-  };
-
-  const handleRefuseContract = async () => {
-    await dispatch(
-      fetchContractDecision({
-        ...informationContract,
-        close_the_deal: false,
       })
     );
   };
@@ -94,13 +126,13 @@ const Contract = ({ open, handleClose }: Props) => {
               fontSize="body1"
               sx={{ fontWeight: "bold", color: COLOR.icon.primary }}
             >
-              Company A (Start-up)
+              Company B (Investor)
             </Text>
             {contract && (
               <Col>
                 <RowInformation
-                  field="Start-up's Name"
-                  content={contract.startup.company}
+                  field="Investor Name"
+                  content={contract.investor.company}
                 />
               </Col>
             )}
@@ -158,34 +190,43 @@ const Contract = ({ open, handleClose }: Props) => {
             >
               Contract
             </Text>
-            {contract && (
-              <Col>
-                <RowInformation
-                  field="Description"
-                  content={contract.description}
-                />
-                <RowInformation
-                  field="Investment Money"
-                  content={formatMoney(Number(contract.investment_money))}
-                />
-                <RowInformation
-                  field="Percent"
-                  content={contract.investment_percent}
-                />
+            <form onSubmit={handleSubmit(handleFormSubmit)}>
+              <Col
+                sx={{
+                  "& .MuiInputBase-input": {
+                    height: "0.75em",
+                  },
+                  "& .MuiFormControl-root": {
+                    width: "100%",
+                  },
+                }}
+              >
+                <Row sx={{ alignItems: "center" }}>
+                  <Text sx={{ width: "25%" }}>Description:</Text>
+                  <InputField name="description" control={control} />
+                </Row>
+                <Row sx={{ alignItems: "center" }}>
+                  <Text sx={{ width: "25%" }}>Amount of Investment:</Text>
+                  <InputField name="amount" control={control} />
+                </Row>
+                <Row sx={{ alignItems: "center" }}>
+                  <Text sx={{ width: "25%" }}>Percent of Company Shares:</Text>
+                  <InputField name="percent" control={control} />
+                </Row>
               </Col>
-            )}
+              <Row
+                sx={{
+                  alignItems: "center",
+                  justifyContent: "end",
+                  marginTop: "10px",
+                }}
+              >
+                <UiButton type="submit">Update and Resend</UiButton>
+                <Row sx={{ margin: "5px" }} />
+                <UiButton onClick={handleDeleteContract}>Delete</UiButton>
+              </Row>
+            </form>
           </Col>
-          <Row
-            sx={{
-              alignItems: "center",
-              justifyContent: "end",
-              marginTop: "10px",
-            }}
-          >
-            <UiButton onClick={handleAgreeContract}>Agree</UiButton>
-            <Row sx={{ margin: "5px" }} />
-            <UiButton onClick={handleRefuseContract}>Refuse</UiButton>
-          </Row>
         </Col>
       </UiScrollBar>
     </UiModal>

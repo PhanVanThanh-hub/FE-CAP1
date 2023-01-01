@@ -4,7 +4,7 @@ import { Col, Text } from "../../../components/elements";
 const InvestmentProjectPage = () => {
   return (
     <Col sx={{}}>
-      <Text></Text>
+      <Text>dasdas</Text>
     </Col>
   );
 };

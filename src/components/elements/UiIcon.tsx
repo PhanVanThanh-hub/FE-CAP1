@@ -1,7 +1,6 @@
 import { Icon } from "@iconify/react";
 import React from "react";
 import { COLOR } from "../../constants";
-import { Row } from "./Row";
 
 interface Props {
   icon: string;

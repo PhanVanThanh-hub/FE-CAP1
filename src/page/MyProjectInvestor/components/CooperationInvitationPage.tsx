@@ -9,6 +9,7 @@ import {
   fetchCooperationInvitation,
   selectListCooperationInvitation,
 } from "../../../redux/contract/contactSlice";
+import { selectFinishedCallApi } from "../../../redux/uiSlice";
 import { ContractApiItems } from "../../../types/models/contract";
 import { formatShortDateTime } from "../../../until/helpers";
 import { formatMoney } from "../../../until/helpers/functions";
@@ -19,29 +20,30 @@ const CooperationInvitationPage = () => {
   const dispatch = useAppDispatch();
   const [isOpenContract, setIsOpenContract] = useState<boolean>(false);
   const listContract = useSelector(selectListCooperationInvitation);
+  const finishedCallApi = useSelector(selectFinishedCallApi);
   const match = useRouteMatch();
 
   useEffect(() => {
     const fetchData = async () => {
       dispatch(fetchCooperationInvitation({}));
+      setIsOpenContract(false);
+      history.push(match.url);
     };
     fetchData();
-  }, [dispatch]);
+  }, [dispatch, finishedCallApi, history, match.url]);
 
   const handleCloseModal = () => {
-    setIsOpenContract(false);
-    history.push("/my-projects");
+    history.push(match.url);
   };
 
   return (
     <Grid container spacing={3}>
       {listContract.map((contract: ContractApiItems) => {
         return (
-          <Grid item key={contract.id} xs={3}>
+          <Grid item key={contract.id} xs={4}>
             <Col
               sx={{
                 borderRadius: "12px",
-                padding: "15px 20px",
                 backgroundColor: "background.paper",
                 cursor: "pointer",
                 border: "1px solid transparent",
@@ -51,56 +53,67 @@ const CooperationInvitationPage = () => {
                 },
               }}
               onClick={() => {
-                history.push(`my-projects/${contract.id}`);
+                history.push(`${match.url}/${contract.id}`);
                 setIsOpenContract(true);
               }}
             >
-              <Row sx={{ position: "relative" }}>
-                <CardMedia
-                  component="img"
+              <Col
+                sx={{
+                  padding: "15px 20px",
+                }}
+              >
+                <Row sx={{ position: "relative" }}>
+                  <CardMedia
+                    component="img"
+                    sx={{
+                      margin: "10px 0px",
+                      height: "150px",
+                      width: "100%",
+                      borderRadius: "12px",
+                    }}
+                    image={contract.project.image}
+                    alt="Paella dish"
+                  />
+                </Row>
+                <Text fontSize="body2" sx={{ fontWeight: "bold" }}>
+                  Project : {contract.project.project_name}
+                </Text>
+                <Col sx={{ marginTop: "10px" }}>
+                  <Row sx={{ justifyContent: "space-between" }}>
+                    <Text>From :</Text>
+                    <Text
+                      sx={{ color: COLOR.icon.primary, fontWeight: "bold" }}
+                    >
+                      {contract.startup.company}
+                    </Text>
+                  </Row>
+                  <Row sx={{ justifyContent: "space-between" }}>
+                    <Text>Investment Money :</Text>
+                    <Text
+                      sx={{ color: COLOR.icon.primary, fontWeight: "bold" }}
+                    >
+                      {formatMoney(Number(contract.investment_money))}
+                    </Text>
+                  </Row>
+                  <Row sx={{ justifyContent: "space-between" }}>
+                    <Text>investment_percent :</Text>
+                    <Text
+                      sx={{ color: COLOR.icon.primary, fontWeight: "bold" }}
+                    >
+                      {contract.investment_percent}%
+                    </Text>
+                  </Row>
+                </Col>
+                <Row
                   sx={{
-                    margin: "10px 0px",
-                    height: "150px",
-                    width: "100%",
-                    borderRadius: "12px",
+                    marginTop: "10px",
                   }}
-                  image={contract.project.image}
-                  alt="Paella dish"
-                />
-              </Row>
-              <Text fontSize="body2" sx={{ fontWeight: "bold" }}>
-                Project : {contract.project.project_name}
-              </Text>
-
-              <Col sx={{ marginTop: "10px" }}>
-                <Row sx={{ justifyContent: "space-between" }}>
-                  <Text>From :</Text>
-                  <Text sx={{ color: COLOR.icon.primary, fontWeight: "bold" }}>
-                    {contract.startup.company}
-                  </Text>
-                </Row>
-                <Row sx={{ justifyContent: "space-between" }}>
-                  <Text>Investment Money :</Text>
-                  <Text sx={{ color: COLOR.icon.primary, fontWeight: "bold" }}>
-                    {formatMoney(Number(contract.investment_money))}
-                  </Text>
-                </Row>
-                <Row sx={{ justifyContent: "space-between" }}>
-                  <Text>investment_percent :</Text>
-                  <Text sx={{ color: COLOR.icon.primary, fontWeight: "bold" }}>
-                    {contract.investment_percent}%
+                >
+                  <Text fontSize="caption">
+                    {formatShortDateTime(contract.startup_deal_at)}
                   </Text>
                 </Row>
               </Col>
-              <Row
-                sx={{
-                  marginTop: "10px",
-                }}
-              >
-                <Text fontSize="caption">
-                  {formatShortDateTime(contract.startup_deal_at)}
-                </Text>
-              </Row>
             </Col>
           </Grid>
         );

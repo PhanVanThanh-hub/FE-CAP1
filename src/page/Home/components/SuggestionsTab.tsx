@@ -3,6 +3,7 @@ import { Avatar, Box, Popover, SxProps } from "@mui/material";
 import { Col, Row, Text, UiIcon } from "../../../components/elements";
 import { COLOR } from "../../../constants";
 import { useHistory } from "react-router-dom";
+import { removeUserCredential } from "../../../services/auth";
 
 interface PopoverProps {
   open: boolean;
@@ -20,6 +21,14 @@ const RowStyle: SxProps = {
 };
 
 const PopoverSwitchAccount = ({ open, anchorEl, onClose }: PopoverProps) => {
+  const history = useHistory();
+
+  const handleLogout = async () => {
+    removeUserCredential();
+    history.replace("/");
+    return window.location.reload();
+  };
+
   return (
     <Popover
       open={open}
@@ -59,9 +68,11 @@ const PopoverSwitchAccount = ({ open, anchorEl, onClose }: PopoverProps) => {
           <Row>
             <Box sx={{ width: "40px", height: "40px" }}></Box>
             <Col sx={{ marginLeft: "10px" }}>
-              <Text sx={{ cursor: "pointer" }}>Add the other account</Text>
-              <Text sx={{ cursor: "pointer", marginTop: "5px" }}>
-                Sign out @Elian
+              <Text
+                sx={{ cursor: "pointer", marginTop: "5px" }}
+                onClick={handleLogout}
+              >
+                Sign out
               </Text>
             </Col>
           </Row>

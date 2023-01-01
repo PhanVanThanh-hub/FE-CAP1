@@ -61,6 +61,25 @@ const contactApi = {
       .then((response: SuccessResponse) => ({ response }))
       .catch((error: ErrorResponse) => ({ error }));
   },
+  getHistoryContract(params: any) {
+    const accessToken = getAccessTokenFromStorage();
+    const url = "history_contract/";
+    var qs = require("qs");
+    return axiosClient
+      .get(url, {
+        params: {
+          ...params,
+        },
+        paramsSerializer: (params) => {
+          return qs.stringify(params, { arrayFormat: "repeat" });
+        },
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response: SuccessResponse) => ({ response }))
+      .catch((error: ErrorResponse) => ({ error }));
+  },
 };
 
 export default contactApi;

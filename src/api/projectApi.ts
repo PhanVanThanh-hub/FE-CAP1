@@ -98,6 +98,25 @@ const projectApi = {
       .then((response: SuccessResponse) => ({ response }))
       .catch((error: ErrorResponse) => ({ error }));
   },
+  getInvestorProject(params: any) {
+    const accessToken = getAccessTokenFromStorage();
+    const url = "investor_project/";
+    var qs = require("qs");
+    return axiosClient
+      .get(url, {
+        params: {
+          ...params,
+        },
+        paramsSerializer: (params) => {
+          return qs.stringify(params, { arrayFormat: "repeat" });
+        },
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response: SuccessResponse) => ({ response }))
+      .catch((error: ErrorResponse) => ({ error }));
+  },
 };
 
 export default projectApi;

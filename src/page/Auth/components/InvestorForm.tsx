@@ -13,7 +13,10 @@ const categories = [
   { label: "Data Analyst", value: "3" },
   { label: "Cryptocurrency", value: "4" },
   { label: "Logistic", value: "5" },
-  { label: "Other", value: "6" },
+  { label: "Stock", value: "6" },
+  { label: "Hospital", value: "8" },
+  { label: "Education", value: "10" },
+  { label: "Other", value: "9" },
 ];
 
 interface Props {

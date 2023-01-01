@@ -96,6 +96,7 @@ const FormContractModal = ({ open, handleClose, project }: ModalProps) => {
   const {
     control,
     handleSubmit,
+    reset,
     formState: { isSubmitting },
   } = useForm<any>({
     defaultValues: initalValues,
@@ -134,6 +135,7 @@ const FormContractModal = ({ open, handleClose, project }: ModalProps) => {
       startup: profileStartUp?.id,
       investor: profileInvestor?.information.id,
     };
+    reset();
     dispatch(fetchCreateContract(params));
   };
 

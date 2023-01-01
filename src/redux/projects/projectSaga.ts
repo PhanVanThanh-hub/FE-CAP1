@@ -1,8 +1,13 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { call, put, takeLatest } from "redux-saga/effects";
 import projectApi from "../../api/projectApi";
-import { PaginationResponse, ResponseApi } from "../../types/models/common";
 import {
+  PaginationResponse,
+  ResponseApi,
+  ResponseDataApi,
+} from "../../types/models/common";
+import {
+  InvestorProjectApiItem,
   ProjectApiItem,
   ProjectDetailApiItem,
 } from "../../types/models/projects";
@@ -17,6 +22,8 @@ import {
   fetchProjectsSuccess,
   fetchProjectByID,
   fetchProjectByIDSuccess,
+  fetchInvestorProject,
+  fetchInvestorProjectSuccess,
 } from "./projectSlice";
 
 function* getProject(action: PayloadAction<any>) {
@@ -77,6 +84,14 @@ function* addMemberProject(action: PayloadAction<any>) {
   }
 }
 
+function* GetInvestorProject(action: PayloadAction<any>) {
+  const responsive: ResponseDataApi<InvestorProjectApiItem> = yield call(
+    projectApi.getInvestorProject,
+    action.payload
+  );
+  yield put(fetchInvestorProjectSuccess(responsive));
+}
+
 export default function* projectSaga() {
   yield takeLatest(fetchProjects.type, getProject);
   yield takeLatest(fetchProjectsStartup.type, getProjectsStartup);
@@ -84,4 +99,5 @@ export default function* projectSaga() {
   yield takeLatest(fetchAddMemberProject.type, addMemberProject);
   yield takeLatest(fetchMember.type, getMember);
   yield takeLatest(fetchProjectByID.type, getProjectByID);
+  yield takeLatest(fetchInvestorProject.type, GetInvestorProject);
 }

@@ -50,7 +50,7 @@ const Banner = ({ handleChange, tab, group }: Props) => {
         component="img"
         image={group.cover_image}
         alt="logo"
-        sx={{ height: "400px", borderRadius: "12px", objectFit: "contain" }}
+        sx={{ height: "400px", borderRadius: "12px", objectFit: "cover" }}
       />
       <Col sx={{ padding: "10px 20px  " }}>
         <Text fontSize="subtitle1" sx={{ fontWeight: "bold" }}>

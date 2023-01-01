@@ -80,8 +80,6 @@ const Filter = ({ handleFilterCategory, handleFilterSearch }: Props) => {
                         }}
                         sx={{
                           marginLeft: "10px",
-                          borderRadius: "50%",
-                          overflow: "hidden",
                           cursor: "pointer",
                         }}
                       >

@@ -28,43 +28,47 @@ import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
 import ProjectDetailModal from "./ProjectDetail";
 import FormContractModal from "./FormContract";
 
-const PAGE_SIZE = 5;
+const PAGE_SIZE = 6;
 
 const ProjectList = () => {
   const { boolBag, setBoolBag } = useBoolBag({
     isOpenModal: false,
-    openModalProjectDetail: true,
+    openModalProjectDetail: false,
     isOpenContractModal: false,
   });
   const { isOpenModal, openModalProjectDetail, isOpenContractModal } = boolBag;
   const [projectChoose, setProjectChoose] = useState({ id: 0, name: "" });
+  const [page, setPage] = useState<number>(1);
   const dispatch = useAppDispatch();
   const projects = useSelector(selectProjectsStartup);
   const status = useSelector(selectStatus);
   const isFinishCallApi = useSelector(selectFinishedCallApi);
   const count = useSelector(selectCountProjectsPagination);
   const pagination = Math.ceil(count / PAGE_SIZE);
-  const [page, setPage] = useState<number>(1);
   const match = useRouteMatch();
   const history = useHistory();
-
-  const handleCloseProjectDetail = () => {
-    setBoolBag({ openModalProjectDetail: false });
-    history.push("/my-projects");
-  };
 
   useEffect(() => {
     const fetchData = async () => {
       dispatch(fetchProjectsStartup({ page }));
     };
     fetchData();
-  }, [dispatch, page]);
+  }, [dispatch, page, isFinishCallApi]);
 
   useEffect(() => {
     if (status === STATUS_AXIOS.OK) {
-      setBoolBag({ isOpenModal: false });
+      setBoolBag({ isOpenModal: false, isOpenContractModal: false });
     }
   }, [setBoolBag, status, isFinishCallApi]);
+
+  const handleCreateProject = () => {
+    setBoolBag({ isOpenModal: false });
+  };
+
+  const handleCloseProjectDetail = () => {
+    setBoolBag({ openModalProjectDetail: false });
+    history.push("/my-projects/projects");
+  };
 
   const handleCloseModal = () => {
     setBoolBag({ isOpenModal: false, isOpenContractModal: false });
@@ -143,7 +147,7 @@ const ProjectList = () => {
                         component="th"
                         scope="row"
                         onClick={() => {
-                          history.push(`my-projects/${project.id}`);
+                          history.push(`projects/${project.id}`);
                           setBoolBag({ openModalProjectDetail: true });
                         }}
                       >
@@ -199,17 +203,19 @@ const ProjectList = () => {
       <AddProjectModal
         isOpenModal={isOpenModal}
         handleCloseModal={handleCloseModal}
+        handleCreateProject={handleCreateProject}
       />
-      <Switch>
-        <Route path={`${match.url}/:id`}>
-          {openModalProjectDetail && (
+      {openModalProjectDetail && (
+        <Switch>
+          <Route path={`${match.url}/:id`}>
             <ProjectDetailModal
               open={openModalProjectDetail}
               handleClose={handleCloseProjectDetail}
             />
-          )}
-        </Route>
-      </Switch>
+          </Route>
+        </Switch>
+      )}
+
       <FormContractModal
         open={isOpenContractModal}
         handleClose={handleCloseModal}

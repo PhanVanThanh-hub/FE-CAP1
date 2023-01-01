@@ -5,7 +5,7 @@ import { Col, UiIcon, Text, Row } from "../../../components/elements";
 import { useBoolBag } from "../../../hooks";
 import { ProjectApiItem } from "../../../types/models/projects";
 import Project from "./Project";
-import ProjectDetailModal from "./ProjectDetail";
+import ProjectDetailModal from "./ProjectDetailed";
 
 interface Props {
   projects: ProjectApiItem[];

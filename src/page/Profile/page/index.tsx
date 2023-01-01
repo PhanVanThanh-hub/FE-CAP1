@@ -32,7 +32,7 @@ const ProfilePage = () => {
           </Grid>
           <Grid item md={7}>
             <CreatePost />
-            <Post />
+            {/* <Post /> */}
           </Grid>
         </Grid>
       </Col>

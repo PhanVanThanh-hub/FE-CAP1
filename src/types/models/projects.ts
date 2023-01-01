@@ -39,6 +39,8 @@ export interface ProjectApiItem {
   video: string;
   status: string;
   members?: MemberApiItem[];
+  date_created: string;
+  total_funds: number;
 }
 
 export interface ProjectDetailApiItem {

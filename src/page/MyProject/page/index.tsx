@@ -1,14 +1,18 @@
 import React from "react";
 import { Box, Grid } from "@mui/material";
 import Menu from "../components/Menu";
-import { useRouteMatch } from "react-router-dom";
+import { Route, Switch, useRouteMatch } from "react-router-dom";
 import ProjectList from "../components/ProjectList";
+import InvestmentProjectPage from "./InvestmentProject";
+import { Col } from "../../../components/elements";
+import CooperationInvitationPage from "./CooperationInvitation";
+import HistoryContractPage from "./HistoryContract";
 
 const MyProjectPage = () => {
   const match = useRouteMatch();
 
   return (
-    <Box height="100vh" sx={{ backgroundColor: "background.default" }}>
+    <Box minHeight="100vh" sx={{ backgroundColor: "background.default" }}>
       <Grid
         container
         sx={{
@@ -20,13 +24,22 @@ const MyProjectPage = () => {
           <Menu />
         </Grid>
         <Grid item xs={9} sx={{ paddingTop: "50px" }}>
-          <ProjectList />
-          {/* <Switch>
-            <Route path={`${match.url} `}>
-              <GeneralAccount />
-            </Route>
-            <Route path={`${match.url}/projects`}></Route>
-          </Switch> */}
+          <Col>
+            <Switch>
+              <Route path={`${match.url}/projects`}>
+                <ProjectList />
+              </Route>
+              <Route path={`${match.url}/investment_project`}>
+                <InvestmentProjectPage />
+              </Route>
+              <Route path={`${match.url}/cooperation-invitation`}>
+                <CooperationInvitationPage />
+              </Route>
+              <Route path={`${match.url}/history-contract`}>
+                <HistoryContractPage />
+              </Route>
+            </Switch>
+          </Col>
         </Grid>
       </Grid>
     </Box>

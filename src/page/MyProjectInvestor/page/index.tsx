@@ -22,7 +22,10 @@ const MyProjectInvestorPage = () => {
         </Grid>
         <Grid item xs={9} sx={{ paddingTop: "50px" }}>
           <Switch>
-            <Route path={`${match.url}`}>
+            <Route path={`${match.url} `}>
+              <CooperationInvitationPage />
+            </Route>
+            <Route path={`${match.url}/cooperation-invitation`}>
               <CooperationInvitationPage />
             </Route>
             <Route path={`${match.url}/projects`}>

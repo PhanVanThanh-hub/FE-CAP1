@@ -55,7 +55,6 @@ const Project = ({ project }: Props) => {
           style={{
             width: "30px",
             position: "absolute",
-            borderRadius: "50%",
             top: "50%",
             left: "-5%",
           }}

@@ -10,6 +10,7 @@ import TimelineDot from "@mui/lab/TimelineDot";
 import { COLOR } from "../../../constants";
 import { ProjectDetailApiItem } from "../../../types/models/projects";
 import { formatShortDateTime } from "../../../until/helpers";
+import { formatPhoneNumber } from "../../../until/helpers/functions";
 
 interface Props {
   project: ProjectDetailApiItem;
@@ -84,7 +85,7 @@ const Introduce = ({ project }: Props) => {
                 {phone_number && (
                   <Row>
                     <Text sx={{ width: "30%" }}>Phone Number</Text>
-                    <Text>{phone_number}</Text>
+                    <Text>{formatPhoneNumber(phone_number)}</Text>
                   </Row>
                 )}
               </Col>

@@ -6,8 +6,10 @@ import {
   ErrorResponse,
   SuccessResponse,
   ResponseApi,
+  ResponseDataApi,
 } from "../../types/models/common";
 import {
+  InvestorProjectApiItem,
   ProjectApiItem,
   ProjectDetailApiItem,
 } from "../../types/models/projects";
@@ -25,6 +27,7 @@ export interface projectState {
   previousPage: string;
   project?: ProjectApiItem;
   projectDetail?: ProjectDetailApiItem;
+  investorProject: InvestorProjectApiItem[];
 }
 
 const initialState: projectState = {
@@ -40,6 +43,7 @@ const initialState: projectState = {
   previousPage: "",
   project: undefined,
   projectDetail: undefined,
+  investorProject: [],
 };
 
 const projectSlice = createSlice({
@@ -88,6 +92,15 @@ const projectSlice = createSlice({
     },
     //Member
     fetchMember(state, action: PayloadAction<any>) {},
+    //InvestorProject
+    fetchInvestorProject(state, action: PayloadAction<any>) {},
+    fetchInvestorProjectSuccess(
+      state,
+      action: PayloadAction<ResponseDataApi<InvestorProjectApiItem>>
+    ) {
+      console.log("payload:", action.payload.response.data);
+      state.investorProject = action.payload.response.data;
+    },
   },
 });
 
@@ -104,6 +117,8 @@ export const {
   fetchCreateProjectSuccess,
   fetchMember,
   fetchProjectByIDSuccess,
+  fetchInvestorProject,
+  fetchInvestorProjectSuccess,
 } = projectSlice.actions;
 //Selectors
 export const selectRole = (state: RootState) => state.auth.role;
@@ -120,6 +135,8 @@ export const selectPreviousPage = (state: RootState) =>
 export const selectProject = (state: RootState) => state.projects.project;
 export const selectProjectDetail = (state: RootState) =>
   state.projects.projectDetail;
+export const selectInvestorProject = (state: RootState) =>
+  state.projects.investorProject;
 //Reducer
 const projectReducer = projectSlice.reducer;
 export default projectReducer;
