@@ -6,7 +6,10 @@ import {
   ResponseApi,
   ResponseDataApi,
 } from "../../types/models/common";
-import { ContractApiItems } from "../../types/models/contract";
+import {
+  ContractApiItems,
+  InvestorStatisticApiItems,
+} from "../../types/models/contract";
 import { InvestorProjectApiItem } from "../../types/models/projects";
 import { fetchData, fetchFailed, fetchSuccess } from "../uiSlice";
 import {
@@ -18,6 +21,8 @@ import {
   fetchCreateContract,
   fetchHistoryContract,
   fetchHistoryContractSuccess,
+  fetchInvestorStatistics,
+  fetchInvestorStatisticsSuccess,
 } from "./contactSlice";
 
 function* CreateContract(action: PayloadAction<any>) {
@@ -43,7 +48,7 @@ function* getCooperationInvitation(action: PayloadAction<any>) {
 }
 
 function* getContractDetail(action: PayloadAction<any>) {
-  const responsive: ResponseDataApi<ContractApiItems> = yield call(
+  const responsive: ResponseDataApi<ContractApiItems[]> = yield call(
     contactApi.getContractDetail,
     action.payload
   );
@@ -72,10 +77,18 @@ function* getHistoryContract(action: PayloadAction<any>) {
   yield put(fetchHistoryContractSuccess(responsive));
 }
 
+function* getInvestorStatistics() {
+  const responsive: ResponseDataApi<InvestorStatisticApiItems> = yield call(
+    contactApi.getInvestorStatistic
+  );
+  yield put(fetchInvestorStatisticsSuccess(responsive));
+}
+
 export default function* contactSaga() {
   yield takeLatest(fetchCreateContract.type, CreateContract);
   yield takeLatest(fetchCooperationInvitation.type, getCooperationInvitation);
   yield takeLatest(fetchContractDetail.type, getContractDetail);
   yield takeLatest(fetchContractDecision.type, ContractDecision);
   yield takeLatest(fetchHistoryContract.type, getHistoryContract);
+  yield takeLatest(fetchInvestorStatistics.type, getInvestorStatistics);
 }

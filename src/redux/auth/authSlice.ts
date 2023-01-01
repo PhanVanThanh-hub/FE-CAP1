@@ -167,7 +167,7 @@ const authSlice = createSlice({
     fetchProfile(state, action: PayloadAction<any>) {},
     fetchProfileSuccess(
       state,
-      action: PayloadAction<ResponseDataApi<InformationContractApiItem>>
+      action: PayloadAction<ResponseDataApi<InformationContractApiItem[]>>
     ) {
       state.profile = action.payload.response.data[0];
     },
@@ -175,7 +175,7 @@ const authSlice = createSlice({
     fetchProfileInvestor(state, action: PayloadAction<any>) {},
     fetchProfileInvestorSuccess(
       state,
-      action: PayloadAction<ResponseDataApi<InformationContractApiItem>>
+      action: PayloadAction<ResponseDataApi<InformationContractApiItem[]>>
     ) {
       state.profileInvestor = action.payload.response.data[0];
     },

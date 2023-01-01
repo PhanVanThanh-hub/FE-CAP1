@@ -110,7 +110,7 @@ function* userLogin(action: PayloadAction<LoginProps>) {
       action.payload
     );
     yield put(setTokenUser(responsive));
-    const response: ResponseDataApi<InformationContractApiItem> = yield call(
+    const response: ResponseDataApi<InformationContractApiItem[]> = yield call(
       authApi.getProfile,
       action.payload
     );
@@ -123,7 +123,7 @@ function* userLogin(action: PayloadAction<LoginProps>) {
 }
 
 function* getProfile(action: PayloadAction<any>) {
-  const response: ResponseDataApi<InformationContractApiItem> = yield call(
+  const response: ResponseDataApi<InformationContractApiItem[]> = yield call(
     authApi.getProfile,
     action.payload
   );
@@ -131,7 +131,7 @@ function* getProfile(action: PayloadAction<any>) {
 }
 
 function* getProfileInvestor(action: PayloadAction<any>) {
-  const response: ResponseDataApi<InformationContractApiItem> = yield call(
+  const response: ResponseDataApi<InformationContractApiItem[]> = yield call(
     authApi.getProfile,
     action.payload
   );

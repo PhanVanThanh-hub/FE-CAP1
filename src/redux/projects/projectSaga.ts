@@ -85,7 +85,7 @@ function* addMemberProject(action: PayloadAction<any>) {
 }
 
 function* GetInvestorProject(action: PayloadAction<any>) {
-  const responsive: ResponseDataApi<InvestorProjectApiItem> = yield call(
+  const responsive: ResponseDataApi<InvestorProjectApiItem[]> = yield call(
     projectApi.getInvestorProject,
     action.payload
   );

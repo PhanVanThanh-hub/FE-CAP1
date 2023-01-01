@@ -1,7 +1,7 @@
 import { Link } from "@mui/material";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useParams, useRouteMatch } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useAppDispatch } from "../../../app/hooks";
 import {
   Col,
@@ -18,7 +18,6 @@ import {
   selectContractDetail,
 } from "../../../redux/contract/contactSlice";
 import { ParamsProps } from "../../../types/models/app";
-import { ContractApiItems } from "../../../types/models/contract";
 import { formatMoney } from "../../../until/helpers/functions";
 
 interface Props {

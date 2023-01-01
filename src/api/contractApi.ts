@@ -80,6 +80,19 @@ const contactApi = {
       .then((response: SuccessResponse) => ({ response }))
       .catch((error: ErrorResponse) => ({ error }));
   },
+  getInvestorStatistic() {
+    const accessToken = getAccessTokenFromStorage();
+    const url = "investor_statistic/";
+
+    return axiosClient
+      .get(url, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response: SuccessResponse) => ({ response }))
+      .catch((error: ErrorResponse) => ({ error }));
+  },
 };
 
 export default contactApi;

@@ -16,3 +16,9 @@ export interface ContractApiItems {
   startup_confirm: boolean;
   startup_deal_at: string;
 }
+
+export interface InvestorStatisticApiItems {
+  number_investment_projects: number;
+  number_of_contracts: number;
+  total_investment_money: number;
+}

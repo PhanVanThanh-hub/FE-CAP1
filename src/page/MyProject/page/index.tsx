@@ -26,6 +26,9 @@ const MyProjectPage = () => {
         <Grid item xs={9} sx={{ paddingTop: "50px" }}>
           <Col>
             <Switch>
+              <Route path={`${match.url}`} exact>
+                <ProjectList />
+              </Route>
               <Route path={`${match.url}/projects`}>
                 <ProjectList />
               </Route>

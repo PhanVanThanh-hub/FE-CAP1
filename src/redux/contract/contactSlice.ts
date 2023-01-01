@@ -5,7 +5,10 @@ import {
   ResponseApi,
   ResponseDataApi,
 } from "../../types/models/common";
-import { ContractApiItems } from "../../types/models/contract";
+import {
+  ContractApiItems,
+  InvestorStatisticApiItems,
+} from "../../types/models/contract";
 
 export interface projectState {
   loading: boolean;
@@ -14,6 +17,7 @@ export interface projectState {
   count: number;
   historyContracts: ContractApiItems[];
   countHistoryContract: number;
+  investorStatistic?: InvestorStatisticApiItems;
 }
 
 const initialState: projectState = {
@@ -23,6 +27,7 @@ const initialState: projectState = {
   count: 0,
   historyContracts: [],
   countHistoryContract: 0,
+  investorStatistic: undefined,
 };
 
 const contractSlice = createSlice({
@@ -63,7 +68,7 @@ const contractSlice = createSlice({
     },
     fetchContractDetailSuccess(
       state,
-      action: PayloadAction<ResponseDataApi<ContractApiItems>>
+      action: PayloadAction<ResponseDataApi<ContractApiItems[]>>
     ) {
       state.loading = true;
       state.contract = action.payload.response.data[0];
@@ -71,6 +76,16 @@ const contractSlice = createSlice({
     //Handle contract decision
     fetchContractDecision(state, action: PayloadAction<any>) {
       state.loading = true;
+    },
+    //Investor statistics
+    fetchInvestorStatistics(state) {
+      state.loading = true;
+    },
+    fetchInvestorStatisticsSuccess(
+      state,
+      action: PayloadAction<ResponseDataApi<InvestorStatisticApiItems>>
+    ) {
+      state.investorStatistic = action.payload.response.data;
     },
   },
 });
@@ -86,6 +101,8 @@ export const {
   fetchContractDecision,
   fetchHistoryContract,
   fetchHistoryContractSuccess,
+  fetchInvestorStatistics,
+  fetchInvestorStatisticsSuccess,
 } = contractSlice.actions;
 //Selectors
 export const selectListCooperationInvitation = (state: RootState) =>
@@ -97,6 +114,8 @@ export const selectCountHistoryContract = (state: RootState) =>
   state.contract.countHistoryContract;
 export const selectHistoryContract = (state: RootState) =>
   state.contract.historyContracts;
+export const selectInvestorStatistics = (state: RootState) =>
+  state.contract.investorStatistic;
 
 //Reducer
 const contractReducer = contractSlice.reducer;

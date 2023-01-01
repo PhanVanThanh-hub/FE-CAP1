@@ -1,6 +1,6 @@
 import React from "react";
 import { Avatar, CardMedia, SxProps } from "@mui/material";
-import { useHistory } from "react-router-dom";
+import { useHistory, useRouteMatch } from "react-router-dom";
 import { Row, UiIcon, Text, Col } from "../../../components/elements";
 import { COLOR, MENU_ITEM_MY_PROJECT_INVESTOR } from "../../../constants";
 import logo from "../../../assets/image/logo.png";
@@ -21,10 +21,11 @@ const RowStyle: SxProps = {
 
 const MenuChildren = ({ icon, title, url }: MenuChildrenProps) => {
   const history = useHistory();
+  const match = useRouteMatch();
 
   return (
     <Row
-      onClick={() => history.push(url)}
+      onClick={() => history.push(`${match.url}${url}`)}
       sx={{
         alignItems: "center",
         marginTop: "10px",
@@ -51,6 +52,8 @@ const MenuChildren = ({ icon, title, url }: MenuChildrenProps) => {
 };
 
 const Menu = () => {
+  const history = useHistory();
+
   return (
     <Col
       sx={{
@@ -68,14 +71,9 @@ const Menu = () => {
             component="img"
             image={logo}
             alt="Paella dish"
-            style={{ width: "60%", marginBottom: "20px" }}
+            style={{ width: "60%", marginBottom: "20px", cursor: "pointer" }}
+            onClick={() => history.push("/")}
           />
-          {/* <Row sx={{ alignItems: "center" }}>
-            <Avatar />
-            <Text fontSize="body1" sx={{ marginLeft: "15px" }}>
-              Elian
-            </Text>
-          </Row> */}
 
           {MENU_ITEM_MY_PROJECT_INVESTOR.map((item) => {
             return (

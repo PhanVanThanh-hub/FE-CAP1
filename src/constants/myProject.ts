@@ -20,12 +20,12 @@ export const MENU_ITEM_PROJECT = [
 export const MENU_ITEM_MY_PROJECT_INVESTOR = [
   {
     title: "Cooperation Invitation",
-    icon: "ant-design:home-outlined",
-    url: "/my-projects/cooperation-invitation",
+    icon: "clarity:contract-solid",
+    url: "/cooperation-invitation",
   },
   {
     title: "Investment Project",
-    icon: "ant-design:home-outlined",
-    url: "/my-projects/projects",
+    icon: "charm:plant-pot",
+    url: "/projects",
   },
 ];

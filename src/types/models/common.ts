@@ -1,5 +1,5 @@
 export interface ResponseDataApi<T> {
-  response: { data: T[] };
+  response: { data: T };
 }
 
 export interface ResponseApi<T> {

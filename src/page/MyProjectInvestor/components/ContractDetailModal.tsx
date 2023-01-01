@@ -1,10 +1,17 @@
 import React from "react";
-import { Col, UiModal, Text, Row } from "../../../components/elements";
+import {
+  Col,
+  UiModal,
+  Text,
+  Row,
+  UiButton,
+} from "../../../components/elements";
 import UiScrollBar from "../../../components/elements/UiScrollBar";
 import { COLOR } from "../../../constants";
 import { ContractApiItems } from "../../../types/models/contract";
 import { formatMoney } from "../../../until/helpers/functions";
 import { formatShortDateTime } from "../../../until/helpers";
+import { Link } from "@mui/material";
 
 interface Props {
   open: boolean;
@@ -30,6 +37,8 @@ const RowInformation = ({
 };
 
 const ContractDetailModal = ({ open, handleClose, contract }: Props) => {
+  const projectLink = `http://localhost:3000/projects/${contract?.project.id}`;
+
   return (
     <UiModal open={open} onClose={handleClose} width="60%">
       <UiScrollBar>
@@ -43,8 +52,8 @@ const ContractDetailModal = ({ open, handleClose, contract }: Props) => {
           </Text>
           <Col>
             <RowInformation
-              field="Investor Name"
-              content={contract.investor.company}
+              field="Startup Name"
+              content={contract.startup.company}
             />
             <RowInformation
               field="Investment Money"
@@ -54,7 +63,24 @@ const ContractDetailModal = ({ open, handleClose, contract }: Props) => {
               field="Investment Percent"
               content={contract.investment_percent}
             />
-            <Row sx={{ margin: "10px 0px" }} />
+            <Row sx={{ alignItems: "center" }}>
+              <Text sx={{ fontWeight: "bold" }}>
+                Project:{" "}
+                <span style={{ color: COLOR.icon.primary }}>
+                  {contract.project.project_name}
+                </span>
+              </Text>
+              <UiButton sx={{ marginLeft: "10px" }}>
+                <Link
+                  target="_black"
+                  href={projectLink}
+                  underline="none"
+                  sx={{ color: "white" }}
+                >
+                  Learn More
+                </Link>
+              </UiButton>
+            </Row>
             <Text fontSize="subtitle2" sx={{ fontWeight: "bold" }}>
               Description
             </Text>

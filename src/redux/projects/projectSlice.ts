@@ -96,9 +96,8 @@ const projectSlice = createSlice({
     fetchInvestorProject(state, action: PayloadAction<any>) {},
     fetchInvestorProjectSuccess(
       state,
-      action: PayloadAction<ResponseDataApi<InvestorProjectApiItem>>
+      action: PayloadAction<ResponseDataApi<InvestorProjectApiItem[]>>
     ) {
-      console.log("payload:", action.payload.response.data);
       state.investorProject = action.payload.response.data;
     },
   },

@@ -1,7 +1,4 @@
 import {
-  CardMedia,
-  Chip,
-  Grid,
   Pagination,
   Paper,
   Table,
@@ -13,7 +10,6 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useHistory, useRouteMatch } from "react-router-dom";
 import { useAppDispatch } from "../../../app/hooks";
 import { Col, Row, Text } from "../../../components/elements";
 import {
@@ -29,12 +25,10 @@ import ContractDetailModal from "../components/ContractDetail";
 const PAGE_SIZE = 6;
 
 const HistoryContractPage = () => {
-  const history = useHistory();
   const dispatch = useAppDispatch();
   const [isOpenContract, setIsOpenContract] = useState<boolean>(false);
   const listContract = useSelector(selectHistoryContract);
   const count = useSelector(selectCountHistoryContract);
-  const match = useRouteMatch();
   const pagination = Math.ceil(count / PAGE_SIZE);
   const [page, setPage] = useState<number>(1);
   const [contract, setContract] = useState<ContractApiItems>();
