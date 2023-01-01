@@ -1,5 +1,5 @@
 import React from "react";
-import { Avatar, CardMedia, SxProps } from "@mui/material";
+import { CardMedia, SxProps } from "@mui/material";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import { Row, UiIcon, Text, Col } from "../../../components/elements";
 import { COLOR, MENU_ITEM_MY_PROJECT_INVESTOR } from "../../../constants";

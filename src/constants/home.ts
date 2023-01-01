@@ -1,16 +1,21 @@
+import { PAGES } from "./app";
+
 export const MENU_ITEM = [
-  { title: "Home Page", icon: "ant-design:home-outlined", url: "" },
-  { title: "Projects", icon: "charm:plant-pot", url: "/projects" },
-  { title: "Search", icon: "ant-design:search-outlined", url: "/search" },
-  { title: "Messenger", icon: "ci:message-writing", url: "/message" },
-  { title: "Group", icon: "heroicons:user-group", url: "/groups" },
+  {
+    title: "Home Page",
+    icon: "ant-design:home-outlined",
+    url: PAGES.HOME_PAGE,
+  },
+  { title: "Projects", icon: "charm:plant-pot", url: PAGES.PROJECTS },
+  { title: "Search", icon: "ant-design:search-outlined", url: PAGES.SEARCH },
+  { title: "Messenger", icon: "ci:message-writing", url: PAGES.MESSAGES },
+  { title: "Group", icon: "heroicons:user-group", url: PAGES.GROUP },
   {
     title: "Notify",
     icon: "clarity:notification-outline-badged",
-    url: "/notify",
+    url: PAGES.NOTIFY,
   },
-  { title: "Setting", icon: "ant-design:setting-outlined", url: "/settings" },
-  { title: "My Project", icon: "charm:plant-pot", url: "/my-projects" },
+  { title: "Setting", icon: "ant-design:setting-outlined", url: PAGES.SETTING },
 ];
 
 export const phoneRegExp =

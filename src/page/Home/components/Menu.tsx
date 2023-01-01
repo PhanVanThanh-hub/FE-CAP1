@@ -2,7 +2,11 @@ import React from "react";
 import { SxProps } from "@mui/material";
 import { useHistory } from "react-router-dom";
 import { Col, Row, Text, UiIcon } from "../../../components/elements";
-import { COLOR, MENU_ITEM } from "../../../constants";
+import { COLOR, MENU_ITEM, USER_ROLE } from "../../../constants";
+import { useSelector } from "react-redux";
+import { selectUserRole } from "../../../redux/auth/authSlice";
+import { getUserRoleFromStorage } from "../../../services/auth";
+import { PAGES } from "../../../constants/app";
 
 interface MenuChildrenProps {
   icon: any;
@@ -50,6 +54,8 @@ const MenuChildren = ({ icon, title, url }: MenuChildrenProps) => {
 };
 
 const Menu = () => {
+  const userRole = useSelector(selectUserRole) || getUserRoleFromStorage();
+
   return (
     <Col
       sx={{
@@ -72,6 +78,13 @@ const Menu = () => {
               />
             );
           })}
+          {userRole === (USER_ROLE.STARTUP || USER_ROLE.INVESTOR) && (
+            <MenuChildren
+              title="My Project"
+              icon="charm:plant-pot"
+              url={PAGES.MY_PROJECT}
+            />
+          )}
         </Col>
       </Col>
     </Col>

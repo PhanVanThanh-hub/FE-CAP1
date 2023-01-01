@@ -1,10 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
-import {
-  PaginationResponse,
-  ResponseApi,
-  ResponseDataApi,
-} from "../../types/models/common";
+import { PaginationResponse, ResponseDataApi } from "../../types/models/common";
 import {
   ContractApiItems,
   InvestorStatisticApiItems,

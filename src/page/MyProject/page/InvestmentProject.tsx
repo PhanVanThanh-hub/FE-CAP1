@@ -19,6 +19,7 @@ import {
 import { formatDate } from "../../../until/helpers";
 import { ProjectApiItem } from "../../../types/models/projects";
 import { formatMoney } from "../../../until/helpers/functions";
+import { PAGES } from "../../../constants/app";
 
 const PAGE_SIZE = 6;
 
@@ -132,7 +133,7 @@ const InvestmentProjectPage = () => {
             <InvestmentDetail
               isOpenModal={isOpenModal}
               handleCloseModal={() => {
-                history.replace("/my-projects/investment_project");
+                history.replace(`${PAGES.MY_PROJECT}/investment_project`);
                 setIsOpenModal(false);
               }}
               project={projectOpen}

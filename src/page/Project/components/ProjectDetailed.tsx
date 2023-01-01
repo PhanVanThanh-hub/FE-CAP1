@@ -1,25 +1,16 @@
 import React, { useEffect } from "react";
-import { CardMedia, Grid } from "@mui/material";
-import {
-  Col,
-  UiModal,
-  Text,
-  UiDivider,
-  Row,
-} from "../../../components/elements";
+import { Grid } from "@mui/material";
+import { Col, UiModal, Text, UiDivider } from "../../../components/elements";
 import UiScrollBar from "../../../components/elements/UiScrollBar";
 import Introduce from "./Introduce";
 import Investment from "./Investment";
 import Member from "./Member";
 import Video from "./Video";
-import image from "../../../assets/image/auth/sign-up.png";
-import * as Scroll from "react-scroll";
 import { useParams } from "react-router-dom";
 import { ParamsProps } from "../../../types/models/app";
 import { useAppDispatch } from "../../../app/hooks";
 import {
   fetchProjectByID,
-  selectProject,
   selectProjectDetail,
 } from "../../../redux/projects/projectSlice";
 import { useSelector } from "react-redux";
@@ -28,7 +19,6 @@ interface ModalProps {
   open: boolean;
   handleClose: any;
 }
-let Link = Scroll.Link;
 
 const ProjectDetailModal = ({ open, handleClose }: ModalProps) => {
   const dispatch = useAppDispatch();

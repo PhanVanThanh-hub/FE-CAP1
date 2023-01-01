@@ -27,6 +27,7 @@ import { STATUS_AXIOS } from "../../../constants";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
 import ProjectDetailModal from "./ProjectDetail";
 import FormContractModal from "./FormContract";
+import { PAGES } from "../../../constants/app";
 
 const PAGE_SIZE = 6;
 
@@ -67,7 +68,7 @@ const ProjectList = () => {
 
   const handleCloseProjectDetail = () => {
     setBoolBag({ openModalProjectDetail: false });
-    history.push("/my-projects/projects");
+    history.push(`/${PAGES.MY_PROJECT}/projects`);
   };
 
   const handleCloseModal = () => {

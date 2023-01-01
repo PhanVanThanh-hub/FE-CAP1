@@ -1,16 +1,11 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { call, put, takeLatest } from "redux-saga/effects";
 import contactApi from "../../api/contractApi";
-import {
-  PaginationResponse,
-  ResponseApi,
-  ResponseDataApi,
-} from "../../types/models/common";
+import { PaginationResponse, ResponseDataApi } from "../../types/models/common";
 import {
   ContractApiItems,
   InvestorStatisticApiItems,
 } from "../../types/models/contract";
-import { InvestorProjectApiItem } from "../../types/models/projects";
 import { fetchData, fetchFailed, fetchSuccess } from "../uiSlice";
 import {
   fetchContractDecision,

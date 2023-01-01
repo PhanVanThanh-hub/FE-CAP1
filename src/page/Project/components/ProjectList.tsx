@@ -2,6 +2,7 @@ import { Grid } from "@mui/material";
 import React from "react";
 import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
 import { Col, UiIcon, Text, Row } from "../../../components/elements";
+import { PAGES } from "../../../constants/app";
 import { useBoolBag } from "../../../hooks";
 import { ProjectApiItem } from "../../../types/models/projects";
 import Project from "./Project";
@@ -21,7 +22,7 @@ const ProjectList = ({ projects }: Props) => {
 
   const handleCloseProjectDetail = () => {
     setBoolBag({ openModalProjectDetail: false });
-    history.push("/projects");
+    history.push(PAGES.PROJECTS);
   };
 
   return (
