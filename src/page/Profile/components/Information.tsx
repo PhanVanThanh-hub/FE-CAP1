@@ -2,8 +2,12 @@ import { Avatar, CardMedia, Grid } from "@mui/material";
 import React from "react";
 import { Col, Row, Text, UiButton, UiIcon } from "../../../components/elements";
 import image from "../../../assets/image/auth/sign-in.png";
+import { useSelector } from "react-redux";
+import { selectProfile } from "../../../redux/auth/authSlice";
 
 const Information = () => {
+  const profile = useSelector(selectProfile);
+
   return (
     <Col
       sx={{
@@ -26,13 +30,14 @@ const Information = () => {
                 height: "120px",
                 margin: "-40px 0px 0px auto",
               }}
+              src={profile?.avatar}
             />
           </Grid>
           <Grid item md={10}>
             <Row sx={{ justifyContent: "space-between" }}>
               <Col>
                 <Text fontSize="subtitle2" sx={{ fontWeight: "bold" }}>
-                  Elian
+                  {profile?.name}
                 </Text>
                 <Text>243 Follower</Text>
               </Col>

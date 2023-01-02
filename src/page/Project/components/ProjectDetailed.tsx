@@ -21,10 +21,7 @@ import {
   selectProjectDetail,
 } from "../../../redux/projects/projectSlice";
 import { useSelector } from "react-redux";
-import {
-  fetchCheckBoxChat,
-  selectCheckBoxChat,
-} from "../../../redux/chat/chatSlice";
+import { fetchCheckBoxChat } from "../../../redux/chat/chatSlice";
 import { selectUserRole } from "../../../redux/auth/authSlice";
 import { getUserRoleFromStorage } from "../../../services/auth";
 import { USER_ROLE } from "../../../constants";
@@ -41,7 +38,6 @@ const ProjectDetailModal = ({ open, handleClose }: ModalProps) => {
   const { id } = params;
   const projectDetail = useSelector(selectProjectDetail);
   const userRole = useSelector(selectUserRole) || getUserRoleFromStorage();
-  const isCheck = useSelector(selectCheckBoxChat);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,14 +46,9 @@ const ProjectDetailModal = ({ open, handleClose }: ModalProps) => {
     fetchData();
   }, [dispatch, id]);
 
-  useEffect(() => {
-    if (isCheck) {
-      history.push("/message");
-    }
-  }, [history, isCheck]);
-
   const handleDeal = async () => {
     dispatch(fetchCheckBoxChat({ startup_id: projectDetail?.startup.id }));
+    history.push("/message");
   };
 
   return (

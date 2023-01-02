@@ -1,23 +1,37 @@
 import { Grid } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useAppDispatch } from "../../../app/hooks";
 import { Col, Row } from "../../../components/elements";
 import Post from "../../../components/shared/Post";
+import { fetchProfile } from "../../../redux/auth/authSlice";
+import { ParamsProps } from "../../../types/models/app";
 import CreatePost from "../../Home/components/CreatePost";
 import Header from "../components/Header";
 import Information from "../components/Information";
 import Introduce from "../components/Introduce";
 
 const ProfilePage = () => {
+  const dispatch = useAppDispatch();
+  const params = useParams<ParamsProps>();
+  const { id } = params;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      dispatch(fetchProfile({ user_id: id }));
+    };
+    fetchData();
+  }, [dispatch, id]);
+
   return (
     <Col
       sx={{
         backgroundColor: "background.default",
         alignItems: "center",
-        paddingBottom: "100px",
+        height: "100vh",
       }}
     >
       <Col sx={{ width: "90%", paddingTop: "20px" }}>
-        <Header />
         <Row sx={{ padding: "10px 0px" }} />
         <Information />
         <Row sx={{ padding: "10px 0px" }} />

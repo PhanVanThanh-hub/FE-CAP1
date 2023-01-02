@@ -1,15 +1,9 @@
 import React from "react";
-import { Avatar, Box, Popover, SxProps } from "@mui/material";
+import { Avatar, SxProps, Tooltip } from "@mui/material";
 import { Col, Row, Text, UiIcon } from "../../../components/elements";
 import { COLOR } from "../../../constants";
 import { useHistory } from "react-router-dom";
 import { removeUserCredential } from "../../../services/auth";
-
-interface PopoverProps {
-  open: boolean;
-  anchorEl: HTMLButtonElement | null;
-  onClose: () => void;
-}
 
 const RowStyle: SxProps = {
   width: "2.75em",
@@ -20,7 +14,7 @@ const RowStyle: SxProps = {
   marginRight: "5px",
 };
 
-const PopoverSwitchAccount = ({ open, anchorEl, onClose }: PopoverProps) => {
+const SuggestionsTab = () => {
   const history = useHistory();
 
   const handleLogout = async () => {
@@ -28,75 +22,6 @@ const PopoverSwitchAccount = ({ open, anchorEl, onClose }: PopoverProps) => {
     history.replace("/");
     return window.location.reload();
   };
-
-  return (
-    <Popover
-      open={open}
-      anchorEl={anchorEl}
-      onClose={onClose}
-      anchorOrigin={{
-        vertical: "bottom",
-        horizontal: "right",
-      }}
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-    >
-      <Col
-        sx={{
-          padding: "10px 15px",
-          borderRadius: "12px",
-          position: "relative",
-        }}
-      >
-        <Col>
-          <Row sx={{ alignItems: "center", cursor: "pointer" }}>
-            <Avatar sx={{ width: "40px", height: "40px" }} />
-            <Row
-              sx={{
-                marginLeft: "10px",
-                justifyContent: "space-between",
-                width: "100%",
-                alignItems: "center",
-              }}
-            >
-              <Text>Elian</Text>
-              <UiIcon icon="akar-icons:check" size="14px" />
-            </Row>
-          </Row>
-          <Row>
-            <Box sx={{ width: "40px", height: "40px" }}></Box>
-            <Col sx={{ marginLeft: "10px" }}>
-              <Text
-                sx={{ cursor: "pointer", marginTop: "5px" }}
-                onClick={handleLogout}
-              >
-                Sign out
-              </Text>
-            </Col>
-          </Row>
-        </Col>
-      </Col>
-    </Popover>
-  );
-};
-
-const SuggestionsTab = () => {
-  const history = useHistory();
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
-    null
-  );
-
-  const handleClick = (event: any) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClosePopover = () => {
-    setAnchorEl(null);
-  };
-
-  const isOpenPopover = Boolean(anchorEl);
 
   return (
     <Col
@@ -155,12 +80,11 @@ const SuggestionsTab = () => {
               Elian
             </Text>
           </Row>
-          <UiIcon icon="bx:dots-horizontal-rounded" onClick={handleClick} />
-          <PopoverSwitchAccount
-            open={isOpenPopover}
-            anchorEl={anchorEl}
-            onClose={handleClosePopover}
-          />
+          <Tooltip title="Log out">
+            <div>
+              <UiIcon icon="ooui:log-out-ltr" onClick={handleLogout} />
+            </div>
+          </Tooltip>
         </Row>
       </Row>
       <Col

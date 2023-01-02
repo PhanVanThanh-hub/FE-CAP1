@@ -70,7 +70,7 @@ function App() {
           <Route path="/" exact>
             <HomePage />
           </Route>
-          <Route path="/post" exact>
+          <Route path="/post/:id">
             <PhotoViewer />
           </Route>
           <Route path="/settings">
@@ -90,6 +90,9 @@ function App() {
             {userRole === USER_ROLE.INVESTOR && <MyProjectInvestorPage />}
           </Route>
           <Route path="/me">
+            <ProfilePage />
+          </Route>
+          <Route path="/profile/:id">
             <ProfilePage />
           </Route>
           <Route path="/search">

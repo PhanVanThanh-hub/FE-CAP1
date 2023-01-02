@@ -1,12 +1,29 @@
 import { Avatar, Grid } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
-import { useAppDispatch } from "../../app/hooks";
+import { useHistory } from "react-router-dom";
 import { Col, Row, Text, UiIcon } from "../../components/elements";
 import { selectListUser } from "../../redux/auth/authSlice";
+import { formatPhoneNumber } from "../../until/helpers/functions";
 import Header from "./Header";
 
+const RowInformation = ({
+  icon,
+  content,
+}: {
+  icon: string;
+  content: string;
+}) => {
+  return (
+    <Row sx={{ alignItems: "center", padding: "5px 0px" }}>
+      <UiIcon icon={icon} size="30" />
+      <Text sx={{ paddingLeft: "5px" }}>{content}</Text>
+    </Row>
+  );
+};
+
 const SearchPage = () => {
+  const history = useHistory();
   const listUser = useSelector(selectListUser);
 
   return (
@@ -20,16 +37,35 @@ const SearchPage = () => {
     >
       <Col sx={{ width: "90%", paddingTop: "20px" }}>
         <Header />
-
         <Row sx={{ paddingTop: "20px" }} />
         <Grid container spacing={2}>
+          {!listUser.length && (
+            <Row
+              sx={{
+                alignItems: "center",
+                justifyContent: "center",
+                width: "100%",
+                height: "50vh",
+              }}
+            >
+              <Text fontSize="subtitle1" sx={{ fontWeight: "bold" }}>
+                Type any keyword to find the person you want
+              </Text>
+            </Row>
+          )}
           {listUser.map((user) => {
             return (
-              <Grid item key={user.id} md={3}>
+              <Grid
+                item
+                key={user.id}
+                md={3}
+                onClick={() => history.push(`/profile/${user.user.id}`)}
+              >
                 <Col
                   sx={{
                     backgroundColor: "background.paper",
                     borderRadius: "12px",
+                    cursor: "pointer",
                   }}
                 >
                   <Col sx={{ alignItems: "center", padding: "30px 0px 0px" }}>
@@ -45,27 +81,18 @@ const SearchPage = () => {
                     </Text>
                   </Col>
                   <Col sx={{ padding: "5px 20px" }}>
-                    <Row sx={{ alignItems: "center", padding: "5px 0px" }}>
-                      <UiIcon
-                        icon="material-symbols:location-on-outline"
-                        size="30"
-                      />
-                      <Text sx={{ paddingLeft: "5px" }}>098 2819 8219</Text>
-                    </Row>
-                    <Row sx={{ alignItems: "center", padding: "5px 0px" }}>
-                      <UiIcon
-                        icon="material-symbols:location-on-outline"
-                        size="30"
-                      />
-                      <Text sx={{ paddingLeft: "5px" }}>098 2819 8219</Text>
-                    </Row>
-                    <Row sx={{ alignItems: "center", padding: "5px 0px" }}>
-                      <UiIcon
-                        icon="material-symbols:location-on-outline"
-                        size="30"
-                      />
-                      <Text sx={{ paddingLeft: "5px" }}>098 2819 8219</Text>
-                    </Row>
+                    <RowInformation
+                      icon="ic:baseline-phone"
+                      content={formatPhoneNumber(user.phone_number) || ""}
+                    />
+                    <RowInformation
+                      icon="ic:baseline-email"
+                      content={user.user.email}
+                    />
+                    <RowInformation
+                      icon="mdi:user-box-outline"
+                      content={user.role.name}
+                    />
                   </Col>
                 </Col>
               </Grid>

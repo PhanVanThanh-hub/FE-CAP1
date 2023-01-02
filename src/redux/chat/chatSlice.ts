@@ -46,6 +46,7 @@ const chatSlice = createSlice({
     },
     //checkbox chat
     fetchCheckBoxChat(state, action: PayloadAction<any>) {
+      console.log("????:");
       state.isCheck = false;
     },
     fetchCheckBoxSuccess(state) {

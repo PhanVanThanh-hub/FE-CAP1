@@ -1,89 +1,12 @@
 import React, { useEffect, useState } from "react";
-import {
-  Col,
-  Row,
-  UiIcon,
-  Text,
-  UiInputField,
-} from "../../components/elements";
+import { Row, UiInputField } from "../../components/elements";
 import logo from "../../assets/image/logo.png";
-import { Avatar, CardMedia, Popover, SxProps, Box } from "@mui/material";
-import { COLOR } from "../../constants";
+import { CardMedia } from "@mui/material";
 import { useAppDispatch } from "../../app/hooks";
 import { fetchSearch } from "../../redux/auth/authSlice";
 import { useHistory } from "react-router-dom";
 
-interface PopoverProps {
-  open: boolean;
-  anchorEl: HTMLButtonElement | null;
-  onClose: () => void;
-}
-
-const RowStyle: SxProps = {
-  width: "2.75em",
-  height: "2.75em",
-  alignItems: "center",
-  justifyContent: "center",
-  borderRadius: "16px",
-  marginRight: "10px",
-};
-
-const PopoverSwitchAccount = ({ open, anchorEl, onClose }: PopoverProps) => {
-  return (
-    <Popover
-      open={open}
-      anchorEl={anchorEl}
-      onClose={onClose}
-      anchorOrigin={{
-        vertical: "bottom",
-        horizontal: "right",
-      }}
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-    >
-      <Col
-        sx={{
-          padding: "10px 15px",
-          borderRadius: "12px",
-          position: "relative",
-        }}
-      >
-        <Col>
-          <Row sx={{ alignItems: "center" }}>
-            <Avatar sx={{ width: "40px", height: "40px" }} />
-            <Row
-              sx={{
-                marginLeft: "10px",
-                justifyContent: "space-between",
-                width: "100%",
-                alignItems: "center",
-              }}
-            >
-              <Text>Elian</Text>
-              <UiIcon icon="akar-icons:check" size="14px" />
-            </Row>
-          </Row>
-          <Row>
-            <Box sx={{ width: "40px", height: "40px" }}></Box>
-            <Col sx={{ marginLeft: "10px" }}>
-              <Text sx={{ cursor: "pointer" }}>Add the other account</Text>
-              <Text sx={{ cursor: "pointer", marginTop: "5px" }}>
-                Sign out @Elian
-              </Text>
-            </Col>
-          </Row>
-        </Col>
-      </Col>
-    </Popover>
-  );
-};
-
 const Header = () => {
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
-    null
-  );
   const dispatch = useAppDispatch();
   const [name, setName] = useState<string>("");
   const history = useHistory();
@@ -98,16 +21,6 @@ const Header = () => {
   const handleFilterSearch = (name: string) => {
     setName(name);
   };
-
-  const handleClick = (event: any) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClosePopover = () => {
-    setAnchorEl(null);
-  };
-
-  const isOpenPopover = Boolean(anchorEl);
 
   return (
     <Row
@@ -136,33 +49,6 @@ const Header = () => {
             placeholder="Search"
             icon="material-symbols:search"
             onChange={handleFilterSearch}
-          />
-        </Row>
-
-        <Row sx={{ alignItems: "center" }}>
-          <Row
-            sx={{
-              backgroundColor: COLOR.icon.paper,
-              border: `1px solid ${COLOR.icon.border}`,
-              ...RowStyle,
-            }}
-          >
-            <UiIcon icon="ci:message-writing" size="19" />
-          </Row>
-          <Row
-            sx={{
-              backgroundColor: COLOR.icon.paper,
-              border: `1px solid ${COLOR.icon.border}`,
-              ...RowStyle,
-            }}
-          >
-            <UiIcon icon="clarity:notification-outline-badged" size="19" />
-          </Row>
-          <Avatar onClick={handleClick} sx={{ cursor: "pointer" }} />
-          <PopoverSwitchAccount
-            open={isOpenPopover}
-            anchorEl={anchorEl}
-            onClose={handleClosePopover}
           />
         </Row>
       </Row>
