@@ -11,6 +11,7 @@ import { Avatar, CardMedia, Popover, SxProps, Box } from "@mui/material";
 import { COLOR } from "../../constants";
 import { useAppDispatch } from "../../app/hooks";
 import { fetchSearch } from "../../redux/auth/authSlice";
+import { useHistory } from "react-router-dom";
 
 interface PopoverProps {
   open: boolean;
@@ -85,6 +86,7 @@ const Header = () => {
   );
   const dispatch = useAppDispatch();
   const [name, setName] = useState<string>("");
+  const history = useHistory();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -127,7 +129,8 @@ const Header = () => {
             component="img"
             image={logo}
             alt="logo"
-            style={{ width: "20%" }}
+            onClick={() => history.push("/")}
+            style={{ width: "20%", cursor: "pointer" }}
           />
           <UiInputField
             placeholder="Search"

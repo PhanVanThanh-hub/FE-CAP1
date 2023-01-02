@@ -4,24 +4,33 @@ import {
   Col,
   Row,
   Text,
+  UiButton,
   UiIcon,
   UiToolTip,
 } from "../../../components/elements";
-import { COLOR } from "../../../constants";
 import UiScrollBar from "../../../components/elements/UiScrollBar";
 import useWebSocket from "react-use-websocket";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { fetchChat, selectContentBoxChat } from "../../../redux/chat/chatSlice";
+import {
+  fetchChat,
+  selectContentBoxChat,
+  selectNextMess,
+} from "../../../redux/chat/chatSlice";
 import { ProfileApiItem } from "../../../types/models/auth";
 import { MessageApiItem } from "../../../types/models/chat";
-import { formatShortDateTime, timeAgo } from "../../../until/helpers";
+import {
+  formatDateDetail,
+  formatShortDateTime,
+  timeAgo,
+} from "../../../until/helpers";
 import { getUsernameFromStorage } from "../../../services/auth";
 import moment from "moment";
+import { ParamsProps } from "../../../types/models/app";
+import { useParams } from "react-router-dom";
 
 interface Props {
   setBoolBag: (item: { [key: string]: boolean }) => void;
   openInformation: boolean;
-  boxChatAction?: string;
   userBoxChat?: ProfileApiItem;
 }
 
@@ -39,7 +48,7 @@ interface MessageProps {
 }
 
 const Message = ({ mess, avatar, userBoxChat }: MessageProps) => {
-  const isUser = userBoxChat?.user === mess.user;
+  const isUser = userBoxChat?.user.id === mess.user;
   return (
     <Row
       sx={{
@@ -58,7 +67,7 @@ const Message = ({ mess, avatar, userBoxChat }: MessageProps) => {
         >
           <Text>{mess.content}</Text>
           <UiToolTip
-            title={formatShortDateTime(mess.create_at)}
+            title={formatDateDetail(mess.create_at)}
             placeholder="right"
           >
             <div>
@@ -104,7 +113,8 @@ const NewMessage = ({
   userBoxChat?: ProfileApiItem;
   avatar: string;
 }) => {
-  const isUser = userBoxChat?.user === mess.user;
+  const isUser = userBoxChat?.user.id === mess.user;
+
   return (
     <Row
       sx={{
@@ -160,20 +170,24 @@ const NewMessage = ({
   );
 };
 
-const Chat = ({
-  setBoolBag,
-  openInformation,
-  boxChatAction = "9999",
-  userBoxChat,
-}: Props) => {
+const Chat = ({ setBoolBag, openInformation, userBoxChat }: Props) => {
+  const dispatch = useAppDispatch();
+  const params = useParams<ParamsProps>();
+  const { id } = params;
   const username = getUsernameFromStorage();
-  const roomName = `${boxChatAction}user${username}`;
-  console.log(roomName);
-  const socketUrl = `ws://127.0.0.1:8000/ws/chat/${roomName}/`;
+  const isLearnMore = useAppSelector(selectNextMess);
+  const listBoxChat: MessageApiItem[] = useAppSelector(selectContentBoxChat);
+  const [mess, setMess] = useState<string>("");
+  const [currentPage, setPage] = useState<number>(1);
   const [newMess, setNewMess] = useState<NewMessProps[]>([]);
+  const [rerenderAt, forceRerender] = useState(Date.now());
+  const roomName = `${id}user${username}`;
+  const avatar = `http://127.0.0.1:8000${userBoxChat?.avatar}`;
+  const socketUrl = `ws://127.0.0.1:8000/ws/chat/${roomName}/`;
+  console.log("reRender:");
+
   const { sendJsonMessage, getWebSocket } = useWebSocket(socketUrl, {
     onOpen: () => console.log("WebSocket connection opened."),
-    onClose: () => console.log("WebSocket connection closed."),
     shouldReconnect: (closeEvent) => true,
     onMessage: (event: WebSocketEventMap["message"]) => {
       const data = JSON.parse(event.data);
@@ -186,24 +200,24 @@ const Chat = ({
       setNewMess((prev) => [...prev, mess]);
     },
   });
-  const dispatch = useAppDispatch();
-  const [mess, setMess] = useState<string>("");
-  const listBoxChat: MessageApiItem[] = useAppSelector(selectContentBoxChat);
-  const avatar = `http://127.0.0.1:8000${userBoxChat?.avatar}`;
+
+  useEffect(() => {
+    setPage(1);
+    forceRerender(Date.now());
+  }, [id]);
 
   useEffect(() => {
     const fetchContentChat = async () => {
-      if (boxChatAction) {
-        await dispatch(fetchChat({ box_chat: boxChatAction }));
-      }
+      await dispatch(fetchChat({ box_chat: id, page: currentPage }));
     };
     fetchContentChat();
-  }, [boxChatAction, dispatch]);
+  }, [currentPage, dispatch, id, rerenderAt]);
+
   const handleSendMess = () => {
     if (mess) {
       sendJsonMessage({
         message: mess,
-        box_chat: boxChatAction,
+        box_chat: id,
         user: username,
       });
     }
@@ -215,12 +229,16 @@ const Chat = ({
       if (mess) {
         sendJsonMessage({
           message: mess,
-          box_chat: boxChatAction,
+          box_chat: id,
           user: username,
         });
       }
       setMess("");
     }
+  };
+
+  const handleLearnMoreMess = () => {
+    setPage(currentPage + 1);
   };
 
   return (
@@ -242,14 +260,14 @@ const Chat = ({
             padding: "0px 30px",
           }}
         >
-          <Row>
-            <Avatar />
+          <Row sx={{ alignItems: "center" }}>
+            <Avatar src={avatar} />
             <Col sx={{ marginLeft: "10px" }}>
               <Row>
-                <Text fontWeight="bold">Alene</Text>
-                <UiIcon icon="ci:dot-02-s" color={COLOR.icon.onl} />
+                <Text fontWeight="bold">{userBoxChat?.name}</Text>
+                {/* <UiIcon icon="ci:dot-02-s" color={COLOR.icon.onl} /> */}
               </Row>
-              <Text fontSize="caption">Last seen 2h ago</Text>
+              {/* <Text fontSize="caption">Last seen 2h ago</Text> */}
             </Col>
           </Row>
           <Row>
@@ -257,13 +275,15 @@ const Chat = ({
               icon="uiw:information"
               onClick={() => setBoolBag({ openInformation: !openInformation })}
             />
-            <Row sx={{ marginLeft: "20px" }}>
-              <UiIcon icon="bi:three-dots" />
-            </Row>
           </Row>
         </Row>
         <Divider sx={{ margin: "20px 0px" }} />
         <UiScrollBar>
+          {isLearnMore && (
+            <Row sx={{ alignItems: "center", justifyContent: "center" }}>
+              <UiButton onClick={handleLearnMoreMess}>Learn More</UiButton>
+            </Row>
+          )}
           {listBoxChat &&
             listBoxChat
               .slice(0)

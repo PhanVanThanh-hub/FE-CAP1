@@ -12,25 +12,38 @@ const chatApi = {
     });
     return response;
   },
-
   async getMess(params: any) {
     var qs = require("qs");
     const accessToken = getAccessTokenFromStorage();
-    const response = await axiosClient.get("message/", {
-      params: {
-        ...params,
-      },
-      paramsSerializer: (params) => {
-        return qs.stringify(params, { arrayFormat: "repeat" });
-      },
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-    console.log(response);
+    const response = await axiosClient
+      .get("message/", {
+        params: {
+          ...params,
+        },
+        paramsSerializer: (params) => {
+          return qs.stringify(params, { arrayFormat: "repeat" });
+        },
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response: SuccessResponse) => ({ response }))
+      .catch((error: ErrorResponse) => ({ error }));
     return {
       ...response,
     };
+  },
+  checkBoxChat(data: any) {
+    const accessToken = getAccessTokenFromStorage();
+    const url = "message/";
+    return axiosClient
+      .post(url, data, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response: SuccessResponse) => ({ response }))
+      .catch((error: ErrorResponse) => ({ error }));
   },
 };
 

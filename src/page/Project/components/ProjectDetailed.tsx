@@ -1,12 +1,19 @@
 import React, { useEffect } from "react";
 import { Grid } from "@mui/material";
-import { Col, UiModal, Text, UiDivider } from "../../../components/elements";
+import {
+  Col,
+  UiModal,
+  Text,
+  UiDivider,
+  UiButton,
+  Row,
+} from "../../../components/elements";
 import UiScrollBar from "../../../components/elements/UiScrollBar";
 import Introduce from "./Introduce";
 import Investment from "./Investment";
 import Member from "./Member";
 import Video from "./Video";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { ParamsProps } from "../../../types/models/app";
 import { useAppDispatch } from "../../../app/hooks";
 import {
@@ -14,6 +21,13 @@ import {
   selectProjectDetail,
 } from "../../../redux/projects/projectSlice";
 import { useSelector } from "react-redux";
+import {
+  fetchCheckBoxChat,
+  selectCheckBoxChat,
+} from "../../../redux/chat/chatSlice";
+import { selectUserRole } from "../../../redux/auth/authSlice";
+import { getUserRoleFromStorage } from "../../../services/auth";
+import { USER_ROLE } from "../../../constants";
 
 interface ModalProps {
   open: boolean;
@@ -22,9 +36,12 @@ interface ModalProps {
 
 const ProjectDetailModal = ({ open, handleClose }: ModalProps) => {
   const dispatch = useAppDispatch();
+  const history = useHistory();
   const params = useParams<ParamsProps>();
   const { id } = params;
   const projectDetail = useSelector(selectProjectDetail);
+  const userRole = useSelector(selectUserRole) || getUserRoleFromStorage();
+  const isCheck = useSelector(selectCheckBoxChat);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,6 +49,16 @@ const ProjectDetailModal = ({ open, handleClose }: ModalProps) => {
     };
     fetchData();
   }, [dispatch, id]);
+
+  useEffect(() => {
+    if (isCheck) {
+      history.push("/message");
+    }
+  }, [history, isCheck]);
+
+  const handleDeal = async () => {
+    dispatch(fetchCheckBoxChat({ startup_id: projectDetail?.startup.id }));
+  };
 
   return (
     <UiModal open={true} onClose={handleClose} width="70%">
@@ -64,6 +91,19 @@ const ProjectDetailModal = ({ open, handleClose }: ModalProps) => {
                       percent={projectDetail.percent}
                       investor_project={projectDetail.investor_project}
                     />
+                    {userRole === USER_ROLE.INVESTOR && (
+                      <Row
+                        sx={{ margin: "10px 0px", justifyContent: "center" }}
+                      >
+                        <Row
+                          sx={{ width: "50%", justifyContent: "space-around" }}
+                        >
+                          <UiButton onClick={handleDeal}>
+                            Deal with startup
+                          </UiButton>
+                        </Row>
+                      </Row>
+                    )}
                   </Col>
                 )}
               </UiScrollBar>

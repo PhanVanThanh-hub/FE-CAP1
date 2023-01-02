@@ -4,18 +4,17 @@ import { Col } from "../../../components/elements";
 import { useBoolBag } from "../../../hooks";
 import Chat from "../components/Chat";
 import Information from "../components/Information";
-import {
-  fetchBoxChat,
-  fetchChat,
-  selectListBoxChat,
-} from "../../../redux/chat/chatSlice";
+import { fetchBoxChat, selectListBoxChat } from "../../../redux/chat/chatSlice";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { ListBoxChatApiItem } from "../../../types/models/chat";
 import ListBoxChat from "../components/ListBoxChat";
 import { ProfileApiItem } from "../../../types/models/auth";
+import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
 
 const MessagePage = () => {
   const dispatch = useAppDispatch();
+  const match = useRouteMatch();
+  const history = useHistory();
   const { boolBag, setBoolBag } = useBoolBag({ openInformation: false });
   const [boxChatAction, setBoxChatAction] = useState<string>();
   const [userBoxChat, setUserBoxChat] = useState<ProfileApiItem>();
@@ -35,6 +34,7 @@ const MessagePage = () => {
     user_box_chat: ProfileApiItem
   ) => {
     setBoxChatAction(box_chat_id);
+    history.push(`/message/${box_chat_id}`);
     setUserBoxChat(user_box_chat);
   };
 
@@ -63,16 +63,21 @@ const MessagePage = () => {
           />
         </Grid>
         <Grid item xs={openInformation ? 10 : 13}>
-          <Chat
-            setBoolBag={setBoolBag}
-            openInformation={openInformation}
-            boxChatAction={boxChatAction}
-            userBoxChat={userBoxChat}
-          />
+          {boxChatAction && (
+            <Switch>
+              <Route path={`${match.url}/:id`} exact>
+                <Chat
+                  setBoolBag={setBoolBag}
+                  openInformation={openInformation}
+                  userBoxChat={userBoxChat}
+                />
+              </Route>
+            </Switch>
+          )}
         </Grid>
-        {openInformation && (
+        {openInformation && userBoxChat && (
           <Grid item xs={3}>
-            <Information />
+            <Information userBoxChat={userBoxChat} />
           </Grid>
         )}
       </Grid>

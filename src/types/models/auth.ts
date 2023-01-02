@@ -75,7 +75,7 @@ export interface ProfileApiItem {
   phone_number: string;
   role: RoleApiItem;
   name: string;
-  user: number;
+  user: { email: string; id: number };
 }
 
 export interface InformationContractApiItem {

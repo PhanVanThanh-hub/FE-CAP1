@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Avatar, Box } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../../app/hooks";
@@ -11,6 +11,8 @@ import {
 } from "../../../redux/projects/projectSlice";
 import Filter from "../components/Filter";
 import ProjectList from "../components/ProjectList";
+import logo from "../../../assets/image/logo.png";
+import { useHistory } from "react-router-dom";
 
 const ProjectsPage = () => {
   const dispatch = useAppDispatch();
@@ -19,6 +21,7 @@ const ProjectsPage = () => {
   const projects = useSelector(selectProjectsStartup);
   const nextPage = useSelector(selectNextPage);
   const previousPage = useSelector(selectPreviousPage);
+  const history = useHistory();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,6 +65,11 @@ const ProjectsPage = () => {
             padding: "20px",
           }}
         >
+          <Avatar
+            src={logo}
+            onClick={() => history.push("/")}
+            sx={{ width: "100px", marginBottom: "20px", cursor: "pointer" }}
+          />
           <Filter
             handleFilterCategory={handleFilterCategory}
             handleFilterSearch={handleFilterSearch}

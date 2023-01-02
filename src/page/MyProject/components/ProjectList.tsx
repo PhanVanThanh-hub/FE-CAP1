@@ -68,7 +68,7 @@ const ProjectList = () => {
 
   const handleCloseProjectDetail = () => {
     setBoolBag({ openModalProjectDetail: false });
-    history.replace(`${PAGES.MY_PROJECT}/projects`);
+    history.push(`${PAGES.MY_PROJECT}/projects`);
   };
 
   const handleCloseModal = () => {

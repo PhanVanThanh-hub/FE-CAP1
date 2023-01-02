@@ -1,12 +1,18 @@
 import React, { useEffect } from "react";
-import { CardMedia, Grid } from "@mui/material";
-import { Col, UiModal, Text, UiDivider } from "../../../components/elements";
+import { Grid } from "@mui/material";
+import {
+  Col,
+  UiModal,
+  Text,
+  UiDivider,
+  Row,
+  UiButton,
+} from "../../../components/elements";
 import UiScrollBar from "../../../components/elements/UiScrollBar";
 import Introduce from "./Introduce";
 import Investment from "./Investment";
 import Member from "./Member";
 import Video from "./Video";
-import image from "../../../assets/image/auth/sign-up.png";
 import { useParams } from "react-router-dom";
 import { ParamsProps } from "../../../types/models/app";
 import { useAppDispatch } from "../../../app/hooks";
@@ -15,6 +21,10 @@ import {
   selectProjectDetail,
 } from "../../../redux/projects/projectSlice";
 import { useSelector } from "react-redux";
+import { fetchCheckBoxChat } from "../../../redux/chat/chatSlice";
+import { USER_ROLE } from "../../../constants";
+import { selectUserRole } from "../../../redux/auth/authSlice";
+import { getUserRoleFromStorage } from "../../../services/auth";
 
 interface ModalProps {
   open: boolean;
@@ -26,6 +36,7 @@ const ProjectDetailModal = ({ open, handleClose }: ModalProps) => {
   const params = useParams<ParamsProps>();
   const { id } = params;
   const projectDetail = useSelector(selectProjectDetail);
+  const userRole = useSelector(selectUserRole) || getUserRoleFromStorage();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,6 +44,10 @@ const ProjectDetailModal = ({ open, handleClose }: ModalProps) => {
     };
     fetchData();
   }, [dispatch, id]);
+
+  const handleDeal = async () => {
+    dispatch(fetchCheckBoxChat({ startup_id: projectDetail?.startup.id }));
+  };
 
   return (
     <UiModal open={true} onClose={handleClose} width="70%">
@@ -66,6 +81,15 @@ const ProjectDetailModal = ({ open, handleClose }: ModalProps) => {
                       investor_project={projectDetail.investor_project}
                     />
                   </Col>
+                )}
+                {userRole === USER_ROLE.INVESTOR && (
+                  <Row sx={{ margin: "10px 0px", justifyContent: "center" }}>
+                    <Row sx={{ width: "50%", justifyContent: "space-around" }}>
+                      <UiButton onClick={handleDeal}>
+                        Deal with startup
+                      </UiButton>
+                    </Row>
+                  </Row>
                 )}
               </UiScrollBar>
             </Col>
