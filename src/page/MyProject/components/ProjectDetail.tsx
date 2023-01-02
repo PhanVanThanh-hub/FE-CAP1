@@ -35,19 +35,9 @@ const ProjectDetailModal = ({ open, handleClose }: ModalProps) => {
   }, [dispatch, id]);
 
   return (
-    <UiModal open={true} onClose={handleClose} width="80%">
+    <UiModal open={true} onClose={handleClose} width="70%">
       <Grid container>
-        <Grid item xs={3}>
-          <Col sx={{ padding: "0px 20px" }}>
-            <CardMedia
-              component="img"
-              height="194"
-              image={image}
-              alt="Paella dish"
-            />
-          </Col>
-        </Grid>
-        <Grid item xs={9} sx={{ height: "100%" }}>
+        <Grid item xs={12} sx={{ height: "100%" }}>
           <Col>
             <Col>
               <Text fontSize="h6">

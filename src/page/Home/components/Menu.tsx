@@ -78,7 +78,14 @@ const Menu = () => {
               />
             );
           })}
-          {userRole === (USER_ROLE.STARTUP || USER_ROLE.INVESTOR) && (
+          {userRole === USER_ROLE.STARTUP && (
+            <MenuChildren
+              title="My Project"
+              icon="charm:plant-pot"
+              url={PAGES.MY_PROJECT}
+            />
+          )}
+          {userRole === USER_ROLE.INVESTOR && (
             <MenuChildren
               title="My Project"
               icon="charm:plant-pot"
