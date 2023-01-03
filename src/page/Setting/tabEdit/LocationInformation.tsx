@@ -19,7 +19,7 @@ const LocationInformation = ({ backMainTab }: Props) => {
       </Row>
       <Divider sx={{ margin: "20px 0px", borderColor: "divider" }} />
       <Text sx={{ margin: "5px 0px", color: "text.disabled" }}>
-        If enabled, you'll be able to attach location information to your post.
+        If enabled, you'll be able to attach location information to your post
       </Text>
       <Row
         sx={{
